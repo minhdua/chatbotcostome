@@ -1,0 +1,156 @@
+<!-- Phần breadcrumb, dùng để hiển thị đường dẫn đến trang hiện tại -->
+<section class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- Phần nội dung breadcrumb -->
+                <div class="breadcrumb__text">
+                    <!-- Tiêu đề "Shop" -->
+                    <h4>Shop</h4>
+                    <!-- Liên kết đến trang chủ và trang "Shop" -->
+                    <div class="breadcrumb__links">
+                        <a href="./index.html">Home</a>
+                        <span>Shop</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Kết thúc Phần breadcrumb -->
+
+<!-- Phần Shop -->
+<section class="shop spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <!-- Thanh bên trái, dùng để lọc sản phẩm -->
+                <div class="shop__sidebar">
+                    <!-- Ô tìm kiếm sản phẩm -->
+                    <div class="shop__sidebar__search">
+                        <form action="#">
+                            <input type="text" placeholder="Search...">
+                            <button type="submit"><span class="icon_search"></span></button>
+                        </form>
+                    </div>
+                    <!-- Phần danh mục sản phẩm, kích thước và màu sắc -->
+                    <div class="shop__sidebar__accordion">
+                        <div class="accordion" id="accordionExample">
+                            <!-- Phần lọc theo danh mục -->
+                            <div class="card">
+                                <div class="card-heading">
+                                    <a data-toggle="collapse" data-target="#collapseOne">Categories</a>
+                                </div>
+                                <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <!-- Danh sách danh mục sản phẩm -->
+                                        <div class="shop__sidebar__categories">
+                                            <ul class="nice-scroll">
+                                                <!-- Nút danh mục sản phẩm -->
+                                                <button
+                                                    class="mr-2 mb-2"
+                                                    *ngFor="let item of categories; let i = index"
+                                                    [ngStyle]="{
+                                                        'background-color':
+                                                        filterCategories.includes((item.id).toString()) ? 'orange' : 'transparent'
+                                                    }"
+                                                    mat-stroked-button
+                                                    (click)="chooseFillterType(item.id, 'category')"
+                                                >
+                                                  {{ item?.category_name }}
+                                                </button>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Phần lọc theo kích thước -->
+                            <div class="card">
+                                <div class="card-heading">
+                                    <a data-toggle="collapse" data-target="#collapseFour">Size</a>
+                                </div>
+                                <div id="collapseFour" class="collapse show" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <!-- Danh sách kích thước -->
+                                        <div class="shop__sidebar__size">
+                                            <button
+                                                class="mr-2 mb-2"
+                                                *ngFor="let item of sizes; let i = index"
+                                                [ngStyle]="{
+                                                    'background-color':
+                                                    size === item ? 'orange' : 'transparent'
+                                                }"
+                                                mat-stroked-button
+                                                (click)="chooseFillterType(item, 'size')"
+                                            >
+                                              {{ item }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Phần lọc theo màu sắc -->
+                            <div class="card">
+                                <div class="card-heading">
+                                    <a data-toggle="collapse" data-target="#collapseFive">Colors</a>
+                                </div>
+                                <div id="collapseFive" class="collapse show" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <!-- Danh sách màu sắc -->
+                                        <div class="shop__sidebar__color">
+                                            <button
+                                                class="mr-2 mb-2"
+                                                *ngFor="let item of colors; let i = index"
+                                                [ngStyle]="{
+                                                    'background-color':
+                                                    color === item ? 'orange' : 'transparent'
+                                                }"
+                                                mat-stroked-button
+                                                (click)="chooseFillterType(item, 'color')"
+                                            >
+                                              {{ item }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <!-- Phần lựa chọn sản phẩm -->
+                <div class="shop__product__option">
+                    <div class="row">
+                    </div>
+                </div>
+                <!-- Danh sách sản phẩm -->
+                <div class="row" *ngIf="!isLoading">
+                    <!-- Phần hiển thị sản phẩm -->
+                    <ng-container *ngFor="let product of products">
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                            <!-- Component sản phẩm -->
+                            <app-product [product]="product"></app-product>
+                        </div>
+                    </ng-container>
+                </div>
+                <!-- Hiển thị khi đang tải dữ liệu -->
+                <div class="row skeleton-container" *ngIf="isLoading">
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="row mb-12">
+                            <div class="col-md-12">
+                                <!-- Skeleton cho hình ảnh sản phẩm -->
+                                <div class="skeleton-text" style="height: 260px; width: 100%"></div>
+                                <!-- Skeleton cho thông tin sản phẩm -->
+                                <div class="skeleton-text"></div>
+                                <div class="skeleton-text"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Lặp lại layout skeleton cho các sản phẩm khác -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Kết thúc Phần Shop -->

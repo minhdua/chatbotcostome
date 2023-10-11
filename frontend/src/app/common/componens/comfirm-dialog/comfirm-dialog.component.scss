@@ -1,0 +1,20 @@
+#sdk-dialog{
+    width: 30em;
+    overflow: hidden;
+    padding: 20px;
+    .modal-confirmDialog {
+        min-width: 400px;
+        > i {
+            font-size: 5em;
+        }
+        h1 {
+            font-size: 40px;
+        }
+        p {
+            color: black;
+        }
+    }
+    .sdk-dialog__button {
+        gap: 8px;
+    }
+}

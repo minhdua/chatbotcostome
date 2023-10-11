@@ -1,0 +1,42 @@
+:host::ng-deep .mdc-list-item__content {
+    white-space: break-spaces;
+}
+
+:host::ng-deep .mdc-form-field {
+    margin-left: 12px;
+    .mdc-label {
+        margin-bottom: 0px;
+    }
+}
+
+.checkout__form {
+    .title {
+        font-size: 36px;
+        color: black;
+        font-weight: 300;
+    }
+
+    .action {
+        text-align: end;
+    }
+
+    .checkout__total__all {
+        span {
+            font-size: 24px;
+            font-weight: 400;
+        }
+    }
+
+    .checkout__order {
+        .size, .color, .quantity {
+            text-align: center;
+        }
+        .total {
+            text-align: end;
+        }
+    }
+
+    .list-radio {
+        padding-left: 0px;
+    }
+}

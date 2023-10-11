@@ -1,0 +1,29 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.grid-container {
+  margin: 20px;
+  overflow: auto;
+}
+
+:host::ng-deep .actived-menu {
+  background-color: #f44336;
+  span span {
+    color: #fff;
+  }
+}

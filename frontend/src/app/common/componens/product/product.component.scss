@@ -1,0 +1,27 @@
+:host {
+  display: block;
+  width: 100%;
+}
+.product__item__pic {
+  transition: all .5s;
+}
+:hover .product__item__pic {
+  border-radius: 50%;
+  box-shadow: 0 9px 10px -10px gray;
+}
+
+.product__item .sizes {
+  display: flex;
+  margin-bottom: 3px;
+  .size {
+    border: 1px solid #e5e5e5;
+    padding: 0 5px;
+    margin-right: 2px;
+    border-radius: 3px;
+  }
+  .active {
+    color: #fff;
+    border: 1px solid #e63334;
+    background-color: #e63334;
+  }
+}

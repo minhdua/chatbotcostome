@@ -1,0 +1,16 @@
+.cart {
+    cursor: pointer;
+    position: relative;
+    span{
+        position: absolute;
+        background: #e63334;
+        width: 20px;
+        line-height: 20px;
+        border-radius: 50%;
+        text-align: center;
+        font-size: 11px;
+        top: 15px;
+        left: -8px;
+        color: #fff;
+    }
+}

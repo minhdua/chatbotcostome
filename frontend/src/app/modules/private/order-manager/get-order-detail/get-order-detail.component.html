@@ -1,0 +1,101 @@
+<section class="checkout spad">
+    <div class="checkout_container">
+        <div class="checkout__form">
+            <div class="col-lg-12 col-md-12">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-6">
+                        <h5 class="title">Billing Information</h5>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-6 action">
+                        <button mat-raised-button color="warn" (click)="handleBilling()"
+                            [disabled]="checkChangeStatus()">
+                            <span>Update Status</span>
+                        </button>
+                        <button style="margin-left: 18px;" mat-raised-button color="warn" (click)="goBack()">
+                            <span>Back</span>
+                        </button>
+                    </div>
+                </div>
+                <hr />
+                <mat-list>
+                    <div class="row">
+                        <div class="col-lg-2 col-md-4 col-4">
+                            <mat-list-item>FullName: </mat-list-item>
+                            <mat-list-item>Email: </mat-list-item>
+                            <mat-list-item>Address: </mat-list-item>
+                            <mat-list-item>Phone: </mat-list-item>
+                            <mat-list-item>Status: </mat-list-item>
+                        </div>
+                        <div class="col-lg-10 col-md-8 col-8">
+                            <mat-list-item>{{userOrderInfo.fullname}}</mat-list-item>
+                            <mat-list-item>{{userOrderInfo.email}}</mat-list-item>
+                            <mat-list-item>{{userOrderInfo.address}}</mat-list-item>
+                            <mat-list-item>{{userOrderInfo.phone}}</mat-list-item>
+                            <mat-list-item class="list-radio">
+                                <mat-radio-group class="radio-group" [(ngModel)]="currentStatus">
+                                    <mat-radio-button class="radio-button" *ngFor="let statusOrder of orderStatus"
+                                        [value]="statusOrder">
+                                        {{statusOrder}}
+                                    </mat-radio-button>
+                                </mat-radio-group>
+                            </mat-list-item>
+                        </div>
+                    </div>
+                </mat-list>
+
+            </div>
+            <hr />
+            <div class="col-lg-12 col-md-12">
+                <div class="checkout__order">
+                    <h4 class="order__title">Order View</h4>
+                    <div class="checkout_order_products">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-6">
+                                <span>Product Name</span>
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-1 size">
+                                <span>Size</span>
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-1 color">
+                                <span>Color</span>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-2 quantity">
+                                <span>Quantity</span>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-2 total">
+                                <span>Price</span>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <ul class="checkout_total_products">
+                        <li *ngFor="let product of userOrderInfo?.products; let i = index" class="row"
+                            style="padding: 0;">
+                            <div class="col-lg-6 col-md-6 col-6">
+                                <span>{{i + 1}}. {{product?.name}}</span>
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-1 size">
+                                <span>{{product?.order_size}}</span>
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-1 color">
+                                <span>{{product?.order_color}}</span>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-2 quantity">
+                                <span>{{product?.quantity}}</span>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-2 total">
+                                <span>{{product?.price | number:'1.0-0'}} đ</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="checkout__total__all">
+                        <li>
+                            <span> {{getTotalPrice() | number:'1.0-0'}}đ</span>
+                            <span style="color: black; margin-right: 48px;">Total:</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

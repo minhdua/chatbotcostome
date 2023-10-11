@@ -1,0 +1,46 @@
+.main-content {
+  position: relative;
+  .chatBox-icon {
+    position: fixed;
+    width: 85px;
+    height: 85px;
+    bottom: 20px;
+    right: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid #79c7c5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    i {
+      color: #79c7c5;
+      font-size: 60px;
+      animation: animation 3s infinite;
+    }
+  }
+}
+
+@keyframes animation {
+  0% {
+    scale: 0.8;
+    opacity: 1;
+  }
+  50% {
+    scale: 1;
+    opacity: 0.7;
+  }
+  100% {
+    scale: 0.8;
+    opacity: 1;
+  }
+}
+
+::ng-deep .chatBox-panel .mat-mdc-dialog-container .mdc-dialog__surface {
+  border: none !important;
+  background-color: inherit !important;
+  box-shadow: inherit !important;
+}
+
+::ng-deep .chatBox-backdrop {
+  background-color: #212529ed !important;
+}
