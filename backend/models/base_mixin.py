@@ -1,4 +1,4 @@
-from db import db
+from app_factory import db
 
 
 class BaseMixin:

@@ -859,7 +859,7 @@ def load_modelfile(model, modelfile):
     model.load_weights(model_file, by_name=True)
     return model
     
-def compute_test_accuracy(model, test_df, batch_size=32):
+def compute_test_accuracy(model, test_df, batch_size=64):
 
     test_gen = ValSequence(test_df, batch_size=batch_size)  
     predictions = model.predict_generator(test_gen, steps=len(test_gen), verbose=1)

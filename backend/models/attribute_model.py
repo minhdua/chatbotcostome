@@ -1,5 +1,5 @@
 # # 1. In attribute type, "1" represents texture-related attributes, "2" represents fabric-related attributes, "3" represents shape-related attributes, "4" represents part-related attributes, "5" represents style-related attributes;
-# from db import db
+# from app_factory import db
 # from models.base_mixin import BaseMixin
 
 # # from models.product_model import Product

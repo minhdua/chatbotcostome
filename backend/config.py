@@ -15,7 +15,7 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URI_DEV')
 
 class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URI_PROD')
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URI_DEV')
 
 swagger_config = {
     "headers": [],

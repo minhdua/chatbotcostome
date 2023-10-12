@@ -1,4 +1,4 @@
-from db import db
+from app_factory import db
 from models.base_mixin import BaseMixin
 from models.product_tag_model import ProductTag
 

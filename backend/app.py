@@ -10,7 +10,7 @@ import torch.nn as nn
 from app_factory import admin, api, app
 from chat import get_response
 from config import swagger_config, swagger_template
-from db import db
+from app_factory import db
 from flasgger import Swagger
 from flask import jsonify, make_response, render_template, request, send_from_directory
 from flask_admin.contrib.sqla import ModelView

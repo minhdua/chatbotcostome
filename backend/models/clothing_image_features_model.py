@@ -1,7 +1,7 @@
 import os
 
 from app_factory import app
-from db import db
+from app_factory import db
 from models.base_mixin import BaseMixin
 from models.enum import Gender, Perspective
 

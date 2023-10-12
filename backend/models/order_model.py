@@ -1,7 +1,7 @@
 import pdb
 from copy import deepcopy
 
-from db import db
+from app_factory import db
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.form import rules
 from models.base_mixin import BaseMixin

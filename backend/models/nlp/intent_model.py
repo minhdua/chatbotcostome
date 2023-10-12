@@ -1,4 +1,4 @@
-from db import db
+from app_factory import db
 from models.base_mixin import BaseMixin
 from models.nlp.pattern_model import Pattern
 from models.nlp.response_model import Response

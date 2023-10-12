@@ -23,9 +23,9 @@ def create_app():
 
     db.init_app(app)
     migrate = Migrate(app, db)
-    return app
+    return app, db
 
-app = create_app()
+app, db = create_app()
 api = Api(app)
 admin = Admin()
 admin.init_app(app)

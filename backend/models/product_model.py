@@ -1,7 +1,7 @@
 import pdb
 from copy import deepcopy
 
-from db import db
+from app_factory import db
 from models.base_mixin import BaseMixin
 from models.enum import ColorEnum, SizeEnum, serialize_enum, serialize_enum_list
 from models.order_model import Order
