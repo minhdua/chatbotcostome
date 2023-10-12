@@ -92,7 +92,7 @@ def expand_path(p, **kwargs):
     Return:
         Đường dẫn đầy đủ, ví dụ như `../data/input/Img/img/MEN/Denim/id_00000080/01_1_front.jpg`
     """
-    header = Path('F:/chatbotsupportcostume-main/backend/static/')
+    header = Path('backend/static/')
     return str(header / p)
 
 def read_raw_image(p, **kwargs):
@@ -816,9 +816,9 @@ def get_lr(model):
     return K.get_value(model.optimizer.lr)
 
 
-def save_model(model):
+def save_model(model,filename):
     """Lưu mô hình của bước hiện tại vào đường dẫn MODEL_PATH"""
-    model.save(f'{MODEL_PATH}epoch{steps}.h5')
+    model.save(f"{MODEL_PATH}{filename}")
     
     
 def load_model(model, temp_step):
@@ -920,6 +920,7 @@ def custom_callback(model, test_df, batch_size, lr, stage, epoch, logs, save_int
         model_file_name = model_file_name.replace('epoch', '').replace('val_loss', '').replace('val_blue_cates_loss', '')
         # remove model path
         model_file_name = model_file_name.replace(MODEL_PATH, '')
+        model_file_name = model_file_name.replace('.h5', '.keras')
         model_file_name = model_file_name.format(epoch, logs['val_loss'], logs['val_blue_cates_loss'])
 
         blue_cates_acc, blue_lands_acc, red_green_cates_acc, red_green_attrs_acc, test_accuracy = compute_test_accuracy(model, test_df, batch_size)  # Viết hàm này để tính độ chính xác
@@ -958,6 +959,7 @@ def custom_callback(model, test_df, batch_size, lr, stage, epoch, logs, save_int
         )
         try:
             fashion_model.save_to_db()
+            save_model(model, model_file_name)
         except Exception as e:
             print('Error: ', e)
         print(f'Epoch {steps} - Saved model to database')
@@ -1030,9 +1032,9 @@ def cnn_training(model_file = None, epochs = 10, batch_size = 64, lr = 3e-4, sta
     val_data = list(filter(lambda x: x.evaluation_status == 'query', features))
     test_data = list(filter(lambda x: x.evaluation_status == 'gallery', features))
 
-    train_df = pd.DataFrame([data.json() for data in train_data])
-    val_df = pd.DataFrame([data.json() for data in val_data])
-    test_df = pd.DataFrame([data.json() for data in test_data])
+    train_df = pd.DataFrame([data.json() for data in train_data]).head(1)
+    val_df = pd.DataFrame([data.json() for data in val_data]).head(1)
+    test_df = pd.DataFrame([data.json() for data in test_data]).head(1)
 
     categories = CategoryPrediction.get_all()
     category_labels = [c.name for c in categories]
