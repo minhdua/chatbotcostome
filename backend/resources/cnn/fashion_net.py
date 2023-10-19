@@ -5,7 +5,7 @@ from models.attribute_prediction_model import AttributePrediction
 from models.category_prediction_model import CategoryPrediction
 from models.clothing_image_features_model import ClothingImageFeatures
 from models.fashionet_model import FashionNetModel
-
+import logging
 os.environ["CUDA_VISIBLE_DEVICES"] = '2'  # which gpu to use
 
 import os
@@ -485,18 +485,14 @@ class RoiPooling(Layer):
         # Đầu vào là các đặc trưng và thông tin tọa độ
         img, rois = x[0], x[1]
         
-        print('img:', img.__dict__)
         # Chuyển đổi ảnh
         if self.data_format == 'channels_first':
             img = K.permute_dimensions(img, (0, 2, 3, 1))
-            print('channels_first, img:', img)
         else:
             img = K.permute_dimensions(img, (0, 1, 2, 3))
-            print('channels_last, img:', img)
 
         # Chuyển đổi các hộp quan tâm
         shape = K.shape(img)
-        print('shape:', shape)
         rois = K.reshape(rois, (-1, 5))[:, 3:]
         x1 = rois[..., 0]
         y1 = rois[..., 1]
@@ -524,7 +520,7 @@ class RoiPooling(Layer):
             img = K.reshape(img, (-1, 512)) # reshape chiều cuối
             img = K.reshape(img, (-1, 28, 28, 512)) # reshape các chiều còn lại
         except Exception as e:
-            print('call: ', e)
+            logging.error("Error in RoiPooling layer:", e)
 
         # Cắt và thay đổi kích thước ảnh
         # đầu vào: img(None*8, H, W, C), boxes(None*8, 4)
@@ -540,7 +536,6 @@ class RoiPooling(Layer):
             slices = K.permute_dimensions(slices, (0, 3, 1, 2))
         else:
             slices = K.permute_dimensions(slices, (0, 1, 2, 3))
-        print('slices:', slices)
         return slices
     
 def build_model():
@@ -645,7 +640,6 @@ def build_model():
             model_source.get_layer(red_name).set_weights(layer.get_weights())
 
     return model_source, model_blue
-    
 
 def change_stage(model, lr=3e-4, stage=1):
     """Thay đổi giai đoạn huấn luyện của mô hình
@@ -925,7 +919,7 @@ def custom_callback(model, test_df, batch_size, lr, stage, epoch, logs, save_int
 
         blue_cates_acc, blue_lands_acc, red_green_cates_acc, red_green_attrs_acc, test_accuracy = compute_test_accuracy(model, test_df, batch_size)  # Viết hàm này để tính độ chính xác
         # In ra độ chính xác
-        print(f'Epoch {steps} - Category Accuracy: {blue_cates_acc:.4f} - Attribute Accuracy: {red_green_attrs_acc:.4f} - Test Accuracy: {test_accuracy:.4f}')
+        logging.info("Epoch %d - Category Accuracy: %.4f - Attribute Accuracy: %.4f - Test Accuracy: %.4f", steps, blue_cates_acc, red_green_attrs_acc, test_accuracy)
         # Tiến hành lưu thông tin vào cơ sở dữ liệu
         fashion_model = FashionNetModel(
             model_file=model_file_name,
@@ -961,8 +955,8 @@ def custom_callback(model, test_df, batch_size, lr, stage, epoch, logs, save_int
             fashion_model.save_to_db()
             save_model(model, model_file_name)
         except Exception as e:
-            print('Error: ', e)
-        print(f'Epoch {steps} - Saved model to database')
+            logging.error("Error in saving model to database: %s", e)
+        logging.info("Saved model to database")
 
     
 # Định nghĩa lại hàm callbacks() để thêm callback tùy chỉnh
@@ -1008,7 +1002,7 @@ def make_steps(step, batch_size=64, lr=3e-4, stage=1, save_interval=1):
     # Thu thập dữ liệu lịch sử
     history['epochs'] = steps
     history['lr'] = get_lr(model)
-    print(history['epochs'], history['lr'])
+    logging.info("Epochs: %d - Learning rate: %f", history['epochs'], history['lr'])
     histories.append(history)
     
 def find_lr(model, start_lr=3e-5, end_lr=1):
