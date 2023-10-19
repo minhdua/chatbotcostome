@@ -856,7 +856,7 @@ def load_modelfile(model, modelfile):
 def compute_test_accuracy(model, test_df, batch_size=64):
 
     test_gen = ValSequence(test_df, batch_size=batch_size)  
-    predictions = model.predict_generator(test_gen, steps=len(test_gen), verbose=1)
+    predictions = model.predict(test_gen, verbose=1)
     
     # Tách tất cả các đầu ra 
     cates_pred = predictions[0]  
@@ -891,7 +891,7 @@ def compute_test_accuracy(model, test_df, batch_size=64):
 
     red_green_cates_acc = np.mean(np.equal(np.argmax(triplet_pred, axis=1), cates_true))
 
-    mlb = CustomMultiLabelBinarizer()
+    mlb = CustomMultiLabelBinarizer(warn_for='ignore')
     mlb.classes_ = list(range(num_attr))
     attrs_true = mlb.transform(test_df['attribute_labels'].values)  
     red_green_attrs_acc = np.mean([
