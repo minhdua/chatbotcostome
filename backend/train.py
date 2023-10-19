@@ -15,7 +15,7 @@ xy = []
 #============================================================
 # Get Intents For Train                                     #
 #============================================================
-app = create_app()
+app,_ = create_app()
 app.app_context().push()
 
 intents = Intent.query.all()

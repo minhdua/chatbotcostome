@@ -889,7 +889,7 @@ def compute_test_accuracy(model, test_df, batch_size=64):
     # lands_true = lands_true.reshape(-1, 8 * (3 + 2))
     blue_lands_acc = np.mean(np.equal(np.round(lands_pred), lands_true))
 
-    red_green_cates_acc = np.mean(np.equal(triplet_pred, cates_true))
+    red_green_cates_acc = np.mean(np.equal(np.argmax(triplet_pred, axis=1), cates_true))
 
     mlb = CustomMultiLabelBinarizer()
     mlb.classes_ = list(range(num_attr))
