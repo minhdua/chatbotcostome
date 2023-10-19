@@ -927,24 +927,24 @@ def custom_callback(model, test_df, batch_size, lr, stage, epoch, logs, save_int
             lr=lr,
             stage=stage,
             epoch=epoch,
-            attribute_loss = logs['attribute_loss'],
-            blue_cates_loss = logs['blue_cates_loss'],
-            blue_cates_top1 = logs['blue_cates_top1'],
-            blue_cates_top2 = logs['blue_cates_top2'], 
-            blue_cates_top3 = logs['blue_cates_top3'],
-            blue_cates_top5 = logs['blue_cates_top5'],
-            blue_lands_loss = logs['blue_lands_loss'],
-            concate_category_loss = logs['concate_category_loss'],
-            loss = logs['loss'],
-            val_attribute_loss = logs['val_attribute_loss'],
-            val_blue_cates_loss = logs['val_blue_cates_loss'],
-            val_blue_cates_top1 = logs['val_blue_cates_top1'],
-            val_blue_cates_top2 = logs['val_blue_cates_top2'], 
-            val_blue_cates_top3 = logs['val_blue_cates_top3'],
-            val_blue_cates_top5 = logs['val_blue_cates_top5'],
-            val_blue_lands_loss = logs['val_blue_lands_loss'],
-            val_concate_category_loss = logs['val_concate_category_loss'],
-            val_loss = logs['val_loss'],
+            attribute_loss = logs.get('attribute_loss', 0.0),
+            blue_cates_loss = logs.get('blue_cates_loss', 0.0),
+            blue_cates_top1 = logs.get('blue_cates_top1', 0.0),
+            blue_cates_top2 = logs.get('blue_cates_top2', 0.0),
+            blue_cates_top3 = logs.get('blue_cates_top3', 0.0),
+            blue_cates_top5 = logs.get('blue_cates_top5', 0.0),
+            blue_lands_loss = logs.get('blue_lands_loss', 0.0),
+            concate_category_loss = logs.get('concate_category_loss', 0.0),
+            loss = logs.get('loss', 0.0),
+            val_attribute_loss = logs.get('val_attribute_loss', 0.0),
+            val_blue_cates_loss = logs.get('val_blue_cates_loss', 0.0),
+            val_blue_cates_top1 = logs.get('val_blue_cates_top1', 0.0),
+            val_blue_cates_top2 = logs.get('val_blue_cates_top2', 0.0),
+            val_blue_cates_top3 = logs.get('val_blue_cates_top3', 0.0),
+            val_blue_cates_top5 = logs.get('val_blue_cates_top5', 0.0),
+            val_blue_lands_loss = logs.get('val_blue_lands_loss', 0.0),
+            val_concate_category_loss = logs.get('val_concate_category_loss', 0.0),
+            val_loss = logs.get('val_loss', 0.0),
             blue_cates_acc = blue_cates_acc,
             red_green_attrs_acc = red_green_attrs_acc,
             blue_lands_acc = blue_lands_acc,
@@ -1026,9 +1026,9 @@ def cnn_training(model_file = None, epochs = 10, batch_size = 64, lr = 3e-4, sta
     val_data = list(filter(lambda x: x.evaluation_status == 'query', features))
     test_data = list(filter(lambda x: x.evaluation_status == 'gallery', features))
 
-    train_df = pd.DataFrame([data.json() for data in train_data]).head(1)
-    val_df = pd.DataFrame([data.json() for data in val_data]).head(1)
-    test_df = pd.DataFrame([data.json() for data in test_data]).head(1)
+    train_df = pd.DataFrame([data.json() for data in train_data])
+    val_df = pd.DataFrame([data.json() for data in val_data])
+    test_df = pd.DataFrame([data.json() for data in test_data])
 
     categories = CategoryPrediction.get_all()
     category_labels = [c.name for c in categories]
