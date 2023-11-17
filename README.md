@@ -15,6 +15,7 @@ Dự án này nhằm xây dựng một chat bot hỗ trợ tư vấn trang phụ
 - Tư vấn theo câu hỏi hoặc theo ngữ cảnh (ý niệm trước đó) từ người dùng.
 
 2. Chức năng hỗ trợ tìm kiếm trang phục theo ảnh (clothes retrieval):
+
 - Người dùng có thể gửi ảnh trang phục lên hệ thống thông qua chat bot.
 - Chat bot sẽ trả lời với các sản phẩm tương tự đang có kinh doanh dựa trên ảnh gửi lên.
 - Nếu không có sản phẩm tương tự, chat bot sẽ thông báo cho người dùng.
@@ -32,10 +33,12 @@ Dự án này nhằm xây dựng một chat bot hỗ trợ tư vấn trang phụ
 - Thiết kế cơ sở dữ liệu, thực hiện kết nối và thao tác ghi và truy xuất dữ liệu. Dữ liệu huấn luyện và dữ liệu đã được trích xuất từ mô hình sẽ được lưu trữ trong CSDL.
 
 ## Phạm vi
+
 - Dự án tập trung xây dựng chat bot và các chức năng liên quan. Không bao gồm xây dựng toàn bộ hệ thống của cửa hàng trang phục.
 - Đội phát triển sẽ chỉ thực hiện việc coding và phát triển project, không tham gia viết bài luận, báo cáo hay kịch bản demo.
 
 ## Giao nộp
+
 - Source code của dự án.
 - Hướng dẫn sử dụng (guideline).
 - Tài liệu tổng hợp quá trình phát triển.
