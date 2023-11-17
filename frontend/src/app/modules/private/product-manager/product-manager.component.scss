@@ -1,0 +1,43 @@
+.btn-product-admin {
+  button {
+    width: 68px;
+    margin: 0px 16px;
+  }
+}
+.resizable-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin: 8px 0px;
+  border-radius: 16px;
+}
+
+/* Đảm bảo bảng có thể thu nhỏ và mở rộng linh hoạt */
+.mat-table {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* Cố định kích thước các cột */
+.mat-header-cell,
+.mat-cell {
+  white-space: nowrap; /* Ngăn không cho nội dung tràn ra ngoài cột */
+}
+
+/* Đặt giới hạn độ cao cho cột "name" */
+.mat-cell.name {
+  max-height: 4em; /* Điều chỉnh giới hạn độ cao tùy ý */
+  overflow: hidden; /* Ẩn phần vượt quá giới hạn */
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Số dòng tối đa */
+  -webkit-box-orient: vertical;
+}
+
+/* Tùy chỉnh độ rộng của cột */
+.mat-column-id,
+.mat-column-img,
+.mat-column-name,
+.mat-column-price,
+.mat-column-action {
+  min-width: 100px; /* Điều chỉnh độ rộng tùy ý */
+}

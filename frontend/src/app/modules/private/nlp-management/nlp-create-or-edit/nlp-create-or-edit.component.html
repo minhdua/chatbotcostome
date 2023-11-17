@@ -1,0 +1,60 @@
+<div class="table-container mt-2">
+  <form [formGroup]="nlpForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline" class="col-sm-6">
+      <mat-label>Tag</mat-label>
+      <input matInput placeholder="Tag" formControlName="tag" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-12">
+      <mat-label>Description</mat-label>
+      <textarea matInput placeholder="Description" formControlName="description"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-6">
+      <mat-label>Patterns*</mat-label>
+      <mat-chip-grid #chipPattern aria-label="Fruit selection">
+        <mat-chip-row *ngFor="let pattern of patterns" (removed)="remove(pattern, 'pattern')">
+          {{ pattern }}
+          <button matChipRemove [attr.aria-label]="'remove ' + pattern">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+      </mat-chip-grid>
+      <input
+        placeholder="New pattern..."
+        formControlName="patterns"
+        [matChipInputFor]="chipPattern"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        (matChipInputTokenEnd)="add($event, 'pattern')"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-sm-6">
+      <mat-label>Responses*</mat-label>
+      <mat-chip-grid #chipResponse aria-label="Fruit selection">
+        <mat-chip-row *ngFor="let respone of responses" (removed)="remove(respone, 'respone')">
+          {{ respone }}
+          <button matChipRemove [attr.aria-label]="'remove ' + respone">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+      </mat-chip-grid>
+      <input
+        placeholder="New response..."
+        formControlName="responses"
+        [matChipInputFor]="chipResponse"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        (matChipInputTokenEnd)="add($event, 'respone')"
+      />
+    </mat-form-field>
+
+    <div class="d-flex justify-content-end mb-2">
+      <button class="mr-2" mat-raised-button color="primary" [routerLink]="['/admin/nlp']">
+        Back
+      </button>
+      <button mat-raised-button color="warn" [disabled]="!(nlpForm.valid && patterns.length > 0 && responses.length > 0)">
+        Save
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,71 @@
+<div class="table-container">
+  <!-- Phần nút tạo sản phẩm mới -->
+  <div class="d-flex justify-content-end mb-2">
+    <button mat-raised-button color="warn" [routerLink]="['create-product']">
+      <span class="fa fa-plus"></span>
+    </button>
+  </div>
+
+  <!-- Bảng dữ liệu sản phẩm -->
+  <table mat-table [dataSource]="dataSource">
+    <!-- Cột ID -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>Id.</th>
+      <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+    </ng-container>
+
+    <!-- Cột Ảnh -->
+    <ng-container matColumnDef="img">
+      <th mat-header-cell *matHeaderCellDef>Image</th>
+      <td mat-cell *matCellDef="let element">
+        <img
+          src="{{ element.image_url }}"
+          alt="Image"
+          class="resizable-image"
+        />
+      </td>
+    </ng-container>
+
+    <!-- Cột Tên -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let element" class="name">
+        {{ element.name }}
+      </td>
+    </ng-container>
+
+    <!-- Cột Giá -->
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef>Price</th>
+      <td mat-cell *matCellDef="let element">${{ element.price }}</td>
+    </ng-container>
+
+    <!-- Cột Hành động -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td class="btn-product-admin" mat-cell *matCellDef="let element">
+        <button class="mr-2" mat-stroked-button [routerLink]="[element.id]" color="primary">
+          <span class="fa fa-eye"></span>
+        </button>
+        <button mat-stroked-button color="warn" (click)="onDelele(element.id)">
+          <span class="fa fa-trash"></span>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Dòng tiêu đề cột -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <!-- Dòng dữ liệu -->
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <!-- Phân trang -->
+  <mat-paginator
+    [length]="tableHelper.table.totalRecordsCount"
+    [pageSize]="tableHelper.table.pageSize"
+    [pageSizeOptions]="tableHelper.table.predefinedRecordsCountPerPage"
+    (page)="changePage($event)"
+    aria-label="Select page"
+  >
+  </mat-paginator>
+</div>

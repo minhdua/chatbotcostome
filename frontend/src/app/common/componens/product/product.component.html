@@ -1,0 +1,47 @@
+<div class="product__item sale"
+  (click)="goToShopDetail(product.id)">
+  <div
+    class="product__item__pic set-bg"
+    [style.background-image]="getImg()"
+  >
+    <!-- <span class="label">New</span>
+        <span class="label">Sale</span> -->
+    <ul class="product__hover">
+      <li>
+        <a href="#"><img src="./assets/img/icon/heart.png" alt="" /></a>
+      </li>
+      <li>
+        <a href="#"
+          ><img src="./assets/img/icon/compare.png" alt="" />
+          <span>Compare</span></a
+        >
+      </li>
+      <li>
+        <a href="#"><img src="./assets/img/icon/search.png" alt="" /></a>
+      </li>
+    </ul>
+  </div>
+  <div class="product__item__text">
+    <h6>{{ product.name }}</h6>
+    <!-- <a class="add-cart" (click)="addProductToCart()">+ Add To Cart</a> -->
+    <!-- <div class="sizes">
+      <div 
+      *ngFor="let size of product.sizes" 
+      class="size" 
+      [ngClass]="{'active': product.size === size}"
+      (click)="product.size = size">{{size}}</div>
+    </div> -->
+    <h5>${{ product.price }}</h5>
+    <!-- <div class="product__color__select">
+      <label for="pc-13">
+        <input type="radio" id="pc-13" />
+      </label>
+      <label class="active black" for="pc-14">
+        <input type="radio" id="pc-14" />
+      </label>
+      <label class="grey" for="pc-15">
+        <input type="radio" id="pc-15" />
+      </label>
+    </div> -->
+  </div>
+</div>

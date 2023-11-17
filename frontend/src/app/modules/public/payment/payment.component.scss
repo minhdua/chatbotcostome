@@ -1,0 +1,64 @@
+.checkout_container {
+    .checkout__form {
+        .checkout__order {
+            .payment-btn {
+                width: 100%;
+                height: 50px;
+            }
+            .checkout_order_products {
+                margin-bottom: 12px;
+                .quantity {
+                    text-align: center;
+                }
+                .total {
+                    text-align: end;
+                }
+            }
+            .checkout_total_products {
+                li {
+                    display: flex;
+                    color: rgb(128, 128, 137);
+                    .product_name {
+                        width: 65%;
+                        white-space: nowrap; 
+                        overflow: hidden; 
+                        text-overflow: ellipsis; 
+                        line-height: 2rem;
+                        padding-right: 0px;
+                    }
+                    .product_quantity {
+                        text-align: center;
+                    }
+                    .product_price {
+                        text-align: end;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Delete gap bottom of form-input Billing details
+:host::ng-deep .mat-mdc-form-field-subscript-wrapper {
+    margin-bottom: 8px;
+}
+
+// Start
+// CSS for dialog content payment 
+.content-dialog {
+    width: 500px; 
+    min-height: 80px; 
+    line-height: 30px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    text-align: center; 
+    padding-bottom: 12px;
+}
+
+.action-dialog {
+    justify-content: center; 
+    padding-bottom: 24px;
+}
+
+// End

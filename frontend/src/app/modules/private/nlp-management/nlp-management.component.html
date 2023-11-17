@@ -1,0 +1,83 @@
+<div class="table-container">
+  <div class="d-flex justify-content-end mb-2">
+    <button class="mr-2" mat-raised-button color="warn" (click)="retrain()">
+      Retrain
+    </button>
+    <button mat-raised-button color="warn" [routerLink]="['./nlp-detail', 0]">
+      <span class="fa fa-plus"></span>
+    </button>
+  </div>
+  <table mat-table [dataSource]="dataSource">
+    <!-- Position Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>Id.</th>
+      <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="tag">
+      <th mat-header-cell *matHeaderCellDef>Tag</th>
+      <td mat-cell *matCellDef="let element">{{ element.tag }}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="patterns">
+      <th mat-header-cell *matHeaderCellDef>Patterns</th>
+      <td mat-cell *matCellDef="let element">
+        <mat-chip-listbox aria-label="Fish selection">
+          <mat-chip
+            *ngFor="let item of element.patterns.slice(0, 2)"
+            mat-raised-button
+            matTooltip="{{ item.pattern_text }}"
+            matTooltipPosition="above"
+            >{{ formatData(item.pattern_text) }}</mat-chip>
+            <mat-chip *ngIf="element.patterns.length > 2">+{{ element.patterns.length - 2 }}</mat-chip>
+        </mat-chip-listbox>
+      </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="responses">
+      <th mat-header-cell *matHeaderCellDef>Responses</th>
+      <td mat-cell *matCellDef="let element">
+        <mat-chip-listbox aria-label="Fish selection">
+          <mat-chip
+            *ngFor="let item of element.responses.slice(0, 2)"
+            mat-raised-button
+            matTooltip="{{ item.response_text }}"
+            matTooltipPosition="above"
+            >{{ formatData(item.response_text) }}</mat-chip>
+            <mat-chip *ngIf="element.responses.length > 2">+{{ element.responses.length - 2 }}</mat-chip>
+        </mat-chip-listbox>
+      </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+      >
+        <button class="mr-2" mat-stroked-button [routerLink]="['./nlp-detail', element?.id]" color="primary">
+          <span class="fa fa-eye"></span>
+        </button>
+        <button mat-stroked-button color="warn" (click)="deleteNlp(element?.id)">
+          <span class="fa fa-trash"></span>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+  <mat-paginator
+    [length]="tableHelper.table.totalRecordsCount"
+    [pageIndex]="tableHelper.table.currentPage"
+    [pageSize]="tableHelper.table.pageSize"
+    [pageSizeOptions]="tableHelper.table.predefinedRecordsCountPerPage"
+    (page)="changePage($event)"
+    aria-label="Select page"
+  >
+  </mat-paginator>
+</div>

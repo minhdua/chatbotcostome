@@ -1,0 +1,149 @@
+<div *ngIf="dataLoaded" class="container">
+  <div class="row">
+    <div class="column">
+      <img
+        class="product-image"
+        src="{{ newData.image_url }}"
+        alt="Product Image"
+      />
+    </div>
+    <div class="column">
+      <div class="product-info mb-3">
+        <div class="row mb-1">
+          <div class="col-md-12">
+            <h4 class="product-name">{{ newData.name }}</h4>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-12">
+            <h3>${{ newData.price }}</h3>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-3">Color</div>
+          <div class="col-md-9 btn-color">
+            <button
+              *ngFor="let itemColor of newData.colors; let i = index"
+              [ngStyle]="{
+                'background-color':
+                  selectedColorIndex === i ? 'orange' : 'transparent'
+              }"
+              mat-stroked-button
+              (click)="selectColor(i, itemColor)"
+            >
+              {{ itemColor }}
+            </button>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-3">Size</div>
+          <div class="col-md-9 btn-size">
+            <button
+              *ngFor="let itemSize of newData.sizes; let i = index"
+              [class.selected]="selectedSizeIndex === i"
+              [ngStyle]="{
+                'background-color':
+                  selectedSizeIndex === i ? 'orange' : 'transparent'
+              }"
+              mat-stroked-button
+              (click)="selectSize(i, itemSize)"
+            >
+              {{ itemSize }}
+            </button>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-3">Quantity</div>
+          <div class="col-md-9 btn-color">
+            <div class="quantity-input">
+              <div class="quantity-button" (click)="decrease()">-</div>
+              <input
+                type="text"
+                [(ngModel)]="quantity"
+                id="quantity"
+                readonly
+              />
+              <div class="quantity-button" (click)="increase()">+</div>
+            </div>
+          </div>
+        </div>
+
+        <button
+          class="mb-4"
+          mat-raised-button
+          color="warn"
+          (click)="addProductToCart()"
+          [disabled]="shouldDisableButton()"
+        >
+          <mat-icon>add_shopping_cart</mat-icon> Add To Cart
+        </button>
+
+        <div class="row mb-3">
+          <div class="col-md-12">
+            <p>
+              {{ newData.description }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <h5 class="related-title">Related Product</h5>
+    </div>
+  </div>
+  <div class="w-100">
+    <div class="column">
+      <div class="product-container w-100">
+        <div
+          *ngFor="let item of newData.products_relations"
+          (click)="goToDifferentShopDetail(item.id)"
+          class="product"
+        >
+          <img
+            src="{{ item.image_url }}"
+            alt="{{ item.image_url }}"
+          />
+          <h5 class="mt-3">{{ item.name }}</h5>
+          <h4 class="mt-2">${{ item.price }}</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!dataLoaded" class="container skeleton-container">
+  <div class="column">
+    <div class="skeleton-image"></div>
+  </div>
+  <div class="column">
+    <div class="product-info-skeleton mb-3">
+      <div class="row mb-1">
+        <div class="col-md-12">
+          <h4 class="skeleton-text"></h4>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-12">
+          <h3 class="skeleton-text"></h3>
+        </div>
+      </div>
+
+      <!-- ... Other skeleton content ... -->
+
+      <div class="skeleton-button"></div>
+
+      <div class="row mb-3">
+        <div class="col-md-12">
+          <p class="skeleton-text"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

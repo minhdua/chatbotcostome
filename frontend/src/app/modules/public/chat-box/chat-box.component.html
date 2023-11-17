@@ -1,0 +1,73 @@
+
+      <div class="container">
+        <div class="chatbox">
+          <div class="top-bar">
+            <div class="avatar">
+              <img src="" src="./assets/img/icon/support.png" alt="">
+            </div>
+            <div class="name">Hổ trợ tư vấn trang phục</div>
+          </div>
+          <div class="middle">
+            <div class="voldemort">
+              <ng-container *ngFor="let convers of conversations">
+                <div class="incoming" *ngIf="convers?.user_say != ''">
+                  <div class="bubble" *ngIf="convers?.message_type !== 'image'">{{ convers?.user_say }}</div>
+                  <div class="image-bubble" *ngIf="convers?.message_type === 'image'">
+                    <img [src]="convers?.user_say" alt="">
+                  </div>
+                </div>
+                <div class="outgoing" *ngIf="convers?.chat_response != ''">
+                  <div class="bubble" [innerHTML]="convers?.chat_response"></div>
+                </div>
+              </ng-container>
+              <div class="typing" *ngIf="!isChat">
+                <div class="bubble">
+                  <div class="ellipsis one"></div>
+                  <div class="ellipsis two"></div>
+                  <div class="ellipsis three"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="bottom-bar">
+            <form  class="chat" [formGroup]="chatForm">
+              <input
+                type="text"
+                placeholder="Nhập tin nhắn..."
+                formControlName="question"
+                [disabled]="!isChat"
+                (keyup.enter)="isChat && addChatHistory()"
+              />
+              <div class="chat-button-group">
+                <button
+                class="submit-btn"
+                type="button"
+                [disabled]="!isChat"
+                (click)="isChat && fileUpload.click()"
+                >
+                  <i class="fa fa-image"></i>
+                </button>
+                &nbsp;&nbsp;&nbsp;
+                <button
+                  class="submit-btn"
+                  type="button"
+                  [disabled]="!isChat"
+                  (click)="isChat && addChatHistory()"
+                >
+                  <i class="fa fa-paper-plane"></i>
+                </button>
+              </div>
+            </form>
+            <div class="upload-file">
+              <input
+                type="file"
+                #fileUpload
+                [disabled]="!isChat"
+                (change)="handleFileInput($event)"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+

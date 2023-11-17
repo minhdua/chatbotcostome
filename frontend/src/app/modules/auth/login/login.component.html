@@ -1,0 +1,18 @@
+<div class="main-container">  
+  <div class="login-container">
+    <div class="login-content">
+      <h1 class="welcome-text">Admin</h1>
+      <form class="login-form" [formGroup]="loginForm">
+        <mat-form-field appearance="outline" class="col-sm-12" style="padding: 0px;">
+            <mat-label>Name</mat-label>
+            <input matInput type="text" placeholder="FullName" formControlName="fullName" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-sm-12" style="padding: 0px;">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" placeholder="Password" formControlName="password"/>
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="login()">Login</button>
+      </form>
+    </div>
+  </div>
+</div>
