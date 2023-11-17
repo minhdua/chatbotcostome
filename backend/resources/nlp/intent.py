@@ -2,9 +2,9 @@
 from app_factory import swagger
 from flask_restful import Resource, reqparse
 from models.base_mixin import CommonResponse
-from models.nlp.intent import Intent
-from models.nlp.pattern import Pattern
-from models.nlp.response import Response
+from models.nlp.intent_model import Intent
+from models.nlp.pattern_model import Pattern
+from models.nlp.response_model import Response
 
 
 class IntentResource(Resource):

@@ -60,6 +60,7 @@ export class ChatBoxComponent extends ComponentBase {
       user_say: this.chatForm.get('question')?.value,
       message_type: '',
     });
+
     // let body = {
     //   session_user: this.getUuid(),
     //   user_say: message,

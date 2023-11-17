@@ -1,17 +1,10 @@
 import pdb
 
 import numpy as np
-from models.attribute_prediction import AttributePrediction
-from models.category_prediction import CategoryPrediction
+from keras.preprocessing import image
+from models.attribute_prediction_model import AttributePrediction
+from models.category_prediction_model import CategoryPrediction
 from PIL import Image
-
-
-# Define a preprocessing function
-def preprocess_image(image):
-    # Normalize the image pixels to the range [0, 1]
-    image = image.astype(np.float32) / 255.0
-    return image
-
 # Decode attribute predictions
 def decode_attribute_predictions(predictions, threshold=0.5):
 
@@ -39,24 +32,26 @@ def decode_category_predictions(predictions):
 
     return decoded_categories
 
+from keras.applications.resnet50 import preprocess_input
+
 
 # Predict attributes and category for a single image
 def predict_attributes_and_category(image_path, model):
-    # Load and preprocess the image
-    img = Image.open(image_path)
-    img = img.resize((224, 224))
-    img_array = np.array(img)
-    img_array = preprocess_image(img_array)
-    input_image = np.expand_dims(img_array, axis=0)
+     # Đọc ảnh và chuẩn hóa
+    img = image.load_img(image_path, target_size=(224, 224))
+    x = image.img_to_array(img)
+    x = np.expand_dims(x, axis=0)
+    x = preprocess_input(x)
 
-    # Use the model to predict attributes and categories for the image
-    predictions = model.predict(input_image)
+    # Dự đoán
+    preds = model.predict(x)
 
-    # Convert the predictions to NumPy arrays
-    attributes_pred = np.array(predictions[3])
-    categories_pred = np.array(predictions[2])
+    # Lấy kết quả
+    cate_pred = preds[2] 
+    attr_pred = preds[3]
 
-    # Decode the predictions
-    decoded_attributes = decode_attribute_predictions(attributes_pred)
-    decoded_category = decode_category_predictions(categories_pred)
-    return decoded_attributes, decoded_category
+    decoded_attrs = decode_attribute_predictions(cate_pred)
+    decoded_cates = decode_category_predictions(attr_pred)
+
+    # Trả về danh mục và các thuộc tính
+    return decoded_cates, decoded_attrs

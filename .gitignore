@@ -91,3 +91,6 @@ backend/cnn
 push_develop.sh
 static/training
 backend/static/training
+
+backend/resources/cnn/models/fashionnet
+backend/resources/cnn/logs/fashionnet

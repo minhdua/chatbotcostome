@@ -3,13 +3,10 @@ import numpy as np
 import torch
 import torch.nn as nn
 from app_factory import create_app
-from models.nlp.intent import Intent
+from models.nlp.intent_model import Intent
 from module import NeuralNet
 from nltk_utils import bag_of_words, stem, tokenize
 from torch.utils.data import DataLoader, Dataset
-
-# with open('intents.json', 'r') as f:
-#     intents = json.load(f)
 
 all_words = []
 tags = []
@@ -18,7 +15,7 @@ xy = []
 #============================================================
 # Get Intents For Train                                     #
 #============================================================
-app = create_app()
+app,_ = create_app()
 app.app_context().push()
 
 intents = Intent.query.all()

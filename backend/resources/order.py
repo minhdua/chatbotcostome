@@ -4,9 +4,9 @@ from datetime import datetime
 from flask import request
 from flask_restful import Resource, reqparse
 from models.common.response import CommonResponse
-from models.order import Order, OrderFilter, OrderFilterByStatus
-from models.order_product import OrderProduct
-from models.product import Product
+from models.order_model import Order, OrderFilter, OrderFilterByStatus
+from models.order_product_model import OrderProduct
+from models.product_model import Product
 from resources.validators import (
     validate_email,
     validate_order_status,

@@ -227,3 +227,52 @@ http://localhost:5000/swagger
 ```bash
 http://localhost:5000/admin
 ```
+
+### Sử dụng TensorBoard cho Mô hình CNN
+
+TensorBoard là một công cụ mạnh mẽ được cung cấp bởi TensorFlow để theo dõi và hiểu sâu hơn về mô hình máy học của bạn thông qua việc hiển thị các biểu đồ và thống kê. Trong dự án này, chúng ta sẽ hướng dẫn cách sử dụng TensorBoard để theo dõi mô hình Convolutional Neural Network (CNN) được đào tạo.
+
+#### Cách sử dụng TensorBoard
+
+1. Cài đặt TensorBoard (nếu chưa cài đặt)
+
+Trước hết, bạn cần cài đặt TensorBoard. Đảm bảo bạn đã cài đặt TensorFlow hoặc TensorFlow 2 (nếu chưa cài đặt). Bạn có thể cài đặt TensorBoard bằng pip:
+
+```bash
+pip install tensorboard
+```
+
+2. Khởi động TensorBoard
+
+Để khởi động TensorBoard và xem các biểu đồ và thống kê của mô hình, hãy mở dấu nhắn và điều hướng đến thư mục backend/resources/cnn/logs, sau đó chạy lệnh sau:
+
+```bash
+tensorboard --logdir <path_to_logs_directory>
+```
+
+Điều này sẽ bắt đầu một máy chủ TensorBoard và tạo một giao diện web để bạn có thể xem dữ liệu theo dõi.
+
+Truy cập TensorBoard trên trình duyệt
+
+Mở trình duyệt web và truy cập URL sau:
+
+```
+http://localhost:6006
+```
+
+Điều này sẽ đưa bạn đến giao diện TensorBoard, nơi bạn có thể xem biểu đồ và thống kê của mô hình của mình.
+
+#### Khám phá TensorBoard
+
+Trên giao diện TensorBoard, bạn sẽ thấy các tab khác nhau như "Scalars," "Graphs," "Histograms," và "Projector." Dùng các tab này để xem và phân tích dữ liệu theo dõi.
+
+- Dừng TensorBoard
+
+Khi bạn đã hoàn thành việc sử dụng TensorBoard, bạn có thể dừng máy chủ TensorBoard bằng cách nhấn Ctrl+C trong cửa sổ dấu nhắn nơi bạn đã khởi động nó.
+
+- Lưu ý
+  Thư mục backend/resources/cnn/logs chứa các tệp nhật ký và dữ liệu theo dõi của mô hình CNN. TensorBoard sẽ sử dụng thư mục này để hiển thị thông tin.
+
+Hãy đảm bảo rằng bạn đã thay đổi đường dẫn và tên tệp của mô hình của mình để nó được lưu vào thư mục backend/resources/cnn/logs. Nếu không, TensorBoard sẽ không thể tìm thấy dữ liệu của bạn.
+
+Để cài đặt và sử dụng TensorBoard chi tiết hơn, bạn có thể xem tài liệu chính thức của TensorFlow: TensorBoard: Visualizing Learning.

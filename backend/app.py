@@ -8,29 +8,42 @@ import requests
 import torch
 import torch.nn as nn
 from app_factory import admin, api, app
-from models.common.normalize_text import check_uppercase_in_array, compare_array_source_array_dest, compare_strings, filter_duplicate_in_array, normalize_text
 from chat import get_response
 from config import swagger_config, swagger_template
-from db import db
+from app_factory import db
 from flasgger import Swagger
 from flask import jsonify, make_response, render_template, request, send_from_directory
 from flask_admin.contrib.sqla import ModelView
 from flask_cors import CORS
-from models.category import Category
+from models.category_model import Category
+from models.common.normalize_text import (
+    check_uppercase_in_array,
+    compare_array_source_array_dest,
+    compare_strings,
+    filter_duplicate_in_array,
+    normalize_text,
+)
 from models.common.response import CommonResponse
-from models.dictionary import Dictionary
-from models.enum import MessageType, ResponseCategoryBody, ResponseMessage, ResponseSizes, ResponseURL
-from models.history import History
-from models.nlp.intent import Intent
-from models.nlp.pattern import Pattern
-from models.nlp.response import Response
-from models.order import Order, OrderAdminView
-from models.order_product import OrderProduct, OrderProductAdminView
-from models.product import Product
-from models.tag import Tag
+from models.dictionary_model import Dictionary
+from models.enum import (
+    MessageType,
+    ResponseCategoryBody,
+    ResponseMessage,
+    ResponseSizes,
+    ResponseURL,
+)
+from models.history_model import History
+from models.nlp.intent_model import Intent
+from models.nlp.pattern_model import Pattern
+from models.nlp.response_model import Response
+from models.order_model import Order, OrderAdminView
+from models.order_product_model import OrderProduct, OrderProductAdminView
+from models.product_model import Product
+from models.tag_model import Tag
 from module import NeuralNet
 from nltk_utils import bag_of_words, download_nltk_data, stem, tokenize
 from pyvi import ViUtils
+from resources.ai_config import AiConfigResource, BestCNNModelUpdateResource
 from resources.category import CategoryListResource
 from resources.cnn.attribute_prediction import AttributePredictionCreateListResource
 from resources.cnn.category_prediction import CategoryPredictionCreateListResource
@@ -39,6 +52,7 @@ from resources.cnn.clothing_image_features import (
     ClothingImageFeaturesNewIdResource,
     ClothingImageFeaturesResource,
     CNNTrainingResource,
+    UpdateAccuracyResource,
 )
 from resources.cnn.search_image import extract_features
 from resources.history import HistoryBySessionResource, HistoryListResource
@@ -113,9 +127,9 @@ def upload_image(request):
 		})
 
 
-@app.get('/')
-def index_get():
-    return render_template('base.html')
+@app.route('/')
+def redirect_to_swagger():
+    return redirect('/swagger')
 
 @app.post('/predict')
 def predict():
@@ -131,18 +145,6 @@ def predict():
     if 'file_image' in request.files:
         return upload_image(request)
 
-# @app.get('/categories')
-# def get_catetory_list():
-#     categories = [category.json() for category in Category.query.all()]
-
-#     return jsonify({
-#         'status':'Success',
-#         'message':'Get category list success',
-#         'data': categories
-#     }), 200
- 
-
-
 # Master api
 api.add_resource(SizeResourceList, "/sizes")
 api.add_resource(ColorResourceList, "/colors")
@@ -152,16 +154,6 @@ api.add_resource(GenderListResource, "/genders")
 api.add_resource(LandMarkStatusListResource, "/landmark-statuses")
 api.add_resource(ClothingPartsListResource, "/clothing-parts")
 api.add_resource(EvaluationStatusListResource, "/evaluation-statuses")
-# api.add_resource(IntentResource, "/intents/<string:tag>")
-# api.add_resource(IntentListResource, "/intents")
-# api.add_resource(PatternResource, "/patterns/<string:pattern_text>")
-# api.add_resource(PatternListResource, "/patterns")
-# api.add_resource(ResponseResource, "/responses/<string:response_text>")
-# api.add_resource(TagResource, "/tags/<string:tag>")
-# api.add_resource(TagListResource, "/tags")
-# api.add_resource(BrandResource, "/brands/<string:brand_name>")
-# api.add_resource(BrandListResource, "/brands")
-# api.add_resource(CategoryResource, "/categories/<string:category_name>")
 api.add_resource(CategoryListResource, "/categories")
 api.add_resource(ProductResource, "/products/<int:product_id>")
 api.add_resource(ProductListCreateResource, "/products")
@@ -180,6 +172,9 @@ api.add_resource(ClothingImageFeaturesResource, "/clothing_image_features/<int:c
 api.add_resource(ClothingImageFeaturesCreateListResource, "/clothing_image_features")
 api.add_resource(ClothingImageFeaturesNewIdResource, "/clothing_image_features/new_item_id")
 api.add_resource(CNNTrainingResource, "/training")
+api.add_resource(AiConfigResource, "/ai_configs")
+api.add_resource(BestCNNModelUpdateResource, "/best_cnn_model")
+api.add_resource(UpdateAccuracyResource, "/update_accuracy")
 
 swagger = Swagger(app, config=swagger_config, template=swagger_template)
 admin.add_view(ModelView(Intent, db.session))

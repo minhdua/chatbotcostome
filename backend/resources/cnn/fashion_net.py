@@ -1,9 +1,11 @@
 import os
+from datetime import datetime
 
-from models.attribute_prediction import AttributePrediction
-from models.category_prediction import CategoryPrediction
-from models.clothing_image_features import ClothingImageFeatures
-
+from models.attribute_prediction_model import AttributePrediction
+from models.category_prediction_model import CategoryPrediction
+from models.clothing_image_features_model import ClothingImageFeatures
+from models.fashionet_model import FashionNetModel
+import logging
 os.environ["CUDA_VISIBLE_DEVICES"] = '2'  # which gpu to use
 
 import os
@@ -63,8 +65,8 @@ model_dict = {
     1: 'fashionnet',
     2: 'resnet34'
 }
-MODEL_PATH = f'backend/resources/cnn/models{model_dict[no_model]}/'
-LOGGER_PATH = f'backend/resources/cnn/models{model_dict[no_model]}/'
+MODEL_PATH = f'backend/resources/cnn/models/{model_dict[no_model]}/'
+LOGGER_PATH = f'backend/resources/cnn/logs/{model_dict[no_model]}/'
 
 train_df = None
 val_df = None
@@ -90,7 +92,7 @@ def expand_path(p, **kwargs):
     Return:
         Đường dẫn đầy đủ, ví dụ như `../data/input/Img/img/MEN/Denim/id_00000080/01_1_front.jpg`
     """
-    header = Path('F:/chatbotsupportcostume-main/backend/static/')
+    header = Path('backend/static/')
     return str(header / p)
 
 def read_raw_image(p, **kwargs):
@@ -483,18 +485,14 @@ class RoiPooling(Layer):
         # Đầu vào là các đặc trưng và thông tin tọa độ
         img, rois = x[0], x[1]
         
-        print('img:', img.__dict__)
         # Chuyển đổi ảnh
         if self.data_format == 'channels_first':
             img = K.permute_dimensions(img, (0, 2, 3, 1))
-            print('channels_first, img:', img)
         else:
             img = K.permute_dimensions(img, (0, 1, 2, 3))
-            print('channels_last, img:', img)
 
         # Chuyển đổi các hộp quan tâm
-        shape = K.int_shape(img)
-        print('shape:', shape)
+        shape = K.shape(img)
         rois = K.reshape(rois, (-1, 5))[:, 3:]
         x1 = rois[..., 0]
         y1 = rois[..., 1]
@@ -519,9 +517,10 @@ class RoiPooling(Layer):
         # Chuyển đổi ảnh
         img = K.concatenate([img] * self.num_rois, axis=1)
         try:
-            img = K.reshape(img, (-1, ) + shape[1:])
+            img = K.reshape(img, (-1, 512)) # reshape chiều cuối
+            img = K.reshape(img, (-1, 28, 28, 512)) # reshape các chiều còn lại
         except Exception as e:
-            print('call: ', e)
+            logging.error("Error in RoiPooling layer:", e)
 
         # Cắt và thay đổi kích thước ảnh
         # đầu vào: img(None*8, H, W, C), boxes(None*8, 4)
@@ -537,7 +536,6 @@ class RoiPooling(Layer):
             slices = K.permute_dimensions(slices, (0, 3, 1, 2))
         else:
             slices = K.permute_dimensions(slices, (0, 1, 2, 3))
-        print('slices:', slices)
         return slices
     
 def build_model():
@@ -642,7 +640,6 @@ def build_model():
             model_source.get_layer(red_name).set_weights(layer.get_weights())
 
     return model_source, model_blue
-    
 
 def change_stage(model, lr=3e-4, stage=1):
     """Thay đổi giai đoạn huấn luyện của mô hình
@@ -813,9 +810,9 @@ def get_lr(model):
     return K.get_value(model.optimizer.lr)
 
 
-def save_model(model):
+def save_model(model,filename):
     """Lưu mô hình của bước hiện tại vào đường dẫn MODEL_PATH"""
-    model.save(f'{MODEL_PATH}epoch{steps}.h5')
+    model.save(f"{MODEL_PATH}{filename}")
     
     
 def load_model(model, temp_step):
@@ -848,6 +845,7 @@ def load_modelfile(model, modelfile):
     Kết quả
         mô hình đã nạp
     """
+    import pdb
     global steps
     steps = int(modelfile.split('-')[0].split('.')[-1])
     
@@ -855,10 +853,120 @@ def load_modelfile(model, modelfile):
     model.load_weights(model_file, by_name=True)
     return model
     
+def compute_test_accuracy(model, test_df, batch_size=64):
+
+    test_gen = ValSequence(test_df, batch_size=batch_size)  
+    predictions = model.predict(test_gen, verbose=1)
     
+    # Tách tất cả các đầu ra 
+    cates_pred = predictions[0]  
+    lands_pred = predictions[1]
+    triplet_pred = predictions[2]
+    attrs_pred = predictions[3]
+
+    # Tính độ chính xác cho mỗi đầu ra
+    cates_true = test_df['category_label'].values
+    blue_cates_acc = np.mean(np.equal(np.argmax(cates_pred, axis=1), cates_true))
+    # Lấy các cột visibility
+    land_vis = [f'landmark_visibility_{i}' for i in range(1, 9)]  
+
+    # Chuyển đổi visibility sang one-hot 
+    lands_v = test_df[land_vis].values
+    lands_v = to_categorical(lands_v, num_landmark_visibility)
+    lands_v = lands_v.reshape(-1, 8 * 3)
+    # Lấy các cột location
+    land_x = [f'landmark_location_x_{i}' for i in range(1, 9)]
+    land_y = [f'landmark_location_y_{i}' for i in range(1, 9)]
+   
+    # Lấy giá trị của các cột location
+    lands_x = test_df[land_x].values
+    lands_y = test_df[land_y].values
+
+    lands_xy = np.stack((lands_x, lands_y), axis=-1)
+    lands_xy = lands_xy.reshape(-1, 8 * 2)
+    # Gộp visibility và location 
+    lands_true = np.concatenate([lands_v, lands_xy], axis=1)
+    # lands_true = lands_true.reshape(-1, 8 * (3 + 2))
+    blue_lands_acc = np.mean(np.equal(np.round(lands_pred), lands_true))
+
+    red_green_cates_acc = np.mean(np.equal(np.argmax(triplet_pred, axis=1), cates_true))
+
+    mlb = CustomMultiLabelBinarizer(warn_for='ignore')
+    mlb.classes_ = list(range(num_attr))
+    attrs_true = mlb.transform(test_df['attribute_labels'].values)  
+    red_green_attrs_acc = np.mean([
+        np.equal(np.round(attrs_pred[i]), attrs_true[i]).sum() / num_attr
+        for i in range(len(test_df)) 
+    ])
+
+    test_accuracy = (blue_cates_acc + blue_lands_acc + red_green_cates_acc + red_green_attrs_acc) / 4
+    
+    # Trả về tất cả độ chính xác
+    return [float(f'{blue_cates_acc:.4f}'), float(f'{blue_lands_acc:.4f}'), float(f'{red_green_cates_acc:.4f}'), float(f'{red_green_attrs_acc:.4f}'), float(f'{test_accuracy:.4f}')]
+
+def custom_callback(model, test_df, batch_size, lr, stage, epoch, logs, save_interval, model_file_name):
+    """Callback tùy chỉnh để lưu model vào cơ sở dữ liệu và in ra độ chính xác."""
+    # Thực hiện các công việc cần thiết tại mỗi epoch
+    # Ví dụ: lưu model vào cơ sở dữ liệu và in ra độ chính xác trên tập test
+    
+    # Lưu model vào cơ sở dữ liệu
+    if epoch % save_interval == 0:  # Lưu model sau mỗi 
+        model_file_name = model_file_name.replace('epoch', '').replace('val_loss', '').replace('val_blue_cates_loss', '')
+        # remove model path
+        model_file_name = model_file_name.replace(MODEL_PATH, '')
+        model_file_name = model_file_name.replace('.h5', '.keras')
+        model_file_name = model_file_name.format(epoch, logs['val_loss'], logs['val_blue_cates_loss'])
+
+        blue_cates_acc, blue_lands_acc, red_green_cates_acc, red_green_attrs_acc, test_accuracy = compute_test_accuracy(model, test_df, batch_size)  # Viết hàm này để tính độ chính xác
+        # In ra độ chính xác
+        logging.info("Epoch %d - Category Accuracy: %.4f - Attribute Accuracy: %.4f - Test Accuracy: %.4f", steps, blue_cates_acc, red_green_attrs_acc, test_accuracy)
+        # Tiến hành lưu thông tin vào cơ sở dữ liệu
+        fashion_model = FashionNetModel(
+            model_file=model_file_name,
+            batch_size=batch_size,
+            lr=lr,
+            stage=stage,
+            epoch=epoch,
+            attribute_loss = logs.get('attribute_loss', 0.0),
+            blue_cates_loss = logs.get('blue_cates_loss', 0.0),
+            blue_cates_top1 = logs.get('blue_cates_top1', 0.0),
+            blue_cates_top2 = logs.get('blue_cates_top2', 0.0),
+            blue_cates_top3 = logs.get('blue_cates_top3', 0.0),
+            blue_cates_top5 = logs.get('blue_cates_top5', 0.0),
+            blue_lands_loss = logs.get('blue_lands_loss', 0.0),
+            concate_category_loss = logs.get('concate_category_loss', 0.0),
+            loss = logs.get('loss', 0.0),
+            val_attribute_loss = logs.get('val_attribute_loss', 0.0),
+            val_blue_cates_loss = logs.get('val_blue_cates_loss', 0.0),
+            val_blue_cates_top1 = logs.get('val_blue_cates_top1', 0.0),
+            val_blue_cates_top2 = logs.get('val_blue_cates_top2', 0.0),
+            val_blue_cates_top3 = logs.get('val_blue_cates_top3', 0.0),
+            val_blue_cates_top5 = logs.get('val_blue_cates_top5', 0.0),
+            val_blue_lands_loss = logs.get('val_blue_lands_loss', 0.0),
+            val_concate_category_loss = logs.get('val_concate_category_loss', 0.0),
+            val_loss = logs.get('val_loss', 0.0),
+            blue_cates_acc = blue_cates_acc,
+            red_green_attrs_acc = red_green_attrs_acc,
+            blue_lands_acc = blue_lands_acc,
+            red_green_cates_acc = red_green_cates_acc,
+            test_accuracy = test_accuracy
+        )
+        try:
+            fashion_model.save_to_db()
+            save_model(model, model_file_name)
+        except Exception as e:
+            logging.error("Error in saving model to database: %s", e)
+        logging.info("Saved model to database")
+
+    
+# Định nghĩa lại hàm callbacks() để thêm callback tùy chỉnh
 def callbacks():
     """Lấy các callback đào tạo Keras đã được cấu hình"""
-    ckpt_file = MODEL_PATH + 'ckpt_model.{epoch:02d}-{val_loss:.4f}-{val_blue_cates_loss:.4f}.h5'
+    current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+
+    # Tạo tên file dựa trên thời gian và các giá trị epoch và mất mát
+    model_file_name = f'ckpt_model.{current_time}.{{epoch:02d}}-{{val_loss:.4f}}-{{val_blue_cates_loss:.4f}}.h5'
+    ckpt_file = MODEL_PATH + model_file_name
     checkpoint = ModelCheckpoint(ckpt_file, monitor='val_loss', verbose=1, save_best_only=True, mode='min')
     
     csv_log_file = f'{LOGGER_PATH}{model_dict[no_model]}.csv'
@@ -868,8 +976,7 @@ def callbacks():
     
     return [checkpoint, csv_log, tensorboard]
 
-
-def make_steps(step):
+def make_steps(step, batch_size=64, lr=3e-4, stage=1, save_interval=1):
     """Huấn luyện trong một số epoch nhất định
     
     Tham số
@@ -877,21 +984,26 @@ def make_steps(step):
     """
     global steps, histories
 
+    callbacks_list = callbacks() 
+    checkpoint = callbacks_list[0]
+    callbacks_list.append(LambdaCallback(
+        on_epoch_end=lambda epoch, logs: custom_callback(
+            model, test_df, batch_size, lr, stage, epoch, logs, save_interval=save_interval, model_file_name=checkpoint.filepath
+        ))
+    )
     # Huấn luyện mô hình trong 'step' epoch
-    # train_df.head(head)
     history = model.fit(
-        TrainSequence(train_df, batch_size=64),
+        TrainSequence(train_df, batch_size=batch_size),
         validation_data=ValSequence(val_df, batch_size=64),
-        callbacks=callbacks(),
+        callbacks=callbacks_list,
         initial_epoch=steps, epochs=steps + step, max_queue_size=12, workers=8, verbose=1).history
     steps += step
 
     # Thu thập dữ liệu lịch sử
     history['epochs'] = steps
     history['lr'] = get_lr(model)
-    print(history['epochs'], history['lr'])
+    logging.info("Epochs: %d - Learning rate: %f", history['epochs'], history['lr'])
     histories.append(history)
-    
     
 def find_lr(model, start_lr=3e-5, end_lr=1):
     """Vẽ đồ thị mất mát-tỷ lệ học tập để tìm một mô hình phù hợp"""
@@ -903,18 +1015,17 @@ def find_lr(model, start_lr=3e-5, end_lr=1):
     lr_finder.plot_loss()
     return lr_finder
 
-def cnn_training():
+def cnn_training(model_file = None, epochs = 10, batch_size = 64, lr = 3e-4, stage = 1, save_interval = 1):
     global no_model, num_attr, num_category
     global train_df, val_df, test_df
     global category_weight, attribute_weight
     global model, steps, histories
+    
     features = ClothingImageFeatures.get_all()
     train_data = list(filter(lambda x: x.evaluation_status == 'train', features))
     val_data = list(filter(lambda x: x.evaluation_status == 'query', features))
     test_data = list(filter(lambda x: x.evaluation_status == 'gallery', features))
 
-    # train_df = pd.DataFrame([data.json() for data in train_data]).iloc[offset:].head(limit)
-    # val_df = pd.DataFrame([data.json() for data in val_data]).iloc[offset:].head(limit)
     train_df = pd.DataFrame([data.json() for data in train_data])
     val_df = pd.DataFrame([data.json() for data in val_data])
     test_df = pd.DataFrame([data.json() for data in test_data])
@@ -927,24 +1038,20 @@ def cnn_training():
     attribute_lables = [a.name for a in attributes]
     num_attr = len(attribute_lables)  # each image has 463 attribute 
 
-    # train = TrainSequence(data=train_df, batch_size=6)
-    # xs_a, [cates, lands, cates, transformed_attrs_data ] = train[0]
-
     category_weight = category_classweight()
     attribute_weight = attribute_classweight()
-    # attribute_weight, category_weight
-
-    # model_source, model_blue = build_model()
-    # model = change_stage(model_source)
-    # model.summary()
 
     histories = []
     steps = 0
+
     model_source, model_blue = build_model()
-    model = change_stage(model_source, lr=1e-4, stage=1)  
-    # model = change_stage(model, lr=1e-4, stage=1)
-    make_steps(10)
-    
-    # model = load_modelfile(model, 'ckpt_model.13-52.5649-2.9055.h5')
-    # model = change_stage(model, lr=1e-4, stage=2)
-    # make_steps(2)
+    if model_file is not None:
+        model = load_modelfile(model_source, model_file)
+    else:
+        model_lastest = FashionNetModel.get_model_latest()
+        if model_lastest is not None:
+            model = load_modelfile(model_source, model_lastest.model_file)
+        else:
+            model = model_source
+    model = change_stage(model, lr=lr, stage=stage)
+    make_steps(step=epochs, batch_size=batch_size, lr=lr, stage=stage, save_interval=save_interval)

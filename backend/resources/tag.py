@@ -1,6 +1,6 @@
 from flask_restful import Resource, reqparse
 from models.common.response import CommonResponse
-from models.tag import Tag
+from models.tag_model import Tag
 
 
 class TagResource(Resource):

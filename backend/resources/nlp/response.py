@@ -1,7 +1,7 @@
 from app_factory import swagger
 from flask_restful import Resource, reqparse
 from models.common.response import CommonResponse
-from models.nlp.response import Response
+from models.nlp.response_model import Response
 
 
 class ResponseResource(Resource):

@@ -1,7 +1,7 @@
 import pdb
 import re
 
-from models.category import Category
+from models.category_model import Category
 from models.enum import ColorEnum, OrderStatusEnum, SizeEnum
 
 

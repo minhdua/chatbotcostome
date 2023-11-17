@@ -137,3 +137,5 @@ wrapt==1.15.0
 WTForms==3.0.1
 xlwings==0.30.10
 zipp==3.16.2
+tensorflow 
+tensorboard

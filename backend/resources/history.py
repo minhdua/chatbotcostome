@@ -1,6 +1,7 @@
 from flask_restful import Resource, reqparse
-from models.history import History
 from models.common.response import CommonResponse
+from models.history_model import History
+
 
 class HistoryListResource(Resource):
     def get(self):

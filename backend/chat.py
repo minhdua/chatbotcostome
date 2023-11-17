@@ -4,15 +4,11 @@ import random
 import torch
 from models.common.normalize_text import normalize_text
 from models.enum import ResponseMessage
-from models.nlp.intent import Intent
+from models.nlp.intent_model import Intent
 from module import NeuralNet
 from nltk_utils import bag_of_words, tokenize
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
-# with open('intents.json', 'r') as json_data:
-#     intents = json.load(json_data)
-
 FILE = "backend/data.pth"
 data = torch.load(FILE)
 
@@ -97,5 +93,3 @@ if __name__ == "__main__":
 
         resp = get_response(sentence)
         print(resp)
-
-

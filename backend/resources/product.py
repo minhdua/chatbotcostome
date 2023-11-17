@@ -6,8 +6,10 @@ from flask import request
 from flask_restful import Resource, reqparse
 from models.common.response import CommonResponse
 from models.enum import ColorEnum, SizeEnum
-from models.order_product import OrderProduct
-from models.product import (
+from models.order_product_model import OrderProduct
+from models.product_attribute_model import ProductAttributes
+from models.product_category_model import ProductCategories
+from models.product_model import (
     Product,
     ProductColorEnum,
     ProductFilter,
@@ -20,10 +22,8 @@ from models.product import (
     ProductFilterByTag,
     ProductSizeEnum,
 )
-from models.product_attribute import ProductAttributes
-from models.product_category import ProductCategories
-from models.product_tag import ProductTag
-from models.tag import Tag
+from models.product_tag_model import ProductTag
+from models.tag_model import Tag
 from resources.cnn.search_image import extract_features
 from resources.validators import (
     validate_category,
@@ -31,7 +31,7 @@ from resources.validators import (
     validate_product_name,
     validate_size,
 )
-from utils import allowed_file, default_product_image_url, if_not_none
+from utils import DEFAULT_PRODUCT_IMAGE_URL, allowed_file, if_not_none
 from werkzeug.utils import secure_filename
 
 
@@ -108,7 +108,7 @@ class ProductResource(Resource):
         product = Product.find_by_id(product_id)
         if product:
             image = request.files['image']
-            file_path = default_product_image_url
+            file_path = DEFAULT_PRODUCT_IMAGE_URL
             if image and allowed_file(image.filename):
                 filename = secure_filename(image.filename)
                 file_path_save = os.path.join(app.config['UPLOAD_FOLDER'], 'products/', filename)
@@ -278,7 +278,7 @@ class ProductResource(Resource):
             ProductTag.delete_by_product_id(product_id)
             OrderProduct.delete_by_product_id(product_id)
             # delete image
-            if product.image_url != default_product_image_url:
+            if product.image_url != DEFAULT_PRODUCT_IMAGE_URL:
                 upload_folder = app.config['UPLOAD_FOLDER']
                 image_url_display = app.config['IMAGE_DEFAULT_URL']
                 image_url = product.image_url.replace(image_url_display, upload_folder)
@@ -320,12 +320,12 @@ class ProductListCreateResource(Resource):
                   type: integer
               description: Page number for pagination
             - in: query
-              name: per_page
+              name: per_page                                                                                                                            `````````````````````` 
               schema:
                   type: integer
               description: Number of items per page
             - in: query
-              name: sort_field
+              name: sort_fild
               schema:
                   type: string
               description: Field to sort by
@@ -538,7 +538,7 @@ class ProductCNNResource(Resource):
         products = Product.get_all()
         for product in products:
             try:
-                default_image_url = os.path.join(app.config['UPLOAD_FOLDER'], default_product_image_url)
+                default_image_url = os.path.join(app.config['UPLOAD_FOLDER'], DEFAULT_PRODUCT_IMAGE_URL)
                 file_path = product.image_url.replace(app.config['IMAGE_DEFAULT_URL'], app.config['UPLOAD_FOLDER'])
                 if not os.path.exists(file_path) or file_path == default_image_url:
                     continue

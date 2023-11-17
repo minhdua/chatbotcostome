@@ -12,7 +12,9 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 def allowed_file(filename):
 	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-default_product_image_url = "products/no_image.png"
+DEFAULT_PRODUCT_IMAGE_URL = "products/no_image.png"
+CNN_MODEL_NAME = 'cnn_model_name'
+ATTRIBUTE_THRESHOLD = 'attribute_threshold'
 
 def if_not_none(value, default):
         if value is None:

@@ -1,5 +1,5 @@
 from flask_restful import Resource, reqparse
-from models.category import Category
+from models.category_model import Category
 from models.common.response import CommonResponse
 
 
