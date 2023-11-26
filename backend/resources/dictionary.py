@@ -53,7 +53,7 @@ class DictionaryResource(Resource):
         """
         dictionary = Dictionary.find_by_word(word)
         if dictionary:
-            return CommonResponse.ok(message="Dictionary found.", data=dictionary.json()).json(), 200
+            return CommonResponse.ok(message="Dictionary found.", data=dictionary.json())
         return CommonResponse.not_found(message="Dictionary not found.")
 
     def post(self):
@@ -376,8 +376,8 @@ class DictionaryListResource(Resource):
                 created_dictionaries.append(dictionary.json())
 
         if created_dictionaries:
-            return CommonResponse.created(message="Dictionaries created.", data=created_dictionaries).json(), 201
+            return CommonResponse.created(message="Dictionaries created.", data=created_dictionaries)
         elif conflicting_dictionaries:
-            return CommonResponse.conflict(message="One or more dictionaries already exist.", data=conflicting_dictionaries).json(), 409
+            return CommonResponse.conflict(message="One or more dictionaries already exist.", data=conflicting_dictionaries)
         else:
-            return CommonResponse.not_found(message="No dictionaries provided for creation.").json()
+            return CommonResponse.not_found(message="No dictionaries provided for creation.")
