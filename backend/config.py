@@ -6,8 +6,8 @@ load_dotenv()
 
 class Config:
     DEBUG = False
-    SECRET_KEY = os.getenv('SECRET_KEY')  # Cần cung cấp giá trị SECRET_KEY từ biến môi trường
-    UPLOAD_FOLDER = os.getenv('UPLOAD_FOLDER','backend/static/') #'backend/static/uploads/'
+    SECRET_KEY = os.getenv('SECRET_KEY', 'chatbotsupportcostome@abcxyz')
+    UPLOAD_FOLDER = os.getenv('UPLOAD_FOLDER','backend/static/')
     IMAGE_DEFAULT_URL = os.getenv('IMAGE_DEFAULT_URL','http://127.0.0.1:5000/static/')
 
 class DevelopmentConfig(Config):
