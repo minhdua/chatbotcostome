@@ -8,6 +8,7 @@ import requests
 import torch
 import torch.nn as nn
 from app_factory import admin, api, app
+from resources.dictionary import DictionaryListResource, DictionaryResource
 from chat import get_response
 from config import swagger_config, swagger_template
 from app_factory import db
@@ -175,6 +176,10 @@ api.add_resource(CNNTrainingResource, "/training")
 api.add_resource(AiConfigResource, "/ai_configs")
 api.add_resource(BestCNNModelUpdateResource, "/best_cnn_model")
 api.add_resource(UpdateAccuracyResource, "/update_accuracy")
+
+# NLP
+api.add_resource(DictionaryResource, "/dictionaries/<int:dictionary_id>")
+api.add_resource(DictionaryListResource, "/dictionaries")
 
 swagger = Swagger(app, config=swagger_config, template=swagger_template)
 admin.add_view(ModelView(Intent, db.session))
