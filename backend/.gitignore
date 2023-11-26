@@ -51,3 +51,6 @@ __pycache__/
 
 # Environments
 .env
+
+# cnn data training
+static/training/
