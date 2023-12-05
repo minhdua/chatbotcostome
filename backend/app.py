@@ -263,7 +263,7 @@ def find_word(question):
     dictionaries = Dictionary.query.all()
     
     for dictionary in dictionaries:
-        synonyms_array = [normalize_text(synonyms) for synonyms in json.loads(dictionary.synonyms)]
+        synonyms_array = [normalize_text(synonyms) for synonyms in dictionary.synonyms]
         if normalize_text(question) in synonyms_array:
             categories.append(dictionary.word)
     return categories
