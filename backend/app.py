@@ -13,7 +13,7 @@ from chat import get_response
 from config import swagger_config, swagger_template
 from app_factory import db
 from flasgger import Swagger
-from flask import jsonify, make_response, render_template, request, send_from_directory
+from flask import jsonify, make_response, redirect, render_template, request, send_from_directory
 from flask_admin.contrib.sqla import ModelView
 from flask_cors import CORS
 from models.category_model import Category
@@ -49,10 +49,12 @@ from resources.category import CategoryListResource
 from resources.cnn.attribute_prediction import AttributePredictionCreateListResource
 from resources.cnn.category_prediction import CategoryPredictionCreateListResource
 from resources.cnn.clothing_image_features import (
+    CNNPredictResource,
     ClothingImageFeaturesCreateListResource,
     ClothingImageFeaturesNewIdResource,
     ClothingImageFeaturesResource,
     CNNTrainingResource,
+    PreProcessingResource,
     UpdateAccuracyResource,
 )
 from resources.cnn.search_image import extract_features
@@ -76,7 +78,6 @@ from resources.product import (
 from sqlalchemy import text
 from torch.utils.data import DataLoader, Dataset
 from utils import allowed_file
-from werkzeug.utils import secure_filename
 
 with app.app_context():
     download_nltk_data()
@@ -134,6 +135,12 @@ def redirect_to_swagger():
 
 @app.post('/predict')
 def predict():
+    """
+    Predict
+    ---
+    tags:
+      - predict
+    """
     text = request.form.get('message')
     if (len(text) > 0):
         response = get_response(text)
@@ -176,6 +183,8 @@ api.add_resource(CNNTrainingResource, "/training")
 api.add_resource(AiConfigResource, "/ai_configs")
 api.add_resource(BestCNNModelUpdateResource, "/best_cnn_model")
 api.add_resource(UpdateAccuracyResource, "/update_accuracy")
+api.add_resource(PreProcessingResource, "/pre_processing")
+api.add_resource(CNNPredictResource, "/image_predict")
 
 # NLP
 api.add_resource(DictionaryResource, "/dictionaries/<int:dictionary_id>")

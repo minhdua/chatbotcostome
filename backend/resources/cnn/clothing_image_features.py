@@ -3,6 +3,7 @@ import pdb
 import pandas as pd
 from flask import request
 from flask_restful import Resource, reqparse
+from resources.cnn.data_preprocessing import data_preprocessing, get_preprocessing_info
 from models.clothing_image_features_model import (
     ClothingImageFeatures,  # Thay thế 'clothing_image_features' bằng tên thực tế của module
 )
@@ -15,7 +16,8 @@ from resources.cnn.fashion_net import (
     compute_test_accuracy,
     load_modelfile,
 )
-
+from resources.cnn.search_image import extract_features
+from werkzeug.utils import secure_filename
 
 class ClothingImageFeaturesResource(Resource):
 	parser = reqparse.RequestParser()
@@ -502,4 +504,140 @@ class UpdateAccuracyResource(Resource):
 		return CommonResponse.ok(message="Accuracy updated.")
 
 
-			
+class PreProcessingResource(Resource):
+	def get(self):
+		"""
+		Get Information about Data Pre-processing.
+		---
+		tags:
+			- CNN
+			- Training
+		responses:
+			200:
+				description: Information about Data Pre-processing
+				schema:
+				id: CNNTraining
+				properties:
+					data:
+						type: string
+						description: Information about Data Pre-processing
+		"""
+		# Gọi hàm tiền xử lý
+		data = get_preprocessing_info()
+		return CommonResponse.ok(message="Information about Data Pre-processing.", data=data)
+	
+	def post(self):
+		"""
+		Pre-process the data.
+		---
+		tags:
+			- CNN
+			- Training
+		responses:
+			200:
+				description: Pre-processing started
+				schema:
+				id: CNNTraining
+				properties:
+					data:
+						type: string
+						description: Pre-processing started
+		"""
+		# Gọi hàm tiền xử lý
+		data = data_preprocessing()
+		return CommonResponse.ok(message="Pre-processing successful.", data=data)
+
+class CNNPredictResource(Resource):
+	def get(self):
+		"""
+		Predict the category of the image.
+		---
+		tags:
+			- CNN
+			- Training
+		parameters:
+			- in: formData
+			  name: image
+			  type: file
+			  required: true
+			  description: The image file
+		responses:
+			200:
+				description: Category predicted
+				schema:
+				id: CNNPredict
+				properties:
+					data:
+						type: string
+						description: Category predicted
+		"""
+		args = request.args
+		image_path = args.get('image_path')
+		# Gọi hàm dự đoán
+		predictions = extract_features(image_path)
+		return CommonResponse.ok(message="Category predicted.", data=predictions)
+	
+class UploadImageResource(Resource):
+    """
+    Upload image resource
+    ---
+    tags:
+      - CNN
+    parameters:
+        - in: formData
+            name: image
+            type: file
+            required: true
+            description: The file to upload.
+    responses:
+        200:
+            description: The image has been uploaded successfully.
+        400:
+            description: The image has not been uploaded.
+    """
+    def post(self):
+        if 'file_image' in request.files:
+            return self.upload_image(request)
+
+    def upload_image(self, request):
+        file = request.files['file_image']
+        session_user = request.form.get('session_user')
+        
+        if file and self.allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(file_path)
+            
+            attributes, category = self.extract_features(file_path)
+            attribute_ids = ','.join([str(attribute.id) for attribute in attributes])
+            category_ids = ','.join([str(cate.id) for cate in category])
+            
+            product_url = ResponseURL.URL_IMAGE.value.format(attributes=attribute_ids, categories=category_ids)
+            
+            response_chatbot = ""
+            if len(attributes) > 0 or len(category) > 0:
+                response_chatbot += ResponseURL.TAG_A.value.format(url=product_url, text_user=ResponseMessage.MESSAGE_RESPONSE.value)
+            else:
+                response_chatbot = ResponseMessage.MESSAGE_NOTFOUND.value
+            
+            user_say_image_url = f"{request.host_url}static/uploads/{filename}"
+            
+            history = History(
+                session_user=session_user,
+                user_say=user_say_image_url,
+                chat_response=response_chatbot,
+                concepts=json.dumps([]),
+                message_type=MessageType.IMAGE.value
+            )
+            history.save()
+            
+            return jsonify({
+                "answer": response_chatbot
+            })
+        else:
+            return jsonify({
+                "message": "Các loại hình ảnh được phép là -> png, jpg, jpeg, gif",
+                "url": request.url,
+                "attributes": attributes,
+                "categories": category,
+            })

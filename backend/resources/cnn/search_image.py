@@ -22,3 +22,4 @@ def extract_features(image_path):
     # Perform inference on the image using the loaded model
     predictions = predict_attributes_and_category(image_path, model)
     return predictions
+

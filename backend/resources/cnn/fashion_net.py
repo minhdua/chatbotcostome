@@ -891,7 +891,7 @@ def compute_test_accuracy(model, test_df, batch_size=64):
 
     red_green_cates_acc = np.mean(np.equal(np.argmax(triplet_pred, axis=1), cates_true))
 
-    mlb = CustomMultiLabelBinarizer(warn_for='ignore')
+    mlb = CustomMultiLabelBinarizer()
     mlb.classes_ = list(range(num_attr))
     attrs_true = mlb.transform(test_df['attribute_labels'].values)  
     red_green_attrs_acc = np.mean([
