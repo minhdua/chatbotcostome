@@ -9,7 +9,7 @@ import torch
 import torch.nn as nn
 from app_factory import admin, api, app
 from resources.dictionary import DictionaryListResource, DictionaryResource
-from chat import get_response
+# from chat import get_response
 from config import swagger_config, swagger_template
 from app_factory import db
 from flasgger import Swagger
@@ -56,6 +56,7 @@ from resources.cnn.clothing_image_features import (
     CNNTrainingResource,
     PreProcessingResource,
     UpdateAccuracyResource,
+    UploadImageResource,
 )
 from resources.cnn.search_image import extract_features
 from resources.history import HistoryBySessionResource, HistoryListResource
@@ -185,7 +186,7 @@ api.add_resource(BestCNNModelUpdateResource, "/best_cnn_model")
 api.add_resource(UpdateAccuracyResource, "/update_accuracy")
 api.add_resource(PreProcessingResource, "/pre_processing")
 api.add_resource(CNNPredictResource, "/image_predict")
-
+api.add_resource(UploadImageResource, "/upload_image")
 # NLP
 api.add_resource(DictionaryResource, "/dictionaries/<int:dictionary_id>")
 api.add_resource(DictionaryListResource, "/dictionaries")
@@ -201,6 +202,7 @@ admin.add_view(OrderAdminView(Order, db.session))
 admin.add_view(OrderProductAdminView(OrderProduct, db.session))
 admin.add_view(ModelView(History, db.session))
 admin.add_view(ModelView(Tag, db.session))
+
 
 @app.route('/static/<path:path>')
 def send_static(path):

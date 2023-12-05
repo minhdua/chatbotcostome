@@ -1,8 +1,13 @@
+import json
+import os
 import pdb
 
 import pandas as pd
+from models.enum import MessageType, ResponseMessage, ResponseURL
+from models.history_model import History
 from flask import request
 from flask_restful import Resource, reqparse
+from flask import jsonify
 from resources.cnn.data_preprocessing import data_preprocessing, get_preprocessing_info
 from models.clothing_image_features_model import (
     ClothingImageFeatures,  # Thay thế 'clothing_image_features' bằng tên thực tế của module
@@ -18,6 +23,7 @@ from resources.cnn.fashion_net import (
 )
 from resources.cnn.search_image import extract_features
 from werkzeug.utils import secure_filename
+from app_factory import app
 
 class ClothingImageFeaturesResource(Resource):
 	parser = reqparse.RequestParser()

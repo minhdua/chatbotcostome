@@ -22,12 +22,12 @@ export class ChatbotService {
 
   /**
    * sendQuestionByImage
-   * @method POST /upload_file
+   * @method POST /upload_image
    * @body file_image: file
    * @return object: conversation
    */
   sendQuestionByImage(question: any): Observable<any> {
-    const url = `${environment.apiUrl}/upload_file`;
+    const url = `${environment.apiUrl}/upload_image`;
     return this._base.post(url, question, true);
   }
 

@@ -1,59 +1,34 @@
 import os
+import logging
 from datetime import datetime
+from pathlib import Path
+import math
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from PIL import Image
+from sklearn.preprocessing import MultiLabelBinarizer
+import keras
+from keras.layers import Layer
+import imgaug as ia
+import tensorflow as tf
+from imgaug import augmenters as iaa
+from keras import backend as K
+from keras import layers
+from keras.models import Model
+from keras.applications import VGG16
+from keras.applications.resnet50 import preprocess_input
+from keras.optimizers import Adam
+from keras.preprocessing.image import array_to_img, img_to_array
+from keras.utils import Sequence, to_categorical
+from keras.callbacks import CSVLogger, LambdaCallback, ModelCheckpoint, TensorBoard
 
 from models.attribute_prediction_model import AttributePrediction
 from models.category_prediction_model import CategoryPrediction
 from models.clothing_image_features_model import ClothingImageFeatures
 from models.fashionet_model import FashionNetModel
-import logging
-os.environ["CUDA_VISIBLE_DEVICES"] = '2'  # which gpu to use
 
-import os
-
-# import cv2
-import tensorflow as tf
-from keras import backend as K
-from keras import layers
-
-# import keras_applications
-# from keras_applications.resnet import ResNet50, ResNet101, ResNet152
-from keras.applications import VGG16
-from keras.layers import Layer
-from keras.models import Model
-
-os.environ["CUDA_VISIBLE_DEVICES"] = '2'  # which gpu to use
-import itertools
-import math
-from multiprocessing.pool import Pool
-from pathlib import Path
-
-import cv2
-import imgaug as ia
-import keras
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-import six
-import tensorflow as tf
-from imgaug import augmenters as iaa
-from keras import backend
-from keras import backend as K
-from keras import layers, models, utils
-
-# import keras_applications
-# from keras_applications.resnet import ResNet50, ResNet101, ResNet152
-from keras.applications import VGG16
-from keras.applications.resnet50 import preprocess_input
-from keras.callbacks import CSVLogger, LambdaCallback, ModelCheckpoint, TensorBoard
-from keras.layers import Layer
-from keras.models import Model, Sequential
-
-# from keras_contrib.applications import ResNet
-from keras.optimizers import Adam
-from keras.preprocessing.image import array_to_img, img_to_array
-from keras.utils import Sequence, to_categorical
-from PIL import Image, ImageFile
-from sklearn.preprocessing import MultiLabelBinarizer
 
 image_shape = (224, 224, 3)  # all images will be adjusted to this shape
 no_model = 1
