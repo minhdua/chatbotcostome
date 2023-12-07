@@ -53,7 +53,7 @@ class MessageType(Enum):
     
 class ResponseURL(Enum):
     URL_PRODUCT = 'http://127.0.0.1:5000/products?category={categories}'
-    URL = 'http://localhost:4200/shop?page=1&per_page=200&category='
+    URL = 'http://localhost:4200/shop?page=1&per_page=200&category={categories}&size={size}&color={color}'
     TAG_A = ' <a href="{url}" target="_blank" id="link_show_product">{text_user}</a>.'
     URL_IMAGE = 'http://localhost:4200/shop?page=1&per_page=200&attributes_predict={attributes}&categories_predict={categories}'
     
