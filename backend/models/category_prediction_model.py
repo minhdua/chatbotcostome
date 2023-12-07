@@ -1,4 +1,5 @@
 from app_factory import db
+from models.enum import CategoryTypeEnum, GenderEnum
 from models.base_mixin import BaseMixin
 from models.product_category_model import ProductCategories
 
@@ -7,6 +8,8 @@ class CategoryPrediction(db.Model, BaseMixin):
 	__tablename__ = "category_prediction"
 	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 	name = db.Column(db.String(255), nullable=False)
+	type = db.Column(db.Enum(CategoryTypeEnum), nullable=True, name="categorytypeenum")
+	gender = db.Column(db.Enum('MEN', 'WOMEN', name='genderenum', create_type=True), nullable=False, server_default='MEN')
 	products = db.relationship("Product", secondary=ProductCategories.__tablename__, lazy=True, backref=db.backref("category_predictions", lazy=True))
 	# Các trường dữ liệu khác cho mô hình CategoryPrediction
 

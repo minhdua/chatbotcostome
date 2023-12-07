@@ -97,6 +97,9 @@ class ClothingImageFeatures(db.Model, BaseMixin):
         self.category_label = category_label
         self.gender = gender
 
+    def find_by_image_name(image_name):
+        return ClothingImageFeatures.query.filter_by(image_name=image_name).first()
+    
     def __repr__(self):
         return f"ClothingImageFeatures(id={self.id}, image_name={self.image_name}, item_id={self.item_id}, evaluation_status={self.evaluation_status}, ...)"
 

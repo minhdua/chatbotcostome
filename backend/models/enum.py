@@ -47,6 +47,9 @@ class CategoryTypeEnum(Enum):
     FOOTWEAR = "Footwear"
     OTHERS = "Others"
 
+class GenderEnum(Enum):
+    MEN = 1
+    WOMEN = 0
 class MessageType(Enum):
     TEXT = "text"
     IMAGE = "image"

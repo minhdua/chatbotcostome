@@ -57,3 +57,10 @@ static/training/
 
 # migrations
 migrations/
+
+
+# cnn model
+*.h5
+*.hdf5
+*.v2
+*.kares
