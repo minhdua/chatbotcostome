@@ -9,7 +9,8 @@ import torch
 import torch.nn as nn
 from app_factory import admin, api, app
 from resources.dictionary import DictionaryListResource, DictionaryResource
-# from chat import get_response
+from chat import get_response
+from werkzeug.utils import secure_filename
 from config import swagger_config, swagger_template
 from app_factory import db
 from flasgger import Swagger
