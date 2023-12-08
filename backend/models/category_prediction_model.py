@@ -1,4 +1,5 @@
 from app_factory import db
+from models.dictionary_model import Dictionary
 from models.enum import CategoryTypeEnum, GenderEnum
 from models.base_mixin import BaseMixin
 from models.product_category_model import ProductCategories
@@ -22,9 +23,13 @@ class CategoryPrediction(db.Model, BaseMixin):
 
 	def json(self):
 		# product_json = [p.json() for p in self.products]
+		name_other = Dictionary.find_by_word(self.name)
 		return {
 			"id": self.id,
 			"name": self.name,
+			"type": self.type,
+			"gender": self.gender.value,
+			"name_other": name_other.synonyms,
 			# "products": product_json,
 		}
 	

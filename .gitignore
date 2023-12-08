@@ -2,4 +2,4 @@
 .vscode/
 localtools/
 migrations/
-backend/resources/cnn/models/fashionnet/ckpt_model.2023-12-04_01-59-39.00-6.3877-1.4989.keras
+*.keras

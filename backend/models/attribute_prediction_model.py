@@ -1,4 +1,5 @@
 from app_factory import db
+from models.dictionary_model import Dictionary
 from models.base_mixin import BaseMixin
 from models.product_attribute_model import ProductAttributes
 
@@ -19,9 +20,11 @@ class AttributePrediction(db.Model, BaseMixin):
 	
 	def json(self):
 		# product_json = [p.json() for p in self.products]
+		name_other = Dictionary.find_by_word(self.name)
 		return {
 			"id": self.id,
 			"name": self.name,
+			"name_other": name_other.synonyms,
 			# "products": product_json,
 		}
 	

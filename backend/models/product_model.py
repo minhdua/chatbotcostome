@@ -15,6 +15,7 @@ from utils import DEFAULT_PRODUCT_IMAGE_URL
 
 class ProductSizeEnum(BaseMixin, db.Model):
     __tablename__ = "product_size_enum"
+    extend_existing=True
 
     product_id = db.Column(db.Integer, db.ForeignKey("product.id"), primary_key=True)
     size = db.Column(db.Enum(SizeEnum), primary_key=True)
@@ -85,7 +86,7 @@ class Product(db.Model, BaseMixin):
         tags = [],
         orders = [],
         attributes_prediciton = [],
-        categories_prediction = [],
+        categories_prediction = []
     ):
         self.name = name
         self.price = price
@@ -99,7 +100,6 @@ class Product(db.Model, BaseMixin):
         self.orders = orders
         self.attributes_prediciton = attributes_prediciton
         self.categories_prediction = categories_prediction
-
     def __repr__(self):
         sizes_str = "[" + ", ".join(serialize_enum_list([e.size for e in self.sizes])) + "]"
         colors_str = "[" + ", ".join(serialize_enum_list([e.color for e in self.colors])) + "]"
@@ -201,7 +201,20 @@ class Product(db.Model, BaseMixin):
         return cls.query.filter_by(category_id=category_id).all()
     
 
+    @classmethod
+    def find_by_image_url(cls, image_url):
+        products = cls.query.all()
+        for product in products:
+            product_image_url = product.image_url.split("/")[-3:]
+            product_image_url = "/".join(product_image_url)
 
+            image_url = image_url.split("/")[-3:]
+            image_url = "/".join(image_url)
+
+            if product_image_url == image_url:
+                return product
+        return None
+    
 # Lớp cơ sở cho chiến lược filter
 class ProductFilterStrategy:
     def filter(self, products):
@@ -310,6 +323,41 @@ class ProductFilterByCategoryPrediction(ProductFilterStrategy):
         filter_result = list(filter(lambda p: p.id in product_ids , products))
         sorted_result = sorted(filter_result, key=lambda p: p.categories_prediction.count(self.categories_prediction), reverse=True)
         return sorted_result
+
+class ProductFilterByCategoryPredictionAndAttributePrediction(ProductFilterStrategy):
+    def __init__(self, categories_prediction, attributes_prediction):
+        self.categories_prediction = categories_prediction
+        self.attributes_prediction = attributes_prediction
+        self.threshold = 0
+
+    def set_threshold(self, threshold):
+        self.threshold = threshold
+        return self
+
+    def filter(self, products):
+        if self.categories_prediction is None:
+            self.categories_prediction = []
+
+        # Loop through all categories prediction, find all products that have the same category prediction. after count the number of products that have the same attribute prediction and sort the result by the number of products that have the same attribute prediction
+        result = []
+        for category_prediction in self.categories_prediction:
+            product_categories = ProductCategories.query.with_entities(ProductCategories.product_id).filter(ProductCategories.category_predict_id == category_prediction).all()
+            product_ids = [product_category[0] for product_category in product_categories]
+            filter_result = list(filter(lambda p: p.id in product_ids , products))
+            sorted_result = sorted(filter_result, key=lambda p: p.attributes_prediction.count(self.attributes_prediction), reverse=True)
+            products = sorted_result
+
+        # Filter products based on the threshold for attribute prediction matching percentage
+        filtered_products = []
+        for product in products:
+            if product.id in product_ids:
+                matching_percentage = product.attributes_prediction.count(self.attributes_prediction) / len(self.attributes_prediction)
+                if matching_percentage >= self.threshold:
+                    filtered_products.append(product)
+
+        sorted_result = sorted(filtered_products, key=lambda p: p.attributes_prediction.count(self.attributes_prediction), reverse=True)
+
+
 
 # Lớp thực hiện việc filter sản phẩm
 class ProductFilter:

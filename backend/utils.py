@@ -15,6 +15,7 @@ def allowed_file(filename):
 DEFAULT_PRODUCT_IMAGE_URL = "products/no_image.png"
 CNN_MODEL_NAME = 'cnn_model_name'
 ATTRIBUTE_THRESHOLD = 'attribute_threshold'
+IMAGE_SEARCH_MODE = 'image_search_mode'
 
 def if_not_none(value, default):
         if value is None:

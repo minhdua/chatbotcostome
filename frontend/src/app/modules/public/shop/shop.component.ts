@@ -50,6 +50,9 @@ export class ShopComponent {
   // Danh mục dự đoán
   categories_predict = '';
 
+  // Sản phẩm dự đoán
+  products_predict = '';
+
   // Danh sách danh mục được lọc
   filterCategories: string[] = [];
 
@@ -79,7 +82,7 @@ export class ShopComponent {
   // Lấy tham số từ URL
   getParam() {
     this._route.queryParams.subscribe((params) => {
-      const { category, size, color, attributes_predict, categories_predict } = params;
+      const { category, size, color, attributes_predict, categories_predict, products_predict } = params;
 
       if (category) {
         this.filterCategories = category && category.split(',');
@@ -88,6 +91,7 @@ export class ShopComponent {
       this.color = color || '';
       this.attributes_predict = attributes_predict || '';
       this.categories_predict = categories_predict || '';
+      this.products_predict = products_predict || '';
     });
   }
 
@@ -114,6 +118,7 @@ export class ShopComponent {
       size: this.size,
       attributes_predict: this.attributes_predict,
       categories_predict: this.categories_predict,
+      products_predict: this.products_predict,
     };
     this._productService.getProducts(param).subscribe(
       (res) => {

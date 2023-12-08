@@ -1,8 +1,16 @@
 import json
+import math
 import os
 import pdb
+import pickle
+import numpy as np
 
 import pandas as pd
+from models.product_model import Product
+from models.ai_config_model import AiConfig
+from resources.cnn.search_image import extract_features
+from resources.cnn.store_vectors import extract_vector, get_extract_model
+from utils import IMAGE_SEARCH_MODE, allowed_file
 from models.enum import MessageType, ResponseMessage, ResponseURL
 from models.history_model import History
 from flask import request
@@ -21,10 +29,13 @@ from resources.cnn.fashion_net import (
     compute_test_accuracy,
     load_modelfile,
 )
-from resources.cnn.search_image import extract_features
+
 from werkzeug.utils import secure_filename
 from app_factory import app
-
+from PIL import Image
+MODEL_FOLDER_PATH = "backend/resources/cnn/models/vectors/"
+VECTOR_FILE = "vectors.pkl"
+PATH_FILE = "paths.pkl"
 class ClothingImageFeaturesResource(Resource):
 	parser = reqparse.RequestParser()
 	parser.add_argument("image_name", type=str, required=True, help="This field cannot be blank.")
@@ -554,7 +565,7 @@ class PreProcessingResource(Resource):
 		return CommonResponse.ok(message="Pre-processing successful.", data=data)
 
 class CNNPredictResource(Resource):
-	def get(self):
+	def post(self):
 		"""
 		Predict the category of the image.
 		---
@@ -577,73 +588,161 @@ class CNNPredictResource(Resource):
 						type: string
 						description: Category predicted
 		"""
-		args = request.args
-		image_path = args.get('image_path')
-		# Gọi hàm dự đoán
-		predictions = extract_features(image_path)
-		return CommonResponse.ok(message="Category predicted.", data=predictions)
-	
-class UploadImageResource(Resource):
-    """
-    Upload image resource
-    ---
-    tags:
-      - CNN
-    parameters:
-        - in: formData
-            name: image
-            type: file
-            required: true
-            description: The file to upload.
-    responses:
-        200:
-            description: The image has been uploaded successfully.
-        400:
-            description: The image has not been uploaded.
-    """
-    def post(self):
-        if 'file_image' in request.files:
-            return self.upload_image(request)
+		file = request.files['image']
+		
+		if file and allowed_file(file.filename):
+			filename = secure_filename(file.filename)
+			image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+			file.save(image_path)
+			category, attributes = extract_features(image_path)
+			return CommonResponse.ok(message="Category predicted.", data={
+				"attributes": [attribute.json() for attribute in attributes],
+				"category": [cate.json() for cate in category],
+			})
+		return CommonResponse.bad_request(message="Invalid file.")
 
-    def upload_image(self, request):
-        file = request.files['file_image']
-        session_user = request.form.get('session_user')
-        
-        if file and self.allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            file.save(file_path)
-            
-            attributes, category = self.extract_features(file_path)
-            attribute_ids = ','.join([str(attribute.id) for attribute in attributes])
-            category_ids = ','.join([str(cate.id) for cate in category])
-            
-            product_url = ResponseURL.URL_IMAGE.value.format(attributes=attribute_ids, categories=category_ids)
-            
-            response_chatbot = ""
-            if len(attributes) > 0 or len(category) > 0:
-                response_chatbot += ResponseURL.TAG_A.value.format(url=product_url, text_user=ResponseMessage.MESSAGE_RESPONSE.value)
-            else:
-                response_chatbot = ResponseMessage.MESSAGE_NOTFOUND.value
-            
-            user_say_image_url = f"{request.host_url}static/uploads/{filename}"
-            
-            history = History(
-                session_user=session_user,
-                user_say=user_say_image_url,
-                chat_response=response_chatbot,
-                concepts=json.dumps([]),
-                message_type=MessageType.IMAGE.value
-            )
-            history.save()
-            
-            return jsonify({
-                "answer": response_chatbot
-            })
-        else:
-            return jsonify({
-                "message": "Các loại hình ảnh được phép là -> png, jpg, jpeg, gif",
-                "url": request.url,
-                "attributes": attributes,
-                "categories": category,
-            })
+class UploadImageResource(Resource):
+
+	def post(self):
+		"""
+		Upload image resource
+		---
+		tags:
+		- CNN
+		parameters:
+			- in: formData
+			  name: file_image
+			  type: file
+			  required: true
+			  description: The file to upload.
+		responses:
+			200:
+				description: The image has been uploaded successfully.
+			400:
+				description: The image has not been uploaded.
+		"""
+		if 'file_image' in request.files:
+			return self.upload_image(request)
+
+	def upload_image(self, request):
+		file = request.files['file_image']
+		session_user = request.form.get('session_user') or 'anonymous'
+		
+		if file and allowed_file(file.filename):
+			filename = secure_filename(file.filename)
+			file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+			file.save(file_path)
+			
+			search_mode = AiConfig.find_by_name(IMAGE_SEARCH_MODE).string_value
+			if search_mode == 'cnn':
+				category, attributes = extract_features(file_path)
+			else:
+				# Dinh nghia anh can tim kiem
+
+				# Khoi tao model
+				model = get_extract_model()
+
+				# Trich dac trung anh search
+				search_vector = extract_vector(model, file_path)
+
+				# Load 4700 vector tu vectors.pkl ra bien
+				vector_file = os.path.join(MODEL_FOLDER_PATH,VECTOR_FILE)
+				path_file = os.path.join(MODEL_FOLDER_PATH,PATH_FILE)
+				vectors = pickle.load(open(vector_file,"rb"))
+				paths = pickle.load(open(path_file,"rb"))
+
+				# Tinh khoang cach tu search_vector den tat ca cac vector
+				distance = np.linalg.norm(vectors - search_vector, axis=1)
+
+				# Sap xep va lay ra K vector co khoang cach ngan nhat
+				K = 16
+				ids = np.argsort(distance)[:K]
+
+				# Tao oputput
+				nearest_image = [(paths[id], distance[id]) for id in ids]
+
+				# sort image desc
+				sorted_image = sorted(nearest_image, key=lambda x: x[1], reverse=False)
+
+				category = []
+				attributes = []
+				for image_path, distance in sorted_image:
+					product = Product.find_by_image_url(image_path)
+					if product:
+						category.extend(product.categories_prediction)
+						attributes.extend(product.attributes_prediciton)
+
+			attribute_ids = ','.join([str(attribute.id) for attribute in attributes])
+			category_ids = ','.join([str(cate.id) for cate in category])
+			
+			product_url = ResponseURL.URL_IMAGE.value.format(attributes=attribute_ids, categories=category_ids)
+			
+			response_chatbot = ""
+			if len(attributes) > 0 or len(category) > 0:
+				response_chatbot += ResponseURL.TAG_A.value.format(url=product_url, text_user=ResponseMessage.MESSAGE_RESPONSE.value)
+			else:
+				response_chatbot = ResponseMessage.MESSAGE_NOTFOUND.value
+			
+			user_say_image_url = f"{request.host_url}static/uploads/{filename}"
+			
+			history = History(
+				session_user=session_user,
+				user_say=user_say_image_url,
+				chat_response=response_chatbot,
+				concepts=json.dumps([]),
+				message_type=MessageType.IMAGE.value
+			)
+			history.save()
+			
+			return jsonify({
+				"answer": response_chatbot
+			})
+		else:
+			return jsonify({
+				"message": "Các loại hình ảnh được phép là -> png, jpg, jpeg, gif",
+				"url": request.url,
+				"attributes": attributes,
+				"categories": category,
+			})
+
+
+class StoreImageVector(Resource):
+	
+	def post(self):
+		"""
+		Store image vector
+		---
+		tags:
+			- CNN
+		responses:
+			200:
+				description: The image has been uploaded successfully.
+		"""
+		# Dinh nghia thu muc data
+
+		data_folder = os.path.join(app.config['UPLOAD_FOLDER'], 'products/')
+
+		# Khoi tao model
+		model = get_extract_model()
+
+		vectors = []
+		paths = []
+
+		for image_path in os.listdir(data_folder):
+			# Noi full path
+			image_path_full = os.path.join(data_folder, image_path)
+			# Trich dac trung
+			image_vector = extract_vector(model,image_path_full)
+			# Add dac trung va full path vao list
+			vectors.append(image_vector)
+			paths.append(image_path_full)
+
+		# save vao file
+		vector_file = os.path.join(MODEL_FOLDER_PATH,VECTOR_FILE)
+		path_file = os.path.join(MODEL_FOLDER_PATH,PATH_FILE)
+
+		pickle.dump(vectors, open(vector_file, "wb"))
+		pickle.dump(paths, open(path_file, "wb"))
+
+		return CommonResponse.ok(message="Store image vector successfully.")
+	

@@ -113,7 +113,7 @@ class ProductResource(Resource):
                 filename = secure_filename(image.filename)
                 file_path_save = os.path.join(app.config['UPLOAD_FOLDER'], 'products/', filename)
                 image.save(file_path_save)
-                attributes, categories = extract_features(file_path_save)
+                categories, attributes = extract_features(file_path_save)
                 if len(attributes) > 0:
                     ProductAttributes.delete_by_product_id(product_id)
                     for attribute in attributes:
@@ -542,7 +542,7 @@ class ProductCNNResource(Resource):
                 file_path = product.image_url.replace(app.config['IMAGE_DEFAULT_URL'], app.config['UPLOAD_FOLDER'])
                 if not os.path.exists(file_path) or file_path == default_image_url:
                     continue
-                attributes, categories = extract_features(file_path)
+                categories, attributes = extract_features(file_path)
                 if len(attributes) > 0:
                     ProductAttributes.delete_by_product_id(product.id)
                     for attribute in attributes:

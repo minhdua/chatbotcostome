@@ -55,6 +55,7 @@ from resources.cnn.clothing_image_features import (
     ClothingImageFeaturesResource,
     CNNTrainingResource,
     PreProcessingResource,
+    StoreImageVector,
     UpdateAccuracyResource,
     UploadImageResource,
 )
@@ -95,7 +96,7 @@ def upload_image(request):
         file_path = os.path.join(app.config['UPLOAD_FOLDER']+"/uploads", filename)
         file.save(file_path)
         
-        attributes, category = extract_features(file_path)
+        category, attributes = extract_features(file_path)
         attribute_ids = ','.join([str(attribute.id) for attribute in attributes])
         category_ids = ','.join([str(cate.id) for cate in category])
         
@@ -187,21 +188,12 @@ api.add_resource(UpdateAccuracyResource, "/update_accuracy")
 api.add_resource(PreProcessingResource, "/pre_processing")
 api.add_resource(CNNPredictResource, "/image_predict")
 api.add_resource(UploadImageResource, "/upload_image")
+api.add_resource(StoreImageVector, "/store_image_vector")
 # NLP
 api.add_resource(DictionaryResource, "/dictionaries/<int:dictionary_id>")
 api.add_resource(DictionaryListResource, "/dictionaries")
 
 swagger = Swagger(app, config=swagger_config, template=swagger_template)
-admin.add_view(ModelView(Intent, db.session))
-admin.add_view(ModelView(Pattern, db.session))
-admin.add_view(ModelView(Response, db.session))
-admin.add_view(ModelView(Dictionary, db.session))
-admin.add_view(ModelView(Category, db.session))
-admin.add_view(ModelView(Product, db.session))
-admin.add_view(OrderAdminView(Order, db.session))
-admin.add_view(OrderProductAdminView(OrderProduct, db.session))
-admin.add_view(ModelView(History, db.session))
-admin.add_view(ModelView(Tag, db.session))
 
 
 @app.route('/static/<path:path>')
