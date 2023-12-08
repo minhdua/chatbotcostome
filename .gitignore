@@ -3,3 +3,4 @@
 localtools/
 migrations/
 *.keras
+backend/env

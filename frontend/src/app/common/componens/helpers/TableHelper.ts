@@ -16,7 +16,7 @@ export class TableHelper {
     table: ITable = {
         totalRecordsCount: 0,
         currentPage: 0,
-        pageSize: 10,
+        pageSize: 100,
         predefinedRecordsCountPerPage: [5, 10, 25, 50, 100, 250, 500],
     };
 
