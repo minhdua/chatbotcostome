@@ -55,11 +55,39 @@ class MessageType(Enum):
     IMAGE = "image"
     
 class ResponseURL(Enum):
+    BASE_URL = 'http://localhost:4200/shop?page=1&per_page=200'
     URL_PRODUCT = 'http://127.0.0.1:5000/products?category={categories}'
     URL = 'http://localhost:4200/shop?page=1&per_page=200&category={categories}&size={size}&color={color}'
     TAG_A = ' <a href="{url}" target="_blank" id="link_show_product">{text_user}</a>.'
     URL_IMAGE = 'http://localhost:4200/shop?page=1&per_page=200&attributes_predict={attributes}&categories_predict={categories}'
     
+    def get_url(categories = [], size = None, color = None, categories_predict = [], attributes_predict = [], products_predict = []):
+        url = ResponseURL.BASE_URL.value
+        if len(categories) > 0:
+            url = ResponseURL.URL.value
+            categories = ','.join(categories)
+            url = url + '&category=' + categories
+
+        if size is not None:
+            url = url + '&size=' + size
+
+        if color is not None:
+            url = url + '&color=' + color
+
+        if len(categories_predict) > 0:
+            url = ResponseURL.URL_IMAGE.value
+            categories_predict = ','.join(categories_predict)
+            url = url + '&categories_predict=' + categories_predict
+
+        if len(attributes_predict) > 0:
+            attributes_predict = ','.join(attributes_predict)
+            url = url + '&attributes_predict=' + attributes_predict
+
+        if len(products_predict) > 0:
+            products_predict = ','.join(products_predict)
+            url = url + '&products_predict=' + products_predict
+
+        return url
 class EnumValueLabel:
     def __init__(self, value, label):
         self.value = value

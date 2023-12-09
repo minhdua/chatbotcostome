@@ -83,7 +83,6 @@ export class ShopComponent {
   getParam() {
     this._route.queryParams.subscribe((params) => {
       const { category, size, color, attributes_predict, categories_predict, products_predict } = params;
-
       if (category) {
         this.filterCategories = category && category.split(',');
       }
@@ -120,6 +119,7 @@ export class ShopComponent {
       categories_predict: this.categories_predict,
       products_predict: this.products_predict,
     };
+   
     this._productService.getProducts(param).subscribe(
       (res) => {
         this.products = res.data;

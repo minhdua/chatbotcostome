@@ -345,11 +345,11 @@ class ProductFilterByCategoryPredictionAndAttributePrediction(ProductFilterStrat
             product_ids = [product_category[0] for product_category in product_categories]
             filter_result = list(filter(lambda p: p.id in product_ids , products))
             sorted_result = sorted(filter_result, key=lambda p: p.attributes_prediction.count(self.attributes_prediction), reverse=True)
-            products = sorted_result
+            result.append(sorted_result)
 
         # Filter products based on the threshold for attribute prediction matching percentage
         filtered_products = []
-        for product in products:
+        for product in result:
             if product.id in product_ids:
                 matching_percentage = product.attributes_prediction.count(self.attributes_prediction) / len(self.attributes_prediction)
                 if matching_percentage >= self.threshold:
@@ -357,8 +357,20 @@ class ProductFilterByCategoryPredictionAndAttributePrediction(ProductFilterStrat
 
         sorted_result = sorted(filtered_products, key=lambda p: p.attributes_prediction.count(self.attributes_prediction), reverse=True)
 
+        return sorted_result
 
+class ProductFilterByProductPrediction(ProductFilterStrategy):
+    def __init__(self, product_prediction):
+        self.product_prediction = product_prediction
 
+    def filter(self, products):
+        if self.product_prediction is None:
+            return products
+        filter_result = list(filter(lambda p: p.id in self.product_prediction , products))
+        # sort product sao cho product id theo cùng thứ tự trong product_prediction
+        sorted_result = sorted(filter_result, key=lambda p: self.product_prediction.index(p.id))
+        return sorted_result
+    
 # Lớp thực hiện việc filter sản phẩm
 class ProductFilter:
     def __init__(self, products, strategy):

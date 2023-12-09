@@ -33,6 +33,9 @@ export class ProductService {
     if (param.categories_predict) {
       url += `&categories_predict=${param.categories_predict}`;
     }
+    if (param.products_predict) {
+      url += `&products_predict=${param.products_predict}`;
+    }
     return this._base.get(url);
   }
 

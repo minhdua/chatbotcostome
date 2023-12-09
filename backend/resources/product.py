@@ -18,6 +18,7 @@ from models.product_model import (
     ProductFilterByCategoryPrediction,
     ProductFilterByColor,
     ProductFilterByPrice,
+    ProductFilterByProductPrediction,
     ProductFilterBySize,
     ProductFilterByTag,
     ProductSizeEnum,
@@ -396,12 +397,14 @@ class ProductListCreateResource(Resource):
         tags_filter = request.args.get('tags')
         attributes_predict_filter = request.args.get('attributes_predict','')
         categories_predict_filter = request.args.get('categories_predict','')
+        products_predict_filter = request.args.get('products_predict','')
         products = Product.get_all()
 
         # Apply category filter
         categories_filter = [int(id.strip()) for id in category_filter.split(',') if id.strip()]
         attributes_predict_filter = [int(id.strip()) for id in attributes_predict_filter.split(',') if id.strip()]
         categories_predict_filter = [int(id.strip()) for id in categories_predict_filter.split(',') if id.strip()]
+        products_predict_filter = [int(id.strip()) for id in products_predict_filter.split(',') if id.strip()]
         category_strategy = ProductFilterByCategory(categories_filter)
         price_strategy = ProductFilterByPrice(price_min_filter, price_max_filter)
         color_strategy = ProductFilterByColor(color_filter)
@@ -409,8 +412,17 @@ class ProductListCreateResource(Resource):
         tags_strategy = ProductFilterByTag(tags_filter)
         attributes_predict_strategy = ProductFilterByAttributePrediction(attributes_predict_filter)
         categories_predict_strategy = ProductFilterByCategoryPrediction(categories_predict_filter)
+        products_predict_strategy = ProductFilterByProductPrediction(products_predict_filter)
         
-        product_filter = ProductFilter(products, category_strategy).and_(price_strategy).and_(color_strategy).and_(size_strategy).and_(tags_strategy).and_(attributes_predict_strategy).and_(categories_predict_strategy)
+        product_filter = ProductFilter(products, category_strategy)\
+            .and_(price_strategy)\
+            .and_(color_strategy)\
+            .and_(size_strategy)\
+            .and_(tags_strategy)\
+            .and_(attributes_predict_strategy)\
+            .and_(categories_predict_strategy)\
+            .and_(products_predict_strategy)
+
         products = product_filter.filter()
 
         # Apply sorting
@@ -492,7 +504,6 @@ class ProductListCreateResource(Resource):
             description=data["description"]
         )
        
-
         try:
             product.save_to_db()
             # validate sizes, colors, tags

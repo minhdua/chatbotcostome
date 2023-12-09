@@ -16,6 +16,10 @@ DEFAULT_PRODUCT_IMAGE_URL = "products/no_image.png"
 CNN_MODEL_NAME = 'cnn_model_name'
 ATTRIBUTE_THRESHOLD = 'attribute_threshold'
 IMAGE_SEARCH_MODE = 'image_search_mode'
+NUMBER_OF_PRODUCT_RETURN = 'number_of_images'
+MODEL_FOLDER_PATH = "backend/resources/cnn/models/vectors/"
+VECTOR_FILE = "vectors.pkl"
+PATH_FILE = "paths.pkl"
 
 def if_not_none(value, default):
         if value is None:

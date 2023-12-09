@@ -8,9 +8,9 @@ import numpy as np
 import pandas as pd
 from models.product_model import Product
 from models.ai_config_model import AiConfig
-from resources.cnn.search_image import extract_features
+from resources.cnn.search_image import extract_features, search_product_by_category_and_attribute, search_product_by_image
 from resources.cnn.store_vectors import extract_vector, get_extract_model
-from utils import IMAGE_SEARCH_MODE, allowed_file
+from utils import IMAGE_SEARCH_MODE, MODEL_FOLDER_PATH, NUMBER_OF_PRODUCT_RETURN, PATH_FILE, VECTOR_FILE, allowed_file
 from models.enum import MessageType, ResponseMessage, ResponseURL
 from models.history_model import History
 from flask import request
@@ -33,9 +33,7 @@ from resources.cnn.fashion_net import (
 from werkzeug.utils import secure_filename
 from app_factory import app
 from PIL import Image
-MODEL_FOLDER_PATH = "backend/resources/cnn/models/vectors/"
-VECTOR_FILE = "vectors.pkl"
-PATH_FILE = "paths.pkl"
+
 class ClothingImageFeaturesResource(Resource):
 	parser = reqparse.RequestParser()
 	parser.add_argument("image_name", type=str, required=True, help="This field cannot be blank.")
@@ -627,6 +625,7 @@ class UploadImageResource(Resource):
 	def upload_image(self, request):
 		file = request.files['file_image']
 		session_user = request.form.get('session_user') or 'anonymous'
+		number_of_images = AiConfig.find_by_name(NUMBER_OF_PRODUCT_RETURN).int_value
 		
 		if file and allowed_file(file.filename):
 			filename = secure_filename(file.filename)
@@ -634,51 +633,17 @@ class UploadImageResource(Resource):
 			file.save(file_path)
 			
 			search_mode = AiConfig.find_by_name(IMAGE_SEARCH_MODE).string_value
+			products_preditions = []
 			if search_mode == 'cnn':
-				category, attributes = extract_features(file_path)
+				products_preditions = search_product_by_category_and_attribute(file_path, number_of_images)
 			else:
-				# Dinh nghia anh can tim kiem
+				products_preditions = search_product_by_image(file_path, number_of_images)
 
-				# Khoi tao model
-				model = get_extract_model()
+			product_ids = [str(product.id) for product in products_preditions if product]
 
-				# Trich dac trung anh search
-				search_vector = extract_vector(model, file_path)
-
-				# Load 4700 vector tu vectors.pkl ra bien
-				vector_file = os.path.join(MODEL_FOLDER_PATH,VECTOR_FILE)
-				path_file = os.path.join(MODEL_FOLDER_PATH,PATH_FILE)
-				vectors = pickle.load(open(vector_file,"rb"))
-				paths = pickle.load(open(path_file,"rb"))
-
-				# Tinh khoang cach tu search_vector den tat ca cac vector
-				distance = np.linalg.norm(vectors - search_vector, axis=1)
-
-				# Sap xep va lay ra K vector co khoang cach ngan nhat
-				K = 16
-				ids = np.argsort(distance)[:K]
-
-				# Tao oputput
-				nearest_image = [(paths[id], distance[id]) for id in ids]
-
-				# sort image desc
-				sorted_image = sorted(nearest_image, key=lambda x: x[1], reverse=False)
-
-				category = []
-				attributes = []
-				for image_path, distance in sorted_image:
-					product = Product.find_by_image_url(image_path)
-					if product:
-						category.extend(product.categories_prediction)
-						attributes.extend(product.attributes_prediciton)
-
-			attribute_ids = ','.join([str(attribute.id) for attribute in attributes])
-			category_ids = ','.join([str(cate.id) for cate in category])
-			
-			product_url = ResponseURL.URL_IMAGE.value.format(attributes=attribute_ids, categories=category_ids)
-			
 			response_chatbot = ""
-			if len(attributes) > 0 or len(category) > 0:
+			if len(product_ids) > 0:
+				product_url = ResponseURL.get_url(products_predict=product_ids)
 				response_chatbot += ResponseURL.TAG_A.value.format(url=product_url, text_user=ResponseMessage.MESSAGE_RESPONSE.value)
 			else:
 				response_chatbot = ResponseMessage.MESSAGE_NOTFOUND.value
@@ -700,9 +665,7 @@ class UploadImageResource(Resource):
 		else:
 			return jsonify({
 				"message": "Các loại hình ảnh được phép là -> png, jpg, jpeg, gif",
-				"url": request.url,
-				"attributes": attributes,
-				"categories": category,
+				"url": request.url
 			})
 
 
