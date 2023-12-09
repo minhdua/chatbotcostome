@@ -364,7 +364,7 @@ class ProductFilterByProductPrediction(ProductFilterStrategy):
         self.product_prediction = product_prediction
 
     def filter(self, products):
-        if self.product_prediction is None:
+        if self.product_prediction is None or self.product_prediction == []:
             return products
         filter_result = list(filter(lambda p: p.id in self.product_prediction , products))
         # sort product sao cho product id theo cùng thứ tự trong product_prediction
