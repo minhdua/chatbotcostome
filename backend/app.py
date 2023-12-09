@@ -9,7 +9,7 @@ import torch
 import torch.nn as nn
 from app_factory import admin, api, app
 from resources.dictionary import DictionaryListResource, DictionaryResource
-# from chat import get_response
+from chat import get_response
 from config import swagger_config, swagger_template
 from app_factory import db
 from flasgger import Swagger
@@ -363,24 +363,8 @@ def chatbot():
         # Nhận danh mục loại đúng với từ khóa tìm kiếm của người dùng đã thêm trong từ điển
         category_names = process_category(data['question'])
         
-        # Lọc theo áo hoặc quần hoặc váy hoặc đầm
-        categories_by_body = get_categories_full_by_body(data['question'])
-        if len(categories_by_body) > 0 and len(category_names) == 0:
-            category_names += categories_by_body + get_intent_history(data['session_user'])
-            # Trả về list thuộc theo áo hoặc quần hoặc váy hoặc đầm
-            response_chatbot = ResponseMessage.BODY_TYPE.value.format(body_type=process_products_with_category(filter_duplicate_in_array(category_names), data['question']))
-            # Lưu lịch sử chatbot
-            history = History(
-                session_user=data['session_user'],
-                user_say=data['question'],
-                chat_response=response_chatbot,
-                concepts=json.dumps(category_names),
-                message_type=MessageType.TEXT.value
-            )
-            history.save()
-            return jsonify({
-                "answer": response_chatbot
-            })
+        question = corpus_process(data['question'])
+        response = corpus_process(response_chatbot)
         
         if (compare_strings(response_chatbot, ResponseMessage.MESSAGE_SORRY.value) == True or 
             compare_array_source_array_dest(question, response) == True):
@@ -577,36 +561,26 @@ def process_category(data_text):
     return response_words
 
 # Xử lý danh mục phân tích với sản phẩm danh sách kết quả
-def process_products_with_category(category_name_array, question):
+def process_products_with_category(category_name_array, question, size, color):
     response_chatbot = " "
     
     # Lấy sizes từ người dùng nhập
     sizes = filter_duplicate_in_array(get_size_user_say(question))
-    if len(sizes) >= 1:
+    if len(sizes) == 1:
         size = sizes[0]
         
     # Lấy colors từ người dùng nhập
     colors = filter_duplicate_in_array(get_color_user_say(question))
-    if len(colors) >= 1:
+    if len(colors) == 1:
         color = colors[0]
     
     categories = Category.query.filter(Category.category_name.in_(category_name_array)).all()
     category_id_str = ','.join([str(category.id) for category in categories])
-    product_url = f'{ResponseURL.URL.value}{category_id_str}'
+    product_url = ResponseURL.URL.value.format(categories=category_id_str, size=size, color=color)
     if len(categories) > 0:
         response_chatbot += ResponseURL.TAG_A.value.format(url=product_url, text_user=question)
     
     return response_chatbot
-#################################################################
-
-
-#################################################################
-# API upload_file                                               #
-#################################################################
-@app.route("/upload_file", methods=["POST"])
-def upload_file():
-    if 'file_image' in request.files:
-        return upload_image(request)
 #################################################################
 
 
