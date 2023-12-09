@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 const ELEMENT_DATA: any[] = [
   { id: 1, name: 'Products', link: 'admin/products' },
   { id: 2, name: 'NLP', link: 'admin/nlp' },
-  { id: 3, name: 'CNN', link: 'admin/CNN' },
+  // { id: 3, name: 'CNN', link: 'admin/CNN' },
   { id: 4, name: 'Orders', link: 'admin/orders' },
 ];
 
