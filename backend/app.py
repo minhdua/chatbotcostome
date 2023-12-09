@@ -87,73 +87,9 @@ with app.app_context():
 
 CORS(app, resources={r"/*": {"origins": "*", "methods": ["GET", "POST", "PUT", "DELETE"]}})
 
-# def upload_image(request):
-#     file = request.files['file_image']
-#     session_user = request.form.get('session_user')
-        
-#     if file and allowed_file(file.filename):
-#         filename = secure_filename(file.filename)
-#         file_path = os.path.join(app.config['UPLOAD_FOLDER']+"/uploads", filename)
-#         file.save(file_path)
-        
-#         category, attributes = extract_features(file_path)
-#         attribute_ids = ','.join([str(attribute.id) for attribute in attributes])
-#         category_ids = ','.join([str(cate.id) for cate in category])
-        
-#         product_url = ResponseURL.URL_IMAGE.value.format(attributes=attribute_ids, categories=category_ids)
-        
-#         response_chatbot = ""
-#         if len(attributes) > 0 or len(category) > 0:
-#             response_chatbot += ResponseURL.TAG_A.value.format(url=product_url, text_user=ResponseMessage.MESSAGE_RESPONSE.value)
-#         else:
-#             response_chatbot = ResponseMessage.MESSAGE_NOTFOUND.value
-        
-#         user_say_image_url = f"{request.host_url}static/uploads/{filename}"
-        
-#         history = History(
-#             session_user=session_user,
-#             user_say=user_say_image_url,
-#             chat_response=response_chatbot,
-#             concepts=json.dumps([]),
-#             message_type=MessageType.IMAGE.value
-#         )
-#         history.save()
-        
-#         return jsonify({
-#             "answer": response_chatbot
-#         })
-#     else:
-#     	return jsonify({
-#       		"message": "Các loại hình ảnh được phép là -> png, jpg, jpeg, gif",
-#         	"url": request.url,
-#             "attributes": attributes,
-#             "categories": category,
-# 		})
-
-
 @app.route('/')
 def redirect_to_swagger():
     return redirect('/swagger')
-
-# @app.post('/predict')
-# def predict():
-#     """
-#     Predict
-#     ---
-#     tags:
-#       - predict
-#     """
-#     text = request.form.get('message')
-#     if (len(text) > 0):
-#         response = get_response(text)
-#         return jsonify({
-#             "answer": response,
-#             "filename_upload": "",
-# 			"result_files": []
-#    		})
-    
-#     if 'file_image' in request.files:
-#         return upload_image(request)
 
 # Master api
 api.add_resource(SizeResourceList, "/sizes")
@@ -446,23 +382,68 @@ def chatbot():
                 "answer": response_chatbot
             })
         
-    
-        # Lấy ý niệm trước đó
-        if len(category_names) == 0:
-            category_names += get_intent_history(data['session_user'])
-            # Lấy sizes từ người dùng nhập
-            sizes = filter_duplicate_in_array(get_size_user_say(data['question']))
-            # Lấy colors từ người dùng nhập
-            colors = filter_duplicate_in_array(get_color_user_say(data['question']))
-            # Kiểm tra sản phẩm có size, color thuộc catagory không
-            categories_filtered = check_product_has_sizes_colors_with_categories(filter_duplicate_in_array(category_names), sizes, colors)
-            if len(categories_filtered) > 0:
-                response_chatbot = ResponseMessage.BODY_TYPE.value.format(body_type=process_products_with_category(categories_filtered, data['question']))
+        if (compare_strings(response_chatbot, ResponseMessage.MESSAGE_SORRY.value) == True or 
+            compare_array_source_array_dest(question, response) == True):
+            
+            # Lấy ý niệm trước đó
+            # if len(category_names) == 0:
+            #     category_names += get_intent_history(data['session_user'])
+            #     # Lấy sizes từ người dùng nhập
+            #     sizes = filter_duplicate_in_array(get_size_user_say(data['question']))
+            #     # Lấy colors từ người dùng nhập
+            #     colors = filter_duplicate_in_array(get_color_user_say(data['question']))
+            #     # Kiểm tra sản phẩm có size, color thuộc catagory không
+            #     categories_filtered = check_product_has_sizes_colors_with_categories(filter_duplicate_in_array(category_names), sizes, colors)
+            #     if len(categories_filtered) > 0:
+            #         #response_chatbot = ResponseMessage.BODY_TYPE.value.format(body_type=process_products_with_category(categories_filtered, data['question'], '', ''))
+            #         response_chatbot += process_products_with_category(categories_filtered, data['question'], '', '')
+            #         # Lưu lịch sử chatbot
+            #         history = History(
+            #             session_user=data['session_user'],
+            #             user_say=data['question'],
+            #             chat_response=response_chatbot,
+            #             concepts=json.dumps(category_names),
+            #             message_type=MessageType.TEXT.value
+            #         )
+            #         history.save()
+            #         return jsonify({
+            #             "answer": response_chatbot
+            #         })
+            #     else:
+            #         response_chatbot = ResponseMessage.BODY_TYPE.value.format(body_type=process_products_with_category(filter_duplicate_in_array(category_names), data['question'], '', ''))
+            #         # Lưu lịch sử chatbot
+            #         history = History(
+            #             session_user=data['session_user'],
+            #             user_say=data['question'],
+            #             chat_response=response_chatbot,
+            #             concepts=json.dumps(category_names),
+            #             message_type=MessageType.TEXT.value
+            #         )
+            #         history.save()
+            #         return jsonify({
+            #             "answer": response_chatbot
+            #         })
+            
+            if len(category_names) > 0:
+                response_chatbot += process_products_with_category(filter_duplicate_in_array(category_names), data['question'], '', '')
+                history = History(
+                    session_user=data['session_user'],
+                    user_say=data['question'],
+                    chat_response=response_chatbot,
+                    concepts=json.dumps(category_names),
+                    message_type=MessageType.TEXT.value
+                )
+                history.save()
                 return jsonify({
                     "answer": response_chatbot
                 })
-            else:
-                # response_chatbot = ResponseMessage.BODY_TYPE.value.format(body_type=process_products_with_category(filter_duplicate_in_array(category_names), data['question']))
+            
+            # Lọc theo áo hoặc quần hoặc váy hoặc đầm
+            categories_by_body = get_categories_full_by_body(data['question'])
+            if len(categories_by_body) > 0 and len(category_names) == 0:
+                category_names += categories_by_body + get_intent_history(data['session_user'])
+                # Trả về list thuộc theo áo hoặc quần hoặc váy hoặc đầm
+                response_chatbot = ResponseMessage.BODY_TYPE.value.format(body_type=process_products_with_category(filter_duplicate_in_array(category_names), data['question'], '', ''))
                 # Lưu lịch sử chatbot
                 history = History(
                     session_user=data['session_user'],
@@ -475,11 +456,6 @@ def chatbot():
                 return jsonify({
                     "answer": response_chatbot
                 })
-        
-        
-        if len(category_names) > 0:
-            response_chatbot += process_products_with_category(filter_duplicate_in_array(category_names), data['question'])
-
 
     # Lưu lịch sử chatbot
     history = History(
@@ -603,6 +579,17 @@ def process_category(data_text):
 # Xử lý danh mục phân tích với sản phẩm danh sách kết quả
 def process_products_with_category(category_name_array, question):
     response_chatbot = " "
+    
+    # Lấy sizes từ người dùng nhập
+    sizes = filter_duplicate_in_array(get_size_user_say(question))
+    if len(sizes) >= 1:
+        size = sizes[0]
+        
+    # Lấy colors từ người dùng nhập
+    colors = filter_duplicate_in_array(get_color_user_say(question))
+    if len(colors) >= 1:
+        color = colors[0]
+    
     categories = Category.query.filter(Category.category_name.in_(category_name_array)).all()
     category_id_str = ','.join([str(category.id) for category in categories])
     product_url = f'{ResponseURL.URL.value}{category_id_str}'
