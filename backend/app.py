@@ -440,7 +440,9 @@ def chatbot():
                 return jsonify({
                     "answer": response_chatbot
                 })
-
+    
+    response_chatbot += process_products_with_category(filter_duplicate_in_array(category_names), data['question'], '', '')
+                
     # Lưu lịch sử chatbot
     history = History(
         session_user=data['session_user'],
@@ -527,6 +529,7 @@ def corpus_process(user_say):
     
     # Mã hóa văn bản.
     tokens = nltk.word_tokenize(user_say)
+    contents += tokens
 
     # Tạo n-gram từ văn bản được mã hóa.
     bigrams = nltk.bigrams(tokens)
