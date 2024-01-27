@@ -24,10 +24,10 @@ from keras.preprocessing.image import array_to_img, img_to_array
 from keras.utils import Sequence, to_categorical
 from keras.callbacks import CSVLogger, LambdaCallback, ModelCheckpoint, TensorBoard
 
-from models.attribute_prediction_model import AttributePrediction
-from models.category_prediction_model import CategoryPrediction
-from models.clothing_image_features_model import ClothingImageFeatures
-from models.fashionet_model import FashionNetModel
+# from models.attribute_prediction_model import AttributePrediction
+# from models.category_prediction_model import CategoryPrediction
+# from models.clothing_image_features_model import ClothingImageFeatures
+# from models.fashionet_model import FashionNetModel
 
 
 image_shape = (224, 224, 3)  # all images will be adjusted to this shape
@@ -1030,3 +1030,12 @@ def cnn_training(model_file = None, epochs = 10, batch_size = 64, lr = 3e-4, sta
             model = model_source
     model = change_stage(model, lr=lr, stage=stage)
     make_steps(step=epochs, batch_size=batch_size, lr=lr, stage=stage, save_interval=save_interval)
+
+
+if __name__ == "__main__":
+   # Assuming `model` is your model
+    model_source, model_blue = build_model()
+    print("Number of layers in the model: ", len(model_source.layers))
+
+    # Print the summary of the model
+    model_source.summary()

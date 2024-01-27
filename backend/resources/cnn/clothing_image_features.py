@@ -3,6 +3,7 @@ import math
 import os
 import pdb
 import pickle
+from matplotlib import pyplot as plt
 import numpy as np
 
 import pandas as pd
@@ -468,7 +469,14 @@ class CNNTrainingResource(Resource):
 		cnn_training(model_file, epochs, batch_size, lr, stage, save_interval)
 		return CommonResponse.ok(message="Training started.")
 	
-	
+def plot_accuracy(accuracy_values):
+				labels = ['blue_cates_acc', 'blue_lands_acc', 'red_green_cates_acc', 'red_green_attrs_acc', 'test_accuracy']
+				plt.figure(figsize=(10, 5))
+				plt.bar(labels, accuracy_values)
+				plt.xlabel('Accuracy Types')
+				plt.ylabel('Accuracy')
+				plt.title('Accuracy for each type')
+				plt.show()
 class UpdateAccuracyResource(Resource):
 	def post(self):
 		"""
@@ -487,32 +495,39 @@ class UpdateAccuracyResource(Resource):
 						type: string
 						description: Accuracy updated
 		"""
-		models = FashionNetModel.get_all()
+		# models = FashionNetModel.get_all()
 		test_data = ClothingImageFeatures.get_all()
-		filtered_test_data = [data for data in test_data if data.evaluation_status == "gallery"]
-
-		# Convert the filtered data into a DataFrame
-		test_df = pd.DataFrame([data.json() for data in filtered_test_data])
-		error_count = 0
-		for saved_model in models:
-			model_file = saved_model.model_file
-			lr = saved_model.lr
-			stage = saved_model.stage
-			batch_size = saved_model.batch_size
-			model_source, model_blue = build_model()
-			model = load_modelfile(model_source, model_file)
-			model = change_stage(model, lr, stage)
-			blue_cates_acc, blue_lands_acc, red_green_cates_acc, red_green_attrs_acc, test_accuracy = compute_test_accuracy(model, test_df, batch_size)
+		for i in range(23):
+			filtered_test_data = [data for data in test_data if data.evaluation_status == "gallery" and data.category_label == str(i)]
+			print('{}: {}'.format(i,len(filtered_test_data)))
+		pdb.set_trace()
+		# # Convert the filtered data into a DataFrame
+		# test_df = pd.DataFrame([data.json() for data in filtered_test_data])
+		# error_count = 0
+		# for saved_model in models:
+		# 	model_file = saved_model.model_file
+		# 	lr = saved_model.lr
+		# 	stage = saved_model.stage
+		# 	batch_size = saved_model.batch_size
+		# 	model_source, model_blue = build_model()
+		# 	model = load_modelfile(model_source, model_file)
+		# 	model = change_stage(model, lr, stage)
 			
-			saved_model.blue_cates_acc = blue_cates_acc
-			saved_model.blue_lands_acc = blue_lands_acc
-			saved_model.red_green_cates_acc = red_green_cates_acc
-			saved_model.red_green_attrs_acc = red_green_attrs_acc
-			saved_model.test_accuracy = test_accuracy
-			try:
-				saved_model.update_to_db()
-			except:
-				error_count += 1
+
+			# Gọi hàm vẽ biểu đồ với giá trị độ chính xác từ hàm compute_test_accuracy
+			# accuracy_values = compute_test_accuracy(model, test_df, batch_size=64)
+			# plot_accuracy(accuracy_values)
+			# blue_cates_acc, blue_lands_acc, red_green_cates_acc, red_green_attrs_acc, test_accuracy = compute_test_accuracy(model, test_df, batch_size)
+
+			# saved_model.blue_cates_acc = blue_cates_acc
+			# saved_model.blue_lands_acc = blue_lands_acc
+			# saved_model.red_green_cates_acc = red_green_cates_acc
+			# saved_model.red_green_attrs_acc = red_green_attrs_acc
+			# saved_model.test_accuracy = test_accuracy
+			# try:
+			# 	saved_model.update_to_db()
+			# except:
+			# 	error_count += 1
 				
 		if error_count > 0:
 			return CommonResponse.ok(message="Accuracy updated but some errors occurred.")
