@@ -16,7 +16,7 @@ export class ChatbotService {
    * @return object: conversation
    */
   sendQuestionByText(question: IQuestion): Observable<any> {
-    const url = `${environment.apiUrl}/chatbot`;
+    const url = `${environment.apiUrl}/chatbot_response`;
     return this._base.post(url, question, false);
   }
 

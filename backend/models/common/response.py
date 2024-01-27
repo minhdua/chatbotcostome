@@ -21,6 +21,21 @@ class CommonResponse:
                 response_data["per_page"] = per_page
             
         return make_response(jsonify(response_data), status_code)
+    
+    def json_chat(self, status_code, total=None, current_page=None, per_page=None):
+        response_data = {
+            "status": self.status,
+            "message": self.message,
+            "answer": self.data
+        }
+        if isinstance(self.data, list):
+            response_data["total"] = total
+            if current_page is not None:
+                response_data["current_page"] = current_page
+            if per_page is not None:
+                response_data["per_page"] = per_page
+            
+        return make_response(jsonify(response_data), status_code)
 
     @classmethod
     def success(cls, message, data=None, current_page=None, per_page=None):
@@ -53,6 +68,10 @@ class CommonResponse:
     @classmethod
     def ok(cls, message, data=None, total=None, current_page=None, per_page=None):
         return cls("OK", message, data).json(200, total, current_page, per_page)
+    
+    @classmethod
+    def chat(cls, message, data=None, total=None, current_page=None, per_page=None):
+        return cls("Success", message, data).json_chat(200, total, current_page, per_page)
     
     @classmethod
     def accepted(cls, message, data=None):

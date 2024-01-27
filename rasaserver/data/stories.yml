@@ -1,0 +1,18 @@
+version: "3.1"
+
+stories:
+
+- story: happy
+  steps:
+  - intent: greeting
+  - action: utter_greeting
+
+- story: bye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: jeans short
+  steps:
+  - intent: jeans
+  - action: utter_jeans

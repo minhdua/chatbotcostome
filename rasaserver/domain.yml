@@ -1,0 +1,124 @@
+version: "3.1"
+
+intents:
+  - jacket
+  - sweater
+  - tee
+  - skirt
+  - shorts
+  - leggings
+  - jeans
+  - size_skirt
+  - color_skirt
+  - size_l_jacket
+  - size_jacket
+  - size_xl_jacket
+  - size_xl_l_jacket
+  - color_grey_skirt
+  - color_green_skirt
+  - greeting
+  - color_grey_green_skirt
+  - size_s_skirt
+  - size_m_skirt
+  - thanks
+  - goodbye
+  - size_m_s_skirt
+responses:
+  utter_jacket:
+    - text: "Hiện tại bên Shop còn hàng áo khoác ạ! Không biết bạn muốn xem áo khoác màu và size như nào ạ"
+    - text: "Áo khoác Shop có nhiều màu và size. Bạn muốn xem áo khoác như nào ạ?"
+  utter_sweater:
+    - text: "Áo len shop còn hàng nha. Mời bạn xem qua"
+    - text: "Shop vẫn còn hàng áo len. Shop gửi mẫu bạn xem qua"
+    - text: "Hiện tại còn mẫu áo lên bạn đang cần. Shop gửi bạn!"
+  utter_tee:
+    - text: "Shop gửi sản phẩm mời anh/chị xem ạ"
+    - text: "Shop gửi thông tin mẫu áo phông ạ!"
+    - text: "Áo phông shop còn hàng. Mời bạn xem qua"
+  utter_skirt:
+    - text: "Shop có nhiều loại váy với đa dạng màu ạ! Bạn chọn váy màu nào ạ?"
+    - text: "Váy bên mình cho nhiều ạ. Không biết bạn chọn loại váy khích thước size như nào ạ?"
+    - text: "Shop có nhiều loại váy với nhiều màu và kích thước size S và M. Không biết bạn chọn váy màu nào với kích thước như nào ạ?"
+  utter_shorts:
+    - text: "Dạ bên em có bán quần short giá đang sale. Mời quý khách xem qua ạ!"
+    - text: "Quần short bên mình còn hàng. Shop gửi thông tin ạ!"
+    - text: "Shop có bán quần ngắn ạ. Mời bạn xem sản phẩm"
+  utter_leggings:
+    - text: "Quần bó hoặc quần thun shop còn hàng ạ! Mời xem sản phẩm"
+    - text: "Shop còn hàng quần thun hoặc quần bó ạ. Quý khách xem sản phẩm ạ!"
+  utter_jeans:
+    - text: "Dạ shop gửi các mẫu quần jean. Anh/chị xem qua ạ"
+    - text: "Mẫu quần jean shop có nhiều ạ! Mời bạn xem qua"
+    - text: "Shop còn mẫu quần jean ạ. Mời xem sản phẩm"
+  utter_size_skirt:
+    - text: "Mình gửi váy size S và M. Bạn muốn xem size nào ạ"
+    - text: "Hiện tại Shop có Váy size S và M. Bạn muốn xem size nào nhất ạ"
+  utter_color_skirt:
+    - text: "Bên Shop có 2 màu váy. Váy màu xanh và Váy mày xám. Bạn thích váy màu nào ạ?"
+    - text: "Hiện tại Shop có bán váy với 2 màu xanh và màu xám. Bạn thích váy màu nào ạ?"
+  utter_size_l_jacket:
+    - text: "Chào bạn! Shop có bán mẫu áo khoác size L. Mời bạn xem!"
+    - text: "Shop gửi bạn áo khoác size L. Mời xem"
+  utter_size_jacket:
+    - text: "Chào bạn! Shop có nhiều mẫu size. Bạn thích mẫu size nào ạ?"
+    - text: "Shop có mẫu size L và XL. Bạn thích xem size nào ạ"
+  utter_size_xl_jacket:
+    - text: "Shop có bán loại áo khoác size XL. Mời bạn xem qua"
+    - text: "Shop gửi mẫu áo khoác size Xl. Mời xem"
+  utter_size_xl_l_jacket:
+    - text: "Shop có bán Áo khoác size L và XL. Shop gửi thông tin để bạn xem trước nha"
+    - text: "Size L và XL Shop hiện tại còn sản phẩm. Mời bạn xem"
+    - text: "Áo khoác size L và XL của shop còn bán. Mời bạn xem qua"
+  utter_color_grey_skirt:
+    - text: "Shop bên em còn Váy màu xám. Shop gửi thông tin về váy màu xám ạ!"
+    - text: "Hiện tại Shop còn váy màu xám mà bạn đang muốn xem. Mời bạn xem qua ạ!"
+  utter_color_green_skirt:
+    - text: "Shop có loại máy màu xanh rất đẹp a! Mời bạn xem"
+    - text: "Váy màu xanh Shop còn hàng. Mời quý khách xem qua ạ"
+    - text: "Hiện tại Shop còn váy màu xanh mà bạn đang cần. Mời bạn xem qua"
+  utter_greeting:
+    - text: "Rất vui khi được tư vấn cho bạn"
+    - text: "Chào mừng bạn đến với shop thời trang! Shop có thể hỗ trợ gì cho bạn ạ"
+    - text: "Shop có thể giúp gì cho bạn"
+    - text: "Xin chào, tôi có thể giúp thể giúp gì cho quý khách?"
+    - text: "Mình đây! Không biết bạn muốn mình tư vấn gì về trang phục ạ?"
+  utter_color_grey_green_skirt:
+    - text: "Shop hiện tại còn váy với hai màu xanh và màu xám! Mời bạn xem qua"
+    - text: "Váy màu xanh và màu xám Shop còn hàng. Mời quý khách xem ạ!"
+    - text: "Hên quá! Shop hiện tại váy còn 2 màu xanh và màu xám mà bạn đang cần. Mời bạn xem"
+  utter_size_s_skirt:
+    - text: "Shop còn váy size S. Mời bạn xem qua"
+    - text: "Hiện tại Shop còn váy size S. Mời bạn xem"
+    - text: "Shop còn hàng váy size S. Mời quý khách xem"
+  utter_size_m_skirt:
+    - text: "Shop còn hàng váy size M. Mời bạn xem"
+    - text: "Hiện tại váy size M shop còn hàng ạ. Shop gửi bạn xem nha!"
+    - text: "Váy size M shop có bán. Gửi thông tin váy cho bạn xem ạ!"
+  utter_thanks:
+    - text: "Rất vui khi được giúp đỡ"
+    - text: "Đó là trách nhiệm của tôi"
+    - text: "Gọi cho tôi bất cứ lúc nào cần thiết"
+    - text: "Khách sáo quá ạ"
+    - text: "Hân hạnh được giúp đã giúp đỡ bạn"
+    - text: "Trân thành cảm ơn"
+    - text: "Chúc bạn một ngày tốt lành và hẹn gặp lại!"
+    - text: "Rất vui được phục vụ bạn!"
+    - text: "Nếu có bất kỳ thắc mắc nào khác, đừng ngần ngại liên hệ Shop nha"
+    - text: "Quá khen rồi ạ! Rất vui khi được giúp đỡ bạn!"
+  utter_goodbye:
+    - text: "Hẹn gặp lại quý khách"
+    - text: "Chúc quý khách một ngày tốt lành"
+    - text: "Hẹn quý khách một ngày không xa"
+    - text: "Mong rằng quý khách sẽ trở lại sớm"
+    - text: "Rất vui quý khách quay lại!"
+    - text: "Chúc Anh/Chị nhiều sức khỏe"
+    - text: "Chúc bạn nhiều may mắn và gặp nhiều thành công"
+  utter_size_m_s_skirt:
+    - text: "Shop gửi thông tin váy size S và M ạ! Mời bạn xem"
+    - text: "Hiện tại shop còn váy size M và S. Shop gửi thông tin quý khách xem qua ạ!"
+    - text: "Váy size M và S shop còn hàng ạ! Mời bạn xem"
+
+
+session_config:
+  session_expiration_time: 600 
+  carry_over_slots_to_new_session: true 
