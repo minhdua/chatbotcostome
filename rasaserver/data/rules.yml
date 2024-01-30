@@ -6,3 +6,8 @@ rules:
   steps:
   - intent: goodbye
   - action: utter_goodbye
+  
+- rule: Product Filter
+  steps:
+  - intent: buy_fashion
+  - action: action_buy_fashions

@@ -1,6 +1,7 @@
 version: "3.1"
 
 intents:
+  - buy_fashion
   - jacket
   - sweater
   - tee
@@ -118,6 +119,71 @@ responses:
     - text: "Hiện tại shop còn váy size M và S. Shop gửi thông tin quý khách xem qua ạ!"
     - text: "Váy size M và S shop còn hàng ạ! Mời bạn xem"
 
+  utter_buy_fashions:
+    - text: "Sản phẩm bạn cần tìm là {clothing}"
+  
+  action_default_fallback:
+    - text: "Xin lỗi tôi không hiểu."
+
+  utter_fallback:
+    - text: "Xin lỗi tôi không hiểu!"
+
+
+entities:
+  - category_type
+  - color
+  - size
+  - category
+  - price:
+       roles:
+       - price_from
+       - price_to
+  
+actions:
+  - action_buy_fashions
+
+slots:
+  clothing:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: category
+  
+  category_type_clothing:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: category_type
+  
+  size_clothing:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: size
+  
+  color_clothing:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: color
+  
+  price_from:
+    type: any
+    mappings:
+    - type: from_entity
+      entity: price
+      role: price_from
+  price_to:
+    type: any
+    mappings:
+    - type: from_entity
+      entity: price
+      role: price_to
+  
 
 session_config:
   session_expiration_time: 600 

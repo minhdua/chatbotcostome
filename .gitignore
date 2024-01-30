@@ -8,3 +8,5 @@ rasaserver/models
 rasaserver/venv
 rasaserver/.rasa
 rasaserver/actions/__pycache__
+rasaserver/components/__pycache__
+rasaserver/policies/__pycache__

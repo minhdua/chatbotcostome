@@ -163,6 +163,15 @@ def add_dictionary():
 @app.get('/get_dictionaries')
 def get_dictionaries():
     dictionaries = [dictionary.json() for dictionary in Dictionary.query.all()]
+    data = []
+    for dictionary in dictionaries:
+        data.extend(dictionary['synonyms'])
+        
+    formatted_data = '\n'.join(['- ' + sentence for sentence in filter_duplicate_in_array(data)])
+    
+    with open('data/dictionaries.txt', 'w', encoding='utf-8') as f:
+        f.write(str(formatted_data))
+    
     return jsonify({
         'status':'Success',
         'message':'Get Dictionaries list success',

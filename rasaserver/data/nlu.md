@@ -703,13 +703,6 @@ nlu:
     - sa rê
     - dress
 
-- synonym: size
-  examples: |
-    - kích thước
-    - kích cở
-    - cở
-    - độ lớn
-
 - lookup: color
   examples: |
     - đỏ
@@ -733,6 +726,19 @@ nlu:
     - size 31
     - size 32
     - size 33
+    - kích thước S
+    - kích thước M
+    - kích thước L
+    - kích thước XL
+    - kích thước XXL
+    - kích thước lớn
+    - kích thước nhỏ
+    - kích thước 28
+    - kích thước 29
+    - kích thước 30
+    - kích thước 31
+    - kích thước 32
+    - kích thước 33
 
 - regex: price
   examples: |
