@@ -5,8 +5,8 @@
 # This is a simple example for a custom action which utters "Hello World!"
 
 from typing import Any, Text, Dict, List
-from .db_operations import query_dictionary_by_word
-from .utils import filter_duplicate_in_array, get_confidence_max
+from .db_operations import get_color_user_say, get_size_user_say, query_dictionary_by_word
+from .utils import filter_duplicate_in_array
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 
@@ -28,15 +28,23 @@ class ActionBuyashions(Action):
         price_from = tracker.get_slot("price_from")
         price_to = tracker.get_slot("price_to")
         
+        category_type = []
         if category_type_clothing != None:
-            category_category_type_clothing = query_dictionary_by_word(category_type_clothing)
-            
+            category_type = query_dictionary_by_word(category_type_clothing)
+        
+        category_clothing = []
         if clothing != None:
             category_clothing = query_dictionary_by_word(clothing)
-            
-        categories = filter_duplicate_in_array(category_category_type_clothing + category_clothing)
         
-        entities_filters = get_confidence_max(tracker.latest_message['entities'])
+        sizes = []
+        if size_clothing != None:
+            sizes = get_size_user_say(size_clothing)
+        
+        colors = []
+        if color_clothing != None:
+            colors = get_color_user_say(color_clothing)
+            
+        categories = filter_duplicate_in_array(category_type + category_clothing)
         
         result_string = "Không có gì"
         if len(categories) > 0:

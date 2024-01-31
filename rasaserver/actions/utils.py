@@ -1,4 +1,6 @@
 import re
+import nltk
+import numpy as np
 import unicodedata
 from collections import OrderedDict
 
@@ -10,12 +12,51 @@ def get_slots(slots):
     return entity_values
 
 
+def corpus_process(user_say):
+    contents = []
+    
+    # Mã hóa văn bản.
+    tokens = nltk.word_tokenize(user_say)
+    contents += tokens
+
+    # Tạo n-gram từ văn bản được mã hóa.
+    bigrams = nltk.bigrams(tokens)
+    trigrams = nltk.trigrams(tokens)
+
+    # Đếm tần số của mỗi n-gram.
+    bigram_freq = nltk.FreqDist(bigrams)
+    trigram_freq = nltk.FreqDist(trigrams)
+
+    # Xử lý nhận văn bản với bigram
+    for bigram in bigram_freq.most_common():
+        text_bigram = " ".join(bigram[0])
+        contents.append(text_bigram)
+    
+    # Xử lý lấy văn bản bằng bát quái
+    for trigram in trigram_freq.most_common():
+        text_trigram = " ".join(trigram[0])
+        contents.append(text_trigram)
+    
+    return contents
+
+
 def filter_duplicate_in_array(array):
   unique_values = []
   for value in array:
     if value not in unique_values:
       unique_values.append(value)
   return unique_values
+
+
+def check_uppercase_in_array(array_text):
+  return np.array([string.isupper() for string in array_text])
+
+
+def compare_array_source_array_dest(array_source, array_dest):
+  for value in array_source:
+    if value in array_dest:
+      return True
+  return False
 
 
 def merge_and_remove_duplicates_ordered(arr1, arr2):
