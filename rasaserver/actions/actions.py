@@ -5,8 +5,10 @@
 # This is a simple example for a custom action which utters "Hello World!"
 
 from typing import Any, Text, Dict, List
-from .db_operations import get_color_user_say, get_size_user_say, query_dictionary_by_word
-from .utils import filter_duplicate_in_array
+
+from .enum import EntityNameEnum, ResponseMessage, ResponseURL
+from .db_operations import check_product_colors_with_categories, check_product_sizes_with_categories, get_category_ids, get_color_user_say, get_size_user_say, query_dictionary_by_word
+from .utils import filter_duplicate_in_array, get_entity_value
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 
@@ -19,8 +21,8 @@ class ActionBuyashions(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-        # Get the entity value from the tracker
+        
+        #Get slots withh tracker
         category_type_clothing = tracker.get_slot("category_type_clothing")
         clothing = tracker.get_slot("clothing")
         size_clothing = tracker.get_slot("size_clothing")
@@ -28,49 +30,70 @@ class ActionBuyashions(Action):
         price_from = tracker.get_slot("price_from")
         price_to = tracker.get_slot("price_to")
         
+        #Get categories with words: UPPER_BODY, LOWER_BODY, FULL_BODY
         category_type = []
         if category_type_clothing != None:
             category_type = query_dictionary_by_word(category_type_clothing)
         
+        #Get categories with words in list dictionaries defined in database
         category_clothing = []
         if clothing != None:
             category_clothing = query_dictionary_by_word(clothing)
         
+        #Separate words and get all sizes: 'S', 'M', 'L', 'XL', 'XXL', 'XXXL' corresponding to size product
         sizes = []
         if size_clothing != None:
             sizes = get_size_user_say(size_clothing)
+        sizes_format = ",".join(str(size) for size in sizes)
         
+        #Separate words and get all colors in dictionaries
+        #Defined of database 'WHITE', 'BLUE' ,'GREEN' , 'YELLOW', 'ORANGE', 'PINK', 'GREY', 'RED', 'BLACK', 'BROWN', 'PURPLE' corresponding to size product
         colors = []
         if color_clothing != None:
             colors = get_color_user_say(color_clothing)
+        colors_format = ",".join(str(color) for color in colors)
+        
+        #Merger all list categories
+        categories = category_type
+        if category_type_clothing != None and clothing != None:
+            categories = filter_duplicate_in_array(category_clothing)
+        
+        #Define product name, size name, color name, category_filter
+        product_name = category_type_clothing
+        size_name = ""
+        color_name = ""
+        
+        entity_values = get_entity_value(tracker.latest_message['entities'], tracker.latest_message['text'])
+        for entity in entity_values:
+            if entity['entity'] == EntityNameEnum.CATEGORY_TYPE.value:
+                product_name = entity['value']
             
-        categories = filter_duplicate_in_array(category_type + category_clothing)
-        
-        result_string = "Không có gì"
-        if len(categories) > 0:
-            result_string = ", ".join(str(element) for element in categories)
-        
-        # upper_body = filter() #// confidence cao nhất
-        # category = filter() #// cao nhất
-        # response = ''
-        # params = []
-        # for slot in tracker.slots:
-        #     if 'clothing' in slot and not slot['clothing']:
-        #         response += response + f" loại {slot['clothing']}"
-        #         category_id = 'call_api'
-        #         params += ["category_ids={category_id}"]
-        #     if 'color' in slot and not slot['color']:
-        #         color_id = 'call_api'
-        #         params += ["color_id={color_id}"]
-        #     # prices xử lý roles, attributes, size
+            if entity['entity'] == EntityNameEnum.CATEGORY.value:
+                product_name = entity['value']
             
-        # query = "&".join(params)
-        # link = "base_url?" + query
-        # link
-        #link = "<a href={}>{}</a>".format('#',f"{upper_body}")
-        # Đặt giá trị cho slot 'your_slot_name'
-        # In ra giá trị đã đặt cho kiểm tra
-        # print("Slot 'your_slot_name' set to:", value_to_set)
+            if entity['entity'] == EntityNameEnum.COLOR.value:
+                color_name = entity['value']
+            
+            if entity['entity'] == EntityNameEnum.SIZE.value:
+                size_name = entity['value']
         
-        dispatcher.utter_message(text=result_string)
+        #Get filter category with size
+        category_with_sizes = check_product_sizes_with_categories(categories, sizes)
+        if len(category_with_sizes) > 0:
+            categories.extend(category_with_sizes)
+        
+        #Get filter category with color
+        category_with_colors = check_product_colors_with_categories(categories, colors)
+        if len(category_with_colors) > 0:
+            categories.extend(category_with_colors)
+        
+        category_filter = filter_duplicate_in_array(categories)
+        category_ids = get_category_ids(category_filter)
+        
+        #Message text full result to user chat
+        product_url = ResponseURL.URL.value.format(categories=category_ids, size=sizes_format, color=colors_format)
+        link_click = ResponseURL.TAG_A.value.format(url=product_url, text_user=ResponseMessage.CLICK.value)
+        message_text = f"{ResponseMessage.NOTIFICATION.value} {product_name} {size_name} {color_name} {link_click}"
+        
+        dispatcher.utter_message(text=message_text)
         return []

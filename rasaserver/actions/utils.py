@@ -96,13 +96,10 @@ def get_confidence_max(entities):
     return entities_filter
 
 
-def get_entity_value(entities, text):
+def get_entity_value(entities, value_text):
     entity_values = []
     for entitie in entities:
         start = entitie['start']
         end = entitie['end']
-        if entitie['entity'] == 'price':
-            entity_values.append({"entity":entitie['role'], "value":text[start:end]})
-        else:
-            entity_values.append({"entity":entitie['entity'], "value":text[start:end]})
+        entity_values.append({"entity":entitie['entity'], "value":value_text[start:end]})
     return entity_values

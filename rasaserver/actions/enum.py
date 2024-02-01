@@ -8,6 +8,16 @@ class SizeEnum(Enum):
     XL = "XL"
     XXL = "XXL"
     XXXL = "XXXL"
+    
+    
+class EntityNameEnum(Enum):
+    CATEGORY_TYPE = 'category_type'
+    COLOR = 'color'
+    SIZE = 'size'
+    CATEGORY = 'category'
+    PRICE = 'price'
+    PRICE_FROM = 'price_from'
+    PRICE_TO = 'price_to'
 
 
 class ColorEnum(Enum):
@@ -37,12 +47,17 @@ class ResponseSizes(Enum):
     SIZES = ['S', 'M', 'L', 'XL', 'XXL', 'XXXL']
     
 
+class ResponseMessage(Enum):
+    NOTIFICATION = "Sản phẩm bạn tìm là"
+    CLICK = "Nhấn vào xem sản phẩm"
+    
+
 class ResponseCategoryBody(Enum):
     BODY = [
-        { "key": "UPPER_BODY", "text": 'ao' },
-        { "key": "LOWER_BODY", "text": 'quan' },
-        { "key": "FULL_BODY", "text": 'vay' },
-        { "key": "FULL_BODY", "text": 'đam' },
+        { "key": "UPPER_BODY", "text": 'áo' },
+        { "key": "LOWER_BODY", "text": 'quần' },
+        { "key": "FULL_BODY", "text": 'váy' },
+        { "key": "FULL_BODY", "text": 'đầm' }
     ]
 
 
