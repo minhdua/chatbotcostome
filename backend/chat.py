@@ -71,7 +71,8 @@ def get_response(msg):
     prob = probs[0][predicted.item()]
     
     try:
-        if prob.item() > 0.75:
+        print("confidence: ", prob.item())
+        if prob.item() > 0.85:
             for intent in data_intents['intents']:
                 if normalize_text(tag) == normalize_text(intent["tag"]):
                     return random.choice(intent['responses'])

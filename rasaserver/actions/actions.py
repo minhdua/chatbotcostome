@@ -67,15 +67,23 @@ class ActionBuyashions(Action):
         for entity in entity_values:
             if entity['entity'] == EntityNameEnum.CATEGORY_TYPE.value:
                 product_name = entity['value']
+            else:
+                product_name = category_type_clothing
             
             if entity['entity'] == EntityNameEnum.CATEGORY.value:
                 product_name = entity['value']
+            elif(category_type_clothing != None and clothing != None):
+                product_name = clothing
             
             if entity['entity'] == EntityNameEnum.COLOR.value:
                 color_name = entity['value']
+            else:
+                color_name = color_clothing
             
             if entity['entity'] == EntityNameEnum.SIZE.value:
                 size_name = entity['value']
+            else:
+                size_name = size_clothing
         
         #Get filter category with size
         category_with_sizes = check_product_sizes_with_categories(categories, sizes)
