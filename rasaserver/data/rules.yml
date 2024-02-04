@@ -11,3 +11,8 @@ rules:
   steps:
   - intent: buy_fashion
   - action: action_buy_fashions
+
+- rule: Delete Slots
+  steps:
+  - intent: delete_all_slots
+  - action: action_delete_all_slots

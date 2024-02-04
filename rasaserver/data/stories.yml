@@ -6,13 +6,13 @@ stories:
   steps:
   - intent: greeting
   - action: utter_greeting
-
-- story: bye
-  steps:
-  - intent: goodbye
-  - action: utter_goodbye
-
-- story: jeans short
-  steps:
-  - intent: jeans
-  - action: utter_jeans
+  - intent: who_created_you
+  - action: utter_who_created_you
+  - intent: gender
+  - action: utter_gender
+  - intent: age
+  - action: utter_age
+  - intent: do_you_have_a_girlfriend
+  - action: utter_do_you_have_a_girlfriend
+  - intent: can_you_speak_english
+  - action: utter_can_you_speak_english

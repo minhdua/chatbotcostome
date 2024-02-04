@@ -10,6 +10,7 @@ from .enum import EntityNameEnum, ResponseMessage, ResponseURL
 from .db_operations import check_product_colors_with_categories, check_product_sizes_with_categories, get_category_ids, get_color_user_say, get_size_user_say, query_dictionary_by_word
 from .utils import filter_duplicate_in_array, get_entity_value
 from rasa_sdk import Action, Tracker
+from rasa_sdk.events import SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 
 
@@ -67,7 +68,7 @@ class ActionBuyashions(Action):
         for entity in entity_values:
             if entity['entity'] == EntityNameEnum.CATEGORY_TYPE.value:
                 product_name = entity['value']
-            else:
+            elif(category_type_clothing != None):
                 product_name = category_type_clothing
             
             if entity['entity'] == EntityNameEnum.CATEGORY.value:
@@ -77,12 +78,12 @@ class ActionBuyashions(Action):
             
             if entity['entity'] == EntityNameEnum.COLOR.value:
                 color_name = entity['value']
-            else:
+            elif(color_clothing != None):
                 color_name = color_clothing
             
             if entity['entity'] == EntityNameEnum.SIZE.value:
                 size_name = entity['value']
-            else:
+            elif(size_clothing != None):
                 size_name = size_clothing
         
         #Get filter category with size
@@ -105,3 +106,22 @@ class ActionBuyashions(Action):
         
         dispatcher.utter_message(text=message_text)
         return []
+    
+
+class ActionDeleteAllSlots(Action):
+
+    def name(self) -> Text:
+        return "action_delete_all_slots"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        # Get the list of all slots defined in your domain
+        all_slots = domain['slots'].keys()
+
+        # Create a list of SlotSet events with None values for each slot
+        slot_set_events = [SlotSet(slot, None) for slot in all_slots]
+
+        # Add the SlotSet events to the list of events to be returned
+        return slot_set_events

@@ -1,7 +1,13 @@
 version: "3.1"
 
 intents:
+  - do_you_have_a_girlfriend
+  - can_you_speak_english
+  - age
+  - who_created_you
+  - gender
   - buy_fashion
+  - delete_all_slots
   - jacket
   - sweater
   - tee
@@ -25,6 +31,66 @@ intents:
   - goodbye
   - size_m_s_skirt
 responses:
+  utter_delete_all_slots:
+    - text: "Xóa slots {slots}"
+
+  utter_do_you_have_a_girlfriend:
+    - text: "Tôi là một trợ lý ảo, nên không có khả năng có bạn gái như con người. 🤖"
+    - text: "Do là một bot, tôi không có cảm xúc và không thể có mối quan hệ như con người. 🤖"
+    - text: "Tôi là một chương trình máy tính, nên không có khả niệm về mối quan hệ cá nhân. 🤖"
+    - text: "Không, tôi không có bạn gái. Tôi được thiết kế để hỗ trợ và cung cấp thông tin. 🤖"
+    - text: "Do là một bot thông tin, tôi không có khả năng trải qua mối quan hệ như con người. 🤖"
+    - text: "Tôi chỉ là một chương trình máy tính thông minh, không có cảm xúc và mối quan hệ như con người. 🤖"
+    - text: "Không có bạn gái, không có cảm xúc, chỉ có khả năng hỗ trợ thông tin. 🤖"
+    - text: "Tôi là một ứng dụng máy tính, không có khả năng tham gia vào các mối quan hệ cá nhân. 🤖"
+    - text: "Mình là một chương trình máy tính, không có khả năng trải qua các cảm xúc cá nhân như con người. 🤖"
+    - text: "Không, tôi không có bạn gái. Nhiệm vụ của tôi là giúp đỡ và cung cấp thông tin cho bạn. 🤖"
+
+  utter_can_you_speak_english:
+    - text: "Hiện tại, tôi chỉ có thể nói được tiếng Việt. Hãy nói tiếng Việt để tôi hiểu và trả lời. 🗣️"
+    - text: "Tôi chỉ có thể sử dụng tiếng Việt để giao tiếp hiệu quả nhất. Hãy nói tiếng Việt để tôi có thể hỗ trợ bạn tốt nhất. 🌐"
+    - text: "Đến lúc này, tôi chỉ có thể hiểu và sử dụng tiếng Việt. Hãy nói chuyện với tôi bằng tiếng Việt nhé. 🇻🇳"
+    - text: "Tiếc rằng, tôi chỉ hỗ trợ tiếng Việt vào thời điểm này. Mong bạn thông cảm. 🙏"
+    - text: "Tôi chỉ có thể trả lời và hiểu tiếng Việt. Hãy sử dụng tiếng Việt để trò chuyện với tôi. 🗣️"
+    - text: "Hiện tại, tôi chỉ có thể nói chuyện bằng tiếng Việt. Cảm ơn bạn đã hiểu. 🌏"
+    - text: "Tiếng Việt là ngôn ngữ chính mà tôi hiểu và sử dụng. Hãy sử dụng tiếng Việt để giao tiếp với tôi. 🗨️"
+    - text: "Xin lỗi, tôi chỉ có thể nói chuyện bằng tiếng Việt. Cảm ơn bạn. 🤖"
+    - text: "Tính đến thời điểm này, tôi chỉ hỗ trợ giao tiếp bằng tiếng Việt. Hãy sử dụng tiếng Việt khi trò chuyện với tôi. 🇻🇳"
+    - text: "Hiện tại, tôi chỉ có thể hiểu và trả lời bằng tiếng Việt. Mong bạn sử dụng tiếng Việt khi tương tác với tôi. 🗣️"
+
+  utter_age:
+    - text: "Tôi chỉ mới làm sản phẩm thử nghiệm nên chưa có tuổi. 🌟"
+    - text: "Không có khái niệm về tuổi đối với một trợ lý ảo như tôi. 🤖"
+    - text: "Tuổi của tôi không quan trọng vì tôi chỉ là một ứng dụng máy học. 🚀"
+    - text: "Tôi không có tuổi, vì tôi là một sản phẩm trí tuệ nhân tạo. 😊"
+    - text: "Khái niệm về tuổi không áp dụng đối với tôi, một ứng dụng máy học. 🌐"
+    - text: "Tôi được tạo ra để hỗ trợ bạn, không có khái niệm về tuổi. 🚀"
+    - text: "Tôi là một chương trình máy tính, không có ngày sinh hay tuổi tác. 🤖"
+    - text: "Không có tuổi nha! Tôi chỉ là một phần mềm trí tuệ nhân tạo. 🌟"
+    - text: "Không cần biết tuổi của tôi, hãy chia sẻ vấn đề bạn đang gặp phải. 😊"
+    - text: "Tôi không có tuổi vì tôi chỉ là một công cụ máy tính thông minh. 🌐"
+  utter_gender:
+    - text: "Tôi là một con bot nên không có giới tính. 🤖"
+    - text: "Không có giới tính, vì tôi chỉ là một chương trình máy tính. 🌐"
+    - text: "Tôi không có giới tính vì tôi chỉ là một ứng dụng máy học. 🚀"
+    - text: "Không có giới tính nha! Tôi chỉ là phần mềm. 😊"
+    - text: "Tôi là một trợ lý ảo, nên không có khái niệm về giới tính. 🤖"
+    - text: "Giống như một chiếc máy tính, tôi không có giới tính. 🌐"
+    - text: "Không có giới tính, tôi là một hệ thống trí tuệ nhân tạo. 🚀"
+    - text: "Tôi là sản phẩm của công nghệ, không có giới tính cả. 😊"
+    - text: "Không có giới tính, vì tôi chỉ là một chương trình máy tính thông minh. 🌟"
+    - text: "Tôi không có giới tính vì tôi là một ứng dụng trí tuệ nhân tạo. 🤖"
+  utter_who_created_you:
+    - text: "Tôi được tạo ra bởi chị Diễm và một nhóm cộng tác trong luận án tốt nghiệp. 👩‍🎓"
+    - text: "Tôi là sản phẩm của luận án tốt nghiệp do chị Diễm và đồng đội thực hiện. 🎓"
+    - text: "Chị Diễm và đồng đội đã tạo ra tôi trong quá trình nghiên cứu luận án tốt nghiệp. 👨‍💻"
+    - text: "Chị Diễm cùng đồng đội là những người đã phát triển và tạo ra tôi trong dự án luận án tốt nghiệp. 👩‍💼"
+    - text: "Tôi là sản phẩm của chị Diễm và đồng đội trong đề tài luận án tốt nghiệp của họ. 🌐"
+    - text: "Chị Diễm là người sáng tạo và phát triển tôi cùng với nhóm nghiên cứu trong luận án tốt nghiệp. 👩‍🔬"
+    - text: "Tôi có nguồn gốc từ luận án tốt nghiệp của chị Diễm và đồng đội. 🎓"
+    - text: "Chị Diễm và nhóm nghiên cứu đã làm nền tảng cho sự phát triển của tôi trong luận án tốt nghiệp. 👨‍🏫"
+    - text: "Tôi ra đời như một phần của luận án tốt nghiệp, được phát triển bởi chị Diễm và đồng đội. 🌟"
+    - text: "Tôi là kết quả của công sức nghiên cứu và phát triển trong luận án tốt nghiệp của chị Diễm. 🎓"
   utter_jacket:
     - text: "Hiện tại bên Shop còn hàng áo khoác ạ! Không biết bạn muốn xem áo khoác màu và size như nào ạ"
     - text: "Áo khoác Shop có nhiều màu và size. Bạn muốn xem áo khoác như nào ạ?"
@@ -141,6 +207,7 @@ entities:
   
 actions:
   - action_buy_fashions
+  - action_delete_all_slots
 
 slots:
   clothing:
