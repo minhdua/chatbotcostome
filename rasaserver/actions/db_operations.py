@@ -3,10 +3,12 @@ import requests
 import nltk
 from .enum import ResponseCategoryBody, ResponseSizes, ResponseURL
 from .db_config import cursor
-from .utils import check_uppercase_in_array, compare_array_source_array_dest, normalize_text
+from .utils import check_uppercase_in_array, compare_array_source_array_dest, get_number_in_string, normalize_text
 
 def get_categories(categories):
     formatted_categories = ', '.join(f"'{category}'" for category in categories)
+    if formatted_categories == "":
+        return []
     query = f"SELECT * FROM category WHERE category_name IN ({formatted_categories})"
     cursor.execute(query)
     result = cursor.fetchall()
@@ -131,3 +133,26 @@ def check_product_colors_with_categories(categories, colors):
                 category_pro_filter_colors.append(category[1])
     
     return category_pro_filter_colors
+
+
+def check_product_prices_with_categories(categories, price_from, price_to):
+    category_ids = []
+    category_pro_filter_prices = []
+    
+    price_from = get_number_in_string(price_from)
+    price_to = get_number_in_string(price_to)
+    
+    for product in get_products_with_categories(categories):
+        if (price_from != None and int(price_from) <= int(product['price'])):
+            category_ids.append(product['category_id'])
+        
+        elif(price_from != None and price_to != None):
+            if (int(price_from) <= int(product['price']) <= int(price_to)):
+                category_ids.append(product['category_id'])
+    
+    if len(category_ids) > 0:
+        for category in get_categories(categories):
+            if category[0] in category_ids:
+                category_pro_filter_prices.append(category[1])
+    
+    return category_pro_filter_prices

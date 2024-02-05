@@ -6,11 +6,11 @@
                 <!-- Phần nội dung breadcrumb -->
                 <div class="breadcrumb__text">
                     <!-- Tiêu đề "Shop" -->
-                    <h4>Shop</h4>
+                    <h4>Cửa Hàng</h4>
                     <!-- Liên kết đến trang chủ và trang "Shop" -->
                     <div class="breadcrumb__links">
-                        <a href="./index.html">Home</a>
-                        <span>Shop</span>
+                        <a href="#">Trang chủ</a>
+                        <span>Cửa hàng</span>
                     </div>
                 </div>
             </div>
@@ -27,19 +27,19 @@
                 <!-- Thanh bên trái, dùng để lọc sản phẩm -->
                 <div class="shop__sidebar">
                     <!-- Ô tìm kiếm sản phẩm -->
-                    <div class="shop__sidebar__search">
+                    <!-- <div class="shop__sidebar__search">
                         <form action="#">
                             <input type="text" placeholder="Search...">
                             <button type="submit"><span class="icon_search"></span></button>
                         </form>
-                    </div>
+                    </div> -->
                     <!-- Phần danh mục sản phẩm, kích thước và màu sắc -->
                     <div class="shop__sidebar__accordion">
                         <div class="accordion" id="accordionExample">
                             <!-- Phần lọc theo danh mục -->
                             <div class="card">
                                 <div class="card-heading">
-                                    <a data-toggle="collapse" data-target="#collapseOne">Categories</a>
+                                    <a data-toggle="collapse" data-target="#collapseOne">Danh mục</a>
                                 </div>
                                 <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
                                     <div class="card-body">
@@ -47,17 +47,13 @@
                                         <div class="shop__sidebar__categories">
                                             <ul class="nice-scroll">
                                                 <!-- Nút danh mục sản phẩm -->
-                                                <button
-                                                    class="mr-2 mb-2"
-                                                    *ngFor="let item of categories; let i = index"
+                                                <button class="mr-2 mb-2" *ngFor="let item of categories; let i = index"
                                                     [ngStyle]="{
                                                         'background-color':
                                                         filterCategories.includes((item.id).toString()) ? 'orange' : 'transparent'
-                                                    }"
-                                                    mat-stroked-button
-                                                    (click)="chooseFillterType(item.id, 'category')"
-                                                >
-                                                  {{ item?.category_name }}
+                                                    }" mat-stroked-button
+                                                    (click)="chooseFillterType(item.id, 'category')">
+                                                    {{ item?.category_name }}
                                                 </button>
                                             </ul>
                                         </div>
@@ -67,23 +63,18 @@
                             <!-- Phần lọc theo kích thước -->
                             <div class="card">
                                 <div class="card-heading">
-                                    <a data-toggle="collapse" data-target="#collapseFour">Size</a>
+                                    <a data-toggle="collapse" data-target="#collapseFour">Lọc theo kích thước</a>
                                 </div>
                                 <div id="collapseFour" class="collapse show" data-parent="#accordionExample">
                                     <div class="card-body">
                                         <!-- Danh sách kích thước -->
                                         <div class="shop__sidebar__size">
-                                            <button
-                                                class="mr-2 mb-2"
-                                                *ngFor="let item of sizes; let i = index"
+                                            <button class="mr-2 mb-2" *ngFor="let item of sizes; let i = index"
                                                 [ngStyle]="{
                                                     'background-color':
                                                     size === item ? 'orange' : 'transparent'
-                                                }"
-                                                mat-stroked-button
-                                                (click)="chooseFillterType(item, 'size')"
-                                            >
-                                              {{ item }}
+                                                }" mat-stroked-button (click)="chooseFillterType(item, 'size')">
+                                                {{ item }}
                                             </button>
                                         </div>
                                     </div>
@@ -92,24 +83,42 @@
                             <!-- Phần lọc theo màu sắc -->
                             <div class="card">
                                 <div class="card-heading">
-                                    <a data-toggle="collapse" data-target="#collapseFive">Colors</a>
+                                    <a data-toggle="collapse" data-target="#collapseFive">Lọc theo màu sắc</a>
                                 </div>
                                 <div id="collapseFive" class="collapse show" data-parent="#accordionExample">
                                     <div class="card-body">
                                         <!-- Danh sách màu sắc -->
                                         <div class="shop__sidebar__color">
-                                            <button
-                                                class="mr-2 mb-2"
-                                                *ngFor="let item of colors; let i = index"
+                                            <button class="mr-2 mb-2" *ngFor="let item of colors; let i = index"
                                                 [ngStyle]="{
                                                     'background-color':
                                                     color === item ? 'orange' : 'transparent'
-                                                }"
-                                                mat-stroked-button
-                                                (click)="chooseFillterType(item, 'color')"
-                                            >
-                                              {{ item }}
+                                                }" mat-stroked-button (click)="chooseFillterType(item, 'color')">
+                                                {{ item }}
                                             </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Phần lọc theo giá -->
+                            <div class="card">
+                                <div class="card-heading">
+                                    <a data-toggle="collapse" data-target="#collapseSix">Lọc theo giá</a>
+                                </div>
+                                <div id="collapseSix" class="collapse show" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <div class="wrapper">
+                                            <div class="price-input">
+                                                <div class="field">
+                                                    <span>Từ</span>
+                                                    <input type="number" [(ngModel)]="price_min" class="input-min" placeholder="100" (ngModelChange)="onChangePriceMin($event)">
+                                                </div>
+                                                <div class="separator">-</div>
+                                                <div class="field">
+                                                    <span>Đến</span>
+                                                    <input type="number" [(ngModel)]="price_max" class="input-max" placeholder="500" (ngModelChange)="onChangePriceMax($event)">
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

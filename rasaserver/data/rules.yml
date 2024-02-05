@@ -6,6 +6,11 @@ rules:
   steps:
   - intent: goodbye
   - action: utter_goodbye
+
+- rule: greet
+  steps:
+  - intent: greeting
+  - action: utter_greeting
   
 - rule: Product Filter
   steps:

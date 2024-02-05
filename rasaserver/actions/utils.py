@@ -3,6 +3,7 @@ import nltk
 import numpy as np
 import unicodedata
 from collections import OrderedDict
+from .enum import ResponseURL
 
 def get_slots(slots):
     entity_values = []
@@ -46,6 +47,32 @@ def filter_duplicate_in_array(array):
     if value not in unique_values:
       unique_values.append(value)
   return unique_values
+
+
+def get_number_in_string(str_text):
+    if str_text:
+        numbers = re.findall(r'\d+', str_text)
+        return numbers[0]
+    return str_text
+
+
+def convert_text_to_url(category_ids, sizes_format, colors_format, price_min,  price_max):
+    product_url = f"{ResponseURL.URL.value}"
+    if category_ids != "":
+        product_url += f"&category={category_ids}"
+        
+    if sizes_format != "":
+        product_url += f"&size={sizes_format}"
+        
+    if colors_format != "":
+        product_url += f"&color={colors_format}"
+    
+    if int(price_min) > 0:
+        product_url += f"&price_min={price_min}"
+    
+    if int(price_max) > 0:
+        product_url += f"&price_max={price_max}"
+    return product_url
 
 
 def check_uppercase_in_array(array_text):

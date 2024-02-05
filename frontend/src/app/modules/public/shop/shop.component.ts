@@ -36,13 +36,19 @@ export class ShopComponent {
   sizes = ['S', 'M', 'L', 'XL', 'XXL'];
 
   // Danh sách màu sắc sản phẩm
-  colors = ['Red', 'Blue', 'Green', 'Yellow', 'Black', 'White'];
+  colors = ['WHITE', 'BLUE' ,'GREEN' , 'YELLOW', 'ORANGE', 'PINK', 'GREY', 'RED', 'BLACK', 'BROWN', 'PURPLE'];
 
   // Màu sắc được chọn
   color = '';
 
   // Kích thước được chọn
   size = '';
+
+  // Giá nhỏ
+  price_min = '';
+
+  // Giá lớn
+  price_max = '';
 
   // Thuộc tính dự đoán
   attributes_predict = '';
@@ -82,12 +88,25 @@ export class ShopComponent {
   // Lấy tham số từ URL
   getParam() {
     this._route.queryParams.subscribe((params) => {
-      const { category, size, color, attributes_predict, categories_predict, products_predict } = params;
+      const { 
+        category, 
+        size, 
+        color, 
+        price_min, 
+        price_max, 
+        attributes_predict, 
+        categories_predict, 
+        products_predict 
+      } = params;
+
       if (category) {
         this.filterCategories = category && category.split(',');
       }
+
       this.size = size || '';
       this.color = color || '';
+      this.price_min = price_min || '';
+      this.price_max = price_max || '';
       this.attributes_predict = attributes_predict || '';
       this.categories_predict = categories_predict || '';
       this.products_predict = products_predict || '';
@@ -115,6 +134,8 @@ export class ShopComponent {
       category: this.filterCategories.toString(),
       color: this.color,
       size: this.size,
+      price_min: this.price_min,
+      price_max: this.price_max,
       attributes_predict: this.attributes_predict,
       categories_predict: this.categories_predict,
       products_predict: this.products_predict,
@@ -151,4 +172,17 @@ export class ShopComponent {
       this.getProducts();
     }
   }
+
+  //Lọc giá từ giá nhỏ nhất
+  onChangePriceMin(value_min: string): void {
+    this.price_min = value_min;
+    this.getProducts();
+  }
+
+  // Lọc giá đến giá cao nhất
+  onChangePriceMax(value_max: string): void {
+    this.price_max = value_max;
+    this.getProducts();
+  }
+
 }

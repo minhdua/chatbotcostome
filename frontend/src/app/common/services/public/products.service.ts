@@ -27,6 +27,12 @@ export class ProductService {
     if (param.size) {
       url += `&size=${param.size}`;
     }
+    if (param.price_min) {
+      url += `&price_min=${param.price_min}`;
+    }
+    if (param.price_max) {
+      url += `&price_max=${param.price_max}`;
+    }
     if (param.attributes_predict) {
       url += `&attributes_predict=${param.attributes_predict}`;
     }

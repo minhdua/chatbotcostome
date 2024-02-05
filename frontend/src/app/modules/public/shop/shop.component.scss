@@ -1,3 +1,53 @@
 .nice-scroll li a {
   cursor: pointer;
 }
+
+.wrapper {
+  width: 100%;
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px 0px 10px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+}
+
+.price-input {
+  width: 100%;
+  display: flex;
+  margin: 5px 0 5px;
+}
+
+.price-input .field {
+  display: flex;
+  width: 100%;
+  height: 40px;
+  align-items: center;
+}
+
+.field input {
+  width: 100%;
+  height: 100%;
+  outline: none;
+  font-size: 20px;
+  margin-left: 5px;
+  border-radius: 5px;
+  text-align: center;
+  border: 1px solid #999;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+::placeholder {
+  color: #ebebeb;
+  opacity: 1;
+}
+
+.price-input .separator {
+  width: 20%;
+  display: flex;
+  font-size: 20px;
+  align-items: center;
+  justify-content: center;
+}
