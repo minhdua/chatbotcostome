@@ -33,8 +33,8 @@ pipeline:
   fallback_action_name: "action_default_fallback"
 
 policies:
-- name: "policies.slots_policy.SlotsPolicy"
-- name: "policies.conversation_logging_policy.ConversationLoggingPolicy"
+# - name: "policies.slots_policy.SlotsPolicy"
+# - name: "policies.conversation_logging_policy.ConversationLoggingPolicy"
 - name: MemoizationPolicy
 - name: TEDPolicy
   max_history: 5

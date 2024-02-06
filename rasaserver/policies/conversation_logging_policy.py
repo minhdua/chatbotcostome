@@ -5,15 +5,13 @@ from rasa.shared.core.trackers import DialogueStateTracker
 from rasa.shared.core.domain import Domain
 from rasa.shared.core.events import UserUttered, BotUttered
 from rasa.engine.recipes.default_recipe import DefaultV1Recipe
-from typing import List, Dict, Text, Any
 from rasa.shared.nlu.training_data.training_data import TrainingData
 from rasa.shared.nlu.interpreter import NaturalLanguageInterpreter
 from rasa.core.policies.policy import PolicyPrediction
-from typing import Optional
+from typing import Optional, Dict, Text, Any
 import requests
+from .enum import URL
 
-FLASK_API_URL = "http://127.0.0.1:5000"
-FLASK_STATISTICS_API_URL = f"{FLASK_API_URL}/history"
 @DefaultV1Recipe.register(
     [DefaultV1Recipe.ComponentType.POLICY_WITHOUT_END_TO_END_SUPPORT], is_trainable=True
 )
@@ -30,17 +28,13 @@ class ConversationLoggingPolicy(GraphComponent):
     ) -> PolicyPrediction:
         
         last_message = tracker.latest_message
-        # call api
         
         payload = {
-            "intent": last_message.intent["name"],
-            "session_id": tracker.sender_id,
-            "entities": last_message.entities,
-            "text": last_message.text,
-            "confidence": last_message.intent["confidence"]
-
+            "user_say": last_message.text,
+            "session_user": tracker.sender_id
         }
-        # requests.post(f"{FLASK_STATISTICS_API_URL}/{tracker.sender_id}", json=payload)
+        
+        requests.post(f"{URL.API_ADD_HISTORY.value}", json=payload)
 
         return PolicyPrediction.for_action_name(domain, "action_listen")
 

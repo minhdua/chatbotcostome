@@ -34,22 +34,8 @@ class SlotsPolicy(GraphComponent):
         entities_filters = get_confidence_max(tracker.latest_message.entities)
         
         entities_values = get_entity_value(entities_filters, tracker.latest_message.text)
-        
-        # for entity in entities_values:
-        #     if tracker.slots['clothing'] and tracker.slots['clothing'].mappings[0]['entity'] == entity['entity']:
-        #         tracker.slots['clothing'].value = entity['value']
-        #     if tracker.slots['category_type_clothing'] and tracker.slots['category_type_clothing'].mappings[0]['entity'] == entity['entity']:
-        #         tracker.slots['category_type_clothing'].value = entity['value']
-        #     if tracker.slots['size_clothing'] and tracker.slots['size_clothing'].mappings[0]['entity'] == entity['entity']:
-        #         tracker.slots['size_clothing'].value = entity['value']
-        #     if tracker.slots['color_clothing'] and tracker.slots['color_clothing'].mappings[0]['entity'] == entity['entity']:
-        #         tracker.slots['clothing'].value = entity['value']
-        #     if tracker.slots['price_from'] and tracker.slots['price_from'].name == entity['entity']:
-        #         tracker.slots['price_from'].value = entity['value']
-        #     if tracker.slots['price_to'] and tracker.slots['price_to'].name == entity['entity']:
-        #         tracker.slots['price_to'].value = entity['value']
 
-        return PolicyPrediction.for_action_name(domain, tracker.latest_action['action_name'])
+        return PolicyPrediction.for_action_name(domain, "action_listen")
 
     def _metadata(self) -> Dict[Text, Any]:
         return {"lookup": self.lookup}

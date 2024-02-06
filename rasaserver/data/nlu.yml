@@ -3,6 +3,99 @@ version: "3.1"
 nlu:
 - intent: buy_fashion
   examples: |
+    - muốn xem [size M](size)
+    - shop có váy [size M](size) ko
+    - váy [size M](size)
+    - xem váy [size M](size)
+    - muốn xem váy [size M](size) nha
+    - tôi xem váy [size M](size)
+    - người nhỏ con thì mặc váy [size M](size) ok ko shop hé
+    - cho xem váy [size M](size) nha
+    - shop có váy [size M](size) ko
+    - xem váy [size M](size)
+    - váy [size M](size)
+    - muốn xem váy [size M](size)
+    - cho tôi xem váy [size M](size)
+    - shop còn váy [size M](size) ko
+    - tôi muốn xem váy [size M](size)
+    - cho xem váy [size M](size) nha shop
+    - muốn xem váy [size M](size)
+    - shop có váy [size M](size) ko
+    - váy [size M](size)
+    - xem váy [size M](size)
+    - cho tôi xem váy [size M](size) nha
+    - cho xem váy [màu xanh](color) luôn nha
+    - shop có bán váy [màu xanh](color) ko
+    - xem váy [màu xanh](color)
+    - tôi muốn xem váy [màu xanh](color)
+    - muốn xem váy [màu xanh](color) nha
+    - cho xem váy [màu xanh](color) nhé
+    - shop còn váy [màu xanh](color) ko
+    - muốn xem váy [màu xanh](color)
+    - váy [màu xanh](color) nha
+    - Váy [màu xanh](color)
+    - cho tôi xem váy [màu xanh](color)
+    - tôi xem váy [màu xanh](color)
+    - xem váy [màu xanh](color)
+    - gửi tôi xem váy [màu xanh](color)
+    - cho xem [áo khoác](category) [size L](size) luôn nha
+    - áo khoác [size L](size)
+    - cho xem [size L](size) của áo khoác nha
+    - cho tôi xem [áo khoác](category) [size L](size)
+    - xem áo khoác [size L](size)
+    - [quần jean](category)
+    - tôi muốn mua [quần jean](category)
+    - có [quần jean](category) đẹp ko
+    - [quần jean](category) có bán ko shop
+    - mua [quần jean](category)
+    - có [quần jean](category) ko
+    - cho hỏi có bán [quần jean](category) ko
+    - [quần jean](category) shop còn hàng ko
+    - muốn xem [quần jean](category)
+    - cho xem [quần jean](category) với
+    - shop có bán [quần jean](category) ko
+    - gửi mẫu [quần jean](category) cho tôi xem
+    - cho xem [quần jean](category)
+    - xem [quần jean](category)
+    - có [quần bó](category) không
+    - mặc [quần bó](category) thoải mái
+    - tôi muốn [quần bó](category) bó
+    - [quần bó](category) sát chân
+    - [quần bó](category) mặc đẹp
+    - tôi muốn mua [quần bó](category)
+    - có [quần bó](category) ko
+    - [quần bó](category) shop có ko
+    - shop có [quần bó](category) ko
+    - [quần bó](category) shop có bán ko
+    - có bán [áo len](category) không
+    - cho xem [áo len](category) với
+    - xin mẫu [áo len](category) nha
+    - có [áo len](category) ko shop
+    - có [áo len](category) ko
+    - shop có [áo len](category) ko
+    - tôi muốn mua [quần short](category)
+    - mua [quần short](category)
+    - có [quần short](category) không shop
+    - [quần short](category) bán sao
+    - có [quần short](category) không
+    - [quần short](category) shop có bán ko
+    - tôi muốn xem [quần short](category)
+    - mẫu [quần short](category) shop có ko
+    - tôi mua [váy lót](category)
+    - [váy lót](category) còn không shop
+    - Chào bạn! Tôi đang tìm kiếm một chiếc [váy lót](category) cho buổi tiệc
+    - cần tim mua [váy lót](category) đi đám cưới
+    - cần [váy lót](category) đẹp
+    - muốn mua [váy lót](category)
+    - shop còn [váy lót](category) nào đẹp ko
+    - shop có bán [váy lót](category) ko
+    - xin mẫu [áo phông](category)
+    - có bán [áo phông](category) không shop
+    - muốn mua [áo phông](category)
+    - [áo phông](category) đẹp xin mẫu nha
+    - có [áo phông](category) ko shop ơi
+    - tôi muốn mua [áo phông](category) để đi chơi
+    - mẫu [áo phông](category) đẹp tôi muốn xem
     - Tôi muốn mua một chiếc [áo](category_type).
     - Tôi muốn mua cái [áo](category_type) mới.
     - Tôi đang tìm kiếm chiếc [áo](category_type) để mua.
@@ -98,7 +191,6 @@ nlu:
     - kích thước
     - kích cở
     - cở
-    - độ lớn
 
 - lookup: color
   examples: |
@@ -107,6 +199,8 @@ nlu:
     - vàng
     - đen
     - cam
+    - xám
+    - trắng
 
 - lookup: size
   examples: |
@@ -115,23 +209,17 @@ nlu:
     - size L
     - size XL
     - size XXL
-    - size Lớn
-    - size Nhỏ
-    - size 28
-    - size 29
-    - size 30
-    - size 31
-    - size 32
-    - size 33
 
 - regex: price
   examples: |
     - \d+
+    - từ (\d+)
+    - giá (\d+)
+    - đến (\d+)
+    - giá từ (\d+)
 
 - lookup: category
   examples: |
-    - áo khoác
-    - áo len
     - áo polo
     - Sơ mi nam
     - Khoác dạ
@@ -246,7 +334,6 @@ nlu:
     - áo thun
     - áo đầu
     - áo khoác
-    - áo len đan
     - quần áo ba lỗ
     - quần bó
     - quần yoga
@@ -596,96 +683,6 @@ nlu:
     - xóa ý niệm trước đó
     - xóa slots
 
-- intent: jacket
-  examples: |
-    - Áo khoác bán như thế nào
-    - áo khoác dài bán ntn
-    - tôi muốn xem áo khoác
-    - Tôi muốn mua áo khoác
-    - shop có bán áo khoác ko
-    - có áo khoác nào mặc chống nắng ko
-    - áo khoác mặc đi chơi có ko shop
-    - cho xem áo khoác nha
-    - có bán áo khoác ko
-    - xem áo khoác
-    - cho xem áo khoác
-    - áo khoác có không?
-- intent: sweater
-  examples: |
-    - có bán [áo len](category) không
-    - tôi muốn mua áo len
-    - cho xem [áo len](category) với
-    - tôi muốn xem áo len
-    - áo len shop có bán ko
-    - xin mẫu [áo len](category) nha
-    - mẫu áo len
-    - có [áo len](category) ko shop
-    - có [áo len](category) ko
-    - shop có [áo len](category) ko
-- intent: tee
-  examples: |
-    - xin mẫu áo phông
-    - có bán áo phông không shop
-    - muốn mua áo phông
-    - mẫu áo ba lỗ
-    - áo phông đẹp xin mẫu nha
-    - có áo phông ko shop ơi
-    - tôi muốn mua áo phông để đi chơi
-    - áo phông shop có bán ko
-    - mẫu áo phông đẹp tôi muốn xem
-- intent: skirt
-  examples: |
-    - tôi mua váy lót
-    - váy lót còn không shop
-    - Chào bạn! Tôi đang tìm kiếm một chiếc váy dài cho buổi tiệc
-    - cần tim mua váy đi đám cưới
-    - cần váy đẹp
-    - muốn mua váy
-    - shop còn váy nào đẹp ko
-    - shop có bán váy ko
-- intent: shorts
-  examples: |
-    - tôi muốn mua quần short
-    - mua quần short
-    - quần short
-    - có quần short không shop
-    - quần short bán sao
-    - có quần short không
-    - quần short shop có bán ko
-    - tôi muốn xem quần short
-    - mẫu quần short shop có ko
-- intent: leggings
-  examples: |
-    - có quần bó không
-    - mặc quần thun thoải mái
-    - tôi muốn mua quần bó
-    - Quần bó sát chân
-    - quần bó
-    - quần bó mặc đẹp
-    - tôi muốn mua quần thun
-    - có quần thun ko
-    - quần thun
-    - quần thun shop có ko
-    - shop có quần thun ko
-    - muốn xem quần thun
-    - quần bó shop có bán ko
-    - quần bó shop còn hàng ko
-- intent: jeans
-  examples: |
-    - Quần jean
-    - tôi muốn mua Quần jean
-    - có Quần jean đẹp ko
-    - Quần jean có bán ko shop
-    - mua Quần jean
-    - có Quần jean ko
-    - cho hỏi có bán Quần jean ko
-    - quần jean shop còn hàng ko
-    - muốn xem quần jean
-    - cho xem quần jean với
-    - shop có bán quần jean ko
-    - gửi mẫu quần jean cho tôi xem
-    - cho xem quần jean
-    - xem quần jean
 - intent: size_skirt
   examples: |
     - Váy thì có loại size nào shop?
@@ -695,6 +692,7 @@ nlu:
     - size váy này có loại nào lớn ko
     - Váy này có size nhỏ không
     - size váy nào thì người gầy mặc đẹp
+
 - intent: color_skirt
   examples: |
     - Váy có mấy loại màu shop
@@ -707,17 +705,7 @@ nlu:
     - shop có váy màu nào
     - váy có những màu nào há
     - váy thì shop có những màu nào
-- intent: size_l_jacket
-  examples: |
-    - áo khoác có size L ko shop
-    - Shop có bán áo khoác size L ko
-    - có áo khoác size L ko
-    - cho xem áo khoác size L
-    - muốn xem áo khoác size L
-    - áo khoác size L
-    - bao nhiêu kg thì mặc áo khoác size L
-    - cao bao nhiêu thì mặc áo khoác size L
-    - nam nữ có mặc chung áo khoác size L được ko
+
 - intent: size_jacket
   examples: |
     - shop có bao nhiêu size áo khoác
@@ -730,41 +718,7 @@ nlu:
     - cho tôi xem các size áo khoác
     - nặng 50kg mặc áo khoác size nào shop
     - shop gửi các size áo khoác cho mình xem nhé
-- intent: size_xl_jacket
-  examples: |
-    - áo khoác size XL
-    - xem áo khoác XL
-    - Áo khoác XL
-    - cho xem áo khoác size XL
-    - muốn xem áo khoác XL
-    - to con mặc áo khoác XL được ko
-- intent: size_xl_l_jacket
-  examples: |
-    - cho xem áo khoác size L và XL luôn nha
-    - áo khoác L và XL
-    - cho xem cả 2 size L và XL của áo khoác nha
-    - cho tôi xem áo khoác size L và XL
-    - xem áo khoác size L và XL
-- intent: color_grey_skirt
-  examples: |
-    - cho xem váy màu xám nha shop
-    - tôi muốn xem váy màu xám
-    - váy màu xám nha
-    - Shop có bán váy màu xám ko ?
-    - váy màu xám shop có ko?
-    - xem váy màu xám
-    - cho xem váy màu xám
-- intent: color_green_skirt
-  examples: |
-    - cho xem váy [màu xanh](color) nhé
-    - shop còn váy [màu xanh](color) ko
-    - muốn xem váy [màu xanh](color)
-    - váy [màu xanh](color) nha
-    - Váy [màu xanh](color)
-    - cho tôi xem váy [màu xanh](color)
-    - tôi xem váy [màu xanh](color)
-    - xem váy [màu xanh](color)
-    - gửi tôi xem váy [màu xanh](color)
+
 - intent: greeting
   examples: |
     - tôi muốn mua sản phẩm
@@ -788,32 +742,7 @@ nlu:
     - hello shop
     - tôi có câu hỏi
     - muốn hỏi chút
-- intent: color_grey_green_skirt
-  examples: |
-    - cho xem váy [màu xanh](color) và màu xám luôn nha
-    - shop có bán váy [màu xanh](color) và màu xám ko
-    - xem váy [màu xanh](color) và màu xám
-    - tôi muốn xem váy [màu xanh](color) và màu xám
-    - muốn xem váy màu xám và [màu xanh](color) nha
-- intent: size_s_skirt
-  examples: |
-    - cho xem váy size S nha shop
-    - muốn xem váy size S
-    - shop có váy size S ko
-    - váy size S
-    - xem váy size S
-    - cho tôi xem váy size S nha
-- intent: size_m_skirt
-  examples: |
-    - cho xem váy size M nha
-    - shop có váy size M ko
-    - xem váy size M
-    - váy size M
-    - muốn xem váy size M
-    - cho tôi xem váy size M
-    - shop còn váy size M ko
-    - tôi muốn xem váy size M
-  
+    
 - intent: thanks
   examples: |
     - cảm ơn
@@ -877,12 +806,4 @@ nlu:
     - bửa sau quay lại
     - bai nhé
     - bai shop
-- intent: size_m_s_skirt
-  examples: |
-    - muốn xem cả 2 size M và size S
-    - shop có váy size S và size M ko
-    - váy size S và M
-    - xem váy size S và M
-    - muốn xem váy size S và M nha
-    - tôi xem váy size S và M
-    - người nhỏ con thì mặc váy size S và M ok ko shop hé
+    

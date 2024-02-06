@@ -607,21 +607,29 @@ def add_history():
     data = request.json
     
     # Quy trình nhận danh mục
-    category_names = process_category(data['user_say'])
+    # category_names = process_category(data['user_say'])
     
     # Lấy dữ liệu từ chatbot
-    if (len(data['user_say']) > 0):
-        response_chatbot = get_response(data['user_say'])
+    # if (len(data['user_say']) > 0):
+    #     response_chatbot = get_response(data['user_say'])
     
     # Quy trình lấy danh sách sản phẩm theo danh mục
-    if (compare_strings(response_chatbot, ResponseMessage.MESSAGE_SORRY.value) == False):
-        response_chatbot += process_products_with_category(category_names, data['user_say'])
+    # if (compare_strings(response_chatbot, ResponseMessage.MESSAGE_SORRY.value) == False):
+    #     response_chatbot += process_products_with_category(category_names, data['user_say'])
+    
+    # history = History(
+    #     session_user=data['session_user'],
+    #     user_say=data['user_say'],
+    #     chat_response=response_chatbot,
+    #     concepts=json.dumps(category_names),
+    #     message_type=MessageType.TEXT.value
+    # )
     
     history = History(
         session_user=data['session_user'],
         user_say=data['user_say'],
-        chat_response=response_chatbot,
-        concepts=json.dumps(category_names),
+        chat_response="",
+        concepts="",
         message_type=MessageType.TEXT.value
     )
     

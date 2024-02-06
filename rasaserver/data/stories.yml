@@ -31,3 +31,23 @@ stories:
   steps:
   - intent: can_you_speak_english
   - action: utter_can_you_speak_english
+
+- story: can you do
+  steps:
+  - intent: what_can_you_do
+  - action: utter_what_can_you_do
+
+- story: color skirt
+  steps:
+  - intent: color_skirt
+  - action: utter_color_skirt
+
+- story: jacket
+  steps:
+  - intent: size_jacket
+  - action: utter_size_jacket
+
+- story: size skirt
+  steps:
+  - intent: size_skirt
+  - action: utter_size_skirt
