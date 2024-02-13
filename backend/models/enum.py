@@ -54,6 +54,9 @@ class MessageType(Enum):
     TEXT = "text"
     IMAGE = "image"
     
+class URL(Enum):
+    API_ADD_HISTORY = 'http://127.0.0.1:5000/add_history'
+    
 class ResponseURL(Enum):
     BASE_URL = 'http://localhost:4200/shop?page=1&per_page=200'
     URL_PRODUCT = 'http://127.0.0.1:5000/products?category={categories}'

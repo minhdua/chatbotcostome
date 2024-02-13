@@ -628,7 +628,7 @@ def add_history():
     history = History(
         session_user=data['session_user'],
         user_say=data['user_say'],
-        chat_response="",
+        chat_response=data['chat_response'],
         concepts="",
         message_type=MessageType.TEXT.value
     )

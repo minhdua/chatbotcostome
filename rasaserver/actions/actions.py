@@ -8,13 +8,13 @@ from typing import Any, Text, Dict, List
 
 from .enum import EntityNameEnum, ResponseMessage, ResponseURL
 from .db_operations import check_product_colors_with_categories, check_product_prices_with_categories, check_product_sizes_with_categories, get_category_ids, get_color_user_say, get_size_user_say, query_dictionary_by_word
-from .utils import convert_text_to_url, filter_duplicate_in_array, get_entity_value, get_number_in_string
+from .utils import add_history_api, convert_text_to_url, filter_duplicate_in_array, get_entity_value, get_number_in_string
 from rasa_sdk import Action, Tracker
 from rasa_sdk.events import SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 
 
-class ActionBuyashions(Action):
+class ActionBuyFashions(Action):
 
     def name(self) -> Text:
         return "action_buy_fashions"
@@ -43,16 +43,20 @@ class ActionBuyashions(Action):
         
         #Separate words and get all sizes: 'S', 'M', 'L', 'XL', 'XXL', 'XXXL' corresponding to size product
         sizes = []
+        sizes_format = ""
         if size_clothing != None:
             sizes = get_size_user_say(size_clothing)
-        sizes_format = ",".join(str(size) for size in sizes)
+        if len(sizes) > 0:
+            sizes_format = sizes[0]
         
         #Separate words and get all colors in dictionaries
         #Defined of database 'WHITE', 'BLUE' ,'GREEN' , 'YELLOW', 'ORANGE', 'PINK', 'GREY', 'RED', 'BLACK', 'BROWN', 'PURPLE' corresponding to size product
         colors = []
+        colors_format = ""
         if color_clothing != None:
             colors = get_color_user_say(color_clothing)
-        colors_format = ",".join(str(color) for color in colors)
+        if len(colors) > 0:
+            colors_format = colors[0]
         
         #Merger all list categories
         categories = category_type

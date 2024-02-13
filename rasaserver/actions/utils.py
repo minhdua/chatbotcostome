@@ -3,6 +3,8 @@ import nltk
 import numpy as np
 import unicodedata
 from collections import OrderedDict
+import requests
+from .enum import URL
 from .enum import ResponseURL
 
 def get_slots(slots):
@@ -77,6 +79,10 @@ def convert_text_to_url(category_ids, sizes_format, colors_format, price_min,  p
 
 def check_uppercase_in_array(array_text):
   return np.array([string.isupper() for string in array_text])
+
+
+def add_history_api(payload):
+    requests.post(f"{URL.API_ADD_HISTORY.value}", json=payload)
 
 
 def compare_array_source_array_dest(array_source, array_dest):

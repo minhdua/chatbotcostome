@@ -1,5 +1,6 @@
 from flask_restful import Resource, reqparse
 import requests
+from models.enum import URL
 from constants import PATH_FILE_DOMAIN, PATH_FILE_NLU, RASA_API_URL
 from models.common.normalize_text import normalize_text
 from models.nlp.intent_model import Intent
@@ -56,6 +57,14 @@ class ChatBotResponseResource(Resource):
         try:
             rasa_response_json = rasa_response.json()
             bot_response = rasa_response_json[0]['text'] if rasa_response_json else "Dữ liệu của tôi chưa được cập nhật"
+            
+            payload = {
+                "user_say": data['question'],
+                "session_user": data['session_user'],
+                "chat_response": bot_response
+            }
+            add_history_api(payload)
+            
             return CommonResponse.chat(message="Chatbot responsed", data=bot_response)
         except ValueError:
             return CommonResponse.internal_server_error("Failed to decode JSON response from Chatbot")
@@ -128,3 +137,7 @@ def generate_nlu_content(intents):
 def write_file(content, file_path):
     with open(file_path, 'w', encoding='utf-8') as f:
         f.write(content)
+
+
+def add_history_api(payload):
+    requests.post(f"{URL.API_ADD_HISTORY.value}", json=payload)
