@@ -7,10 +7,10 @@
 from typing import Any, Text, Dict, List
 
 from .enum import EntityNameEnum, ResponseMessage, ResponseURL
-from .db_operations import check_product_colors_with_categories, check_product_prices_with_categories, check_product_sizes_with_categories, get_category_ids, get_color_user_say, get_size_user_say, query_dictionary_by_word
-from .utils import add_history_api, convert_text_to_url, filter_duplicate_in_array, get_entity_value, get_number_in_string
+from .db_operations import check_product_colors_with_categories, check_product_prices_with_categories, check_product_sizes_with_categories, get_category_ids, get_color_user_say, get_size_user_say, get_sizes_product_with_categories, query_dictionary_by_word
+from .utils import add_history_api, check_products_call_api, convert_text_to_url, filter_duplicate_in_array, get_entity_value, get_number_in_string
 from rasa_sdk import Action, Tracker
-from rasa_sdk.events import SlotSet
+from rasa_sdk.events import SlotSet, FollowupAction
 from rasa_sdk.executor import CollectingDispatcher
 
 
@@ -64,7 +64,7 @@ class ActionBuyFashions(Action):
             categories = filter_duplicate_in_array(category_clothing)
         
         #Define product name, size name, color name, category_filter
-        product_name = category_type_clothing
+        product_name = clothing
         size_name = ""
         color_name = ""
         price_from_name = ""
@@ -134,7 +134,12 @@ class ActionBuyFashions(Action):
         #Message text full result to user chat
         product_url = convert_text_to_url(category_ids, sizes_format, colors_format, price_min,  price_max)
         link_click = ResponseURL.TAG_A.value.format(url=product_url, text_user=ResponseMessage.CLICK.value)
-        message_text = f"{ResponseMessage.NOTIFICATION.value} {product_name} {size_name} {color_name} {price_from_name} {price_to_name} {link_click}"
+        message_text = f"{ResponseMessage.NOTIFICATION.value} ({product_name} {size_name} {color_name} {price_from_name} {price_to_name}) {link_click}"
+        
+        #Check url has products
+        is_products = check_products_call_api(category_ids, sizes_format, colors_format, price_min,  price_max)
+        if is_products == False:
+            message_text = f"{ResponseMessage.NOT_PRODUCTS_START.value} ({product_name} {size_name} {color_name} {price_from_name} {price_to_name}) {ResponseMessage.NOT_PRODUCTS_END.value}"
         
         dispatcher.utter_message(text=message_text)
         return []
@@ -157,3 +162,84 @@ class ActionDeleteAllSlots(Action):
 
         # Add the SlotSet events to the list of events to be returned
         return slot_set_events
+    
+class ActionSizeAsk(Action):
+    def name(self) -> Text:
+        return "action_size"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        size_clothing = tracker.get_slot("size_clothing")
+        if size_clothing != None:
+            return [FollowupAction("action_buy_fashions")]
+        
+        category_type_clothing = tracker.get_slot("category_type_clothing")
+        clothing = tracker.get_slot("clothing")
+        
+        #Get categories with words: UPPER_BODY, LOWER_BODY, FULL_BODY
+        category_type = []
+        if category_type_clothing != None:
+            category_type = query_dictionary_by_word(category_type_clothing)
+        
+        #Get categories with words in list dictionaries defined in database
+        category_clothing = []
+        if clothing != None:
+            category_clothing = query_dictionary_by_word(clothing)
+            
+        #Merger all list categories
+        categories = category_type
+        if clothing != None:
+            categories = filter_duplicate_in_array(category_clothing)
+            
+        sizes = get_sizes_product_with_categories(categories)
+        dispatcher.utter_message(text='Sảm phẩm này hiện tại có {} size là {} bạn chọn size nào?'.format(len(sizes),', '.join(sizes)))
+        return []
+    
+
+class ActionColorAsk(Action):
+    def name(self) -> Text:
+        return "action_color"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        color_clothing = tracker.get_slot("color_clothing")
+        if color_clothing != None:
+            return [FollowupAction("action_buy_fashions")]
+        
+        category_type_clothing = tracker.get_slot("category_type_clothing")
+        clothing = tracker.get_slot("clothing")
+        
+        #Get categories with words: UPPER_BODY, LOWER_BODY, FULL_BODY
+        category_type = []
+        if category_type_clothing != None:
+            category_type = query_dictionary_by_word(category_type_clothing)
+        
+        #Get categories with words in list dictionaries defined in database
+        category_clothing = []
+        if clothing != None:
+            category_clothing = query_dictionary_by_word(clothing)
+            
+        #Merger all list categories
+        categories = category_type
+        if clothing != None:
+            categories = filter_duplicate_in_array(category_clothing)
+            
+        colors = get_sizes_product_with_categories(categories)
+        dispatcher.utter_message(text='Sảm phẩm này hiện tại có {} màu là {} bạn chọn màu nào?'.format(len(colors),', '.join(colors)))
+        return []
+
+
+class ActionDefaultFallback(Action):
+    def name(self) -> Text:
+        return "action_default_fallback"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        dispatcher.utter_message(text='Xin lỗi tôi chưa hiểu ý của bạn. Vui lòng cho câu hỏi rõ hơn!')
+        return []

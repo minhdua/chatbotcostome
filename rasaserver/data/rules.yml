@@ -11,11 +11,6 @@ rules:
   steps:
   - intent: greeting
   - action: utter_greeting
-  
-- rule: Product Filter
-  steps:
-  - intent: buy_fashion
-  - action: action_buy_fashions
 
 - rule: Delete Slots
   steps:

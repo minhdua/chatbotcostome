@@ -77,6 +77,30 @@ def convert_text_to_url(category_ids, sizes_format, colors_format, price_min,  p
     return product_url
 
 
+def check_products_call_api(category_ids, sizes_format, colors_format, price_min,  price_max):
+    product_url = f"{ResponseURL.URL_CHECK_HAS_PRODUCT.value}"
+    if category_ids != "":
+        product_url += f"?category={category_ids}"
+        
+    if sizes_format != "":
+        product_url += f"&size={sizes_format}"
+        
+    if colors_format != "":
+        product_url += f"&color={colors_format}"
+    
+    if int(price_min) > 0:
+        product_url += f"&price_min={price_min}"
+    
+    if int(price_max) > 0:
+        product_url += f"&price_max={price_max}"
+        
+    response = requests.get(product_url).json()
+    
+    if len(response['data']) > 0:
+        return True
+    return False
+
+
 def check_uppercase_in_array(array_text):
   return np.array([string.isupper() for string in array_text])
 

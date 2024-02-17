@@ -40,6 +40,7 @@ class ColorEnum(Enum):
 class ResponseURL(Enum):
     BASE_URL = 'http://localhost:4200/shop?page=1&per_page=200'
     URL_PRODUCT = 'http://127.0.0.1:5000/products?category={categories}'
+    URL_CHECK_HAS_PRODUCT = 'http://127.0.0.1:5000/products'
     URL = 'http://localhost:4200/shop?page=1&per_page=200'
     TAG_A = ' <a href="{url}" target="_blank" id="link_show_product">{text_user}</a>.'
     URL_IMAGE = 'http://localhost:4200/shop?page=1&per_page=200&attributes_predict={attributes}&categories_predict={categories}'
@@ -56,6 +57,8 @@ class ResponseMessage(Enum):
 
 class ResponseMessage(Enum):
     NOTIFICATION = "Sản phẩm bạn tìm là"
+    NOT_PRODUCTS_START = "Hiện tại Shop không có sản phẩm bạn đang tìm là"
+    NOT_PRODUCTS_END = "Vui lòng tìm kiếm thông tin sản phẩm khác ạ! Shop cảm ơn bạn"
     CLICK = "Nhấn vào xem sản phẩm"
     PRICE_FROM = "có giá"
     

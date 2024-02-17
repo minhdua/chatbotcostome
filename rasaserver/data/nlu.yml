@@ -1,7 +1,33 @@
 version: "3.1"
 
 nlu:
-- intent: buy_fashion
+- intent: request_color
+  examples: |
+    - cho xem váy [màu xanh](color) luôn nha
+    - shop có bán váy [màu xanh](color) ko
+    - xem váy [màu xanh](color)
+    - tôi muốn xem váy [màu xanh](color)
+    - muốn xem váy [màu xanh](color) nha
+    - cho xem váy [màu xanh](color) nhé
+    - shop còn váy [màu xanh](color) ko
+    - muốn xem váy [màu xanh](color)
+    - váy [màu xanh](color) nha
+    - Váy [màu xanh](color)
+    - cho tôi xem váy [màu xanh](color)
+    - tôi xem váy [màu xanh](color)
+    - xem váy [màu xanh](color)
+    - gửi tôi xem váy [màu xanh](color)
+    - [màu xanh](color)
+    - [màu đen](color) nha
+    - Bạn có cái nào [màu xanh](color) không?
+    - Bạn có đồ gì [màu xanh](color) không?
+    - Bạn có cái gì [màu xanh](color) không?
+    - Có cái nào [màu xanh](color) không vậy?
+    - cái [màu xanh](color) nha
+    - Có cái nào có [màu xanh](color) không?
+    - Có đồ gì [màu xanh](color) không vậy?
+
+- intent: request_size
   examples: |
     - muốn xem [size M](size)
     - shop có váy [size M](size) ko
@@ -24,25 +50,27 @@ nlu:
     - váy [size M](size)
     - xem váy [size M](size)
     - cho tôi xem váy [size M](size) nha
-    - cho xem váy [màu xanh](color) luôn nha
-    - shop có bán váy [màu xanh](color) ko
-    - xem váy [màu xanh](color)
-    - tôi muốn xem váy [màu xanh](color)
-    - muốn xem váy [màu xanh](color) nha
-    - cho xem váy [màu xanh](color) nhé
-    - shop còn váy [màu xanh](color) ko
-    - muốn xem váy [màu xanh](color)
-    - váy [màu xanh](color) nha
-    - Váy [màu xanh](color)
-    - cho tôi xem váy [màu xanh](color)
-    - tôi xem váy [màu xanh](color)
-    - xem váy [màu xanh](color)
-    - gửi tôi xem váy [màu xanh](color)
     - cho xem [áo khoác](category) [size L](size) luôn nha
     - áo khoác [size L](size)
     - cho xem [size L](size) của áo khoác nha
     - cho tôi xem [áo khoác](category) [size L](size)
     - xem áo khoác [size L](size)
+    - [size M](size)
+    - [kích thước M](size) nha
+    - Có cái nào có [kích thước M](size) không?
+    - Có sản phẩm nào [kích cỡ M](size) không?
+    - Có đồ gì [size M](size) không?
+    - Có hàng nào [kích thước M](size) không?
+    - Có cái nào [size M](size) không vậy?
+    - Có mặt hàng nào [size M](size) không?
+    - Có đồ vật nào [kích cỡ M](size) không?
+    - Có sản phẩm nào [size M](size) không có?
+    - Có món gì [kích thước M](size) không?
+    - Có cái nào [kích cỡ M](size) không đấy?
+
+- intent: buy_fashion
+  examples: |
+    
     - [quần jean](category)
     - tôi muốn mua [quần jean](category)
     - có [quần jean](category) đẹp ko
@@ -57,6 +85,7 @@ nlu:
     - gửi mẫu [quần jean](category) cho tôi xem
     - cho xem [quần jean](category)
     - xem [quần jean](category)
+    - Cho xin xem một cái [áo khoác](category) đi.
     - có [quần bó](category) không
     - mặc [quần bó](category) thoải mái
     - tôi muốn [quần bó](category) bó
@@ -152,27 +181,7 @@ nlu:
     - Bạn cho tôi xem hàng nào có giá [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"} nhé?
     - Có thể xem giúp tôi cái nào giá [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"} không?
     - Cho tôi xem sản phẩm nào có mức giá [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"} vậy bạn?
-    - [size M](size)
-    - [kích thước M](size) nha
-    - Có cái nào có [kích thước M](size) không?
-    - Có sản phẩm nào [kích cỡ M](size) không?
-    - Có đồ gì [size M](size) không?
-    - Có hàng nào [kích thước M](size) không?
-    - Có cái nào [size M](size) không vậy?
-    - Có mặt hàng nào [size M](size) không?
-    - Có đồ vật nào [kích cỡ M](size) không?
-    - Có sản phẩm nào [size M](size) không có?
-    - Có món gì [kích thước M](size) không?
-    - Có cái nào [kích cỡ M](size) không đấy?
-    - [màu xanh](color)
-    - [màu đen](color) nha
-    - Bạn có cái nào [màu xanh](color) không?
-    - Bạn có đồ gì [màu xanh](color) không?
-    - Bạn có cái gì [màu xanh](color) không?
-    - Có cái nào [màu xanh](color) không vậy?
-    - cái [màu xanh](color) nha
-    - Có cái nào có [màu xanh](color) không?
-    - Có đồ gì [màu xanh](color) không vậy?
+    
 
 - lookup: category_type
   examples: |
@@ -739,6 +748,7 @@ nlu:
     - tôi muốn mua
     - alo alo
     - chào
+    - xin chào
     - hello shop
     - tôi có câu hỏi
     - muốn hỏi chút

@@ -37,17 +37,23 @@ stories:
   - intent: what_can_you_do
   - action: utter_what_can_you_do
 
-- story: color skirt
+- story: Find with category
   steps:
-  - intent: color_skirt
-  - action: utter_color_skirt
+  - intent: buy_fashion
+  - action: utter_ask_addition
+  - checkpoint: checkpoint_size
+  - checkpoint: checkpoint_color
+  - action: action_buy_fashions
 
-- story: jacket
+- story: Ask with size
   steps:
-  - intent: size_jacket
-  - action: utter_size_jacket
+  - action: action_size
+  - intent: request_size
+  - checkpoint: checkpoint_size
 
-- story: size skirt
+- story: Ask with color
   steps:
-  - intent: size_skirt
-  - action: utter_size_skirt
+  - action: action_color
+  - intent: request_color
+  - checkpoint: checkpoint_color
+    

@@ -116,6 +116,14 @@ def check_product_sizes_with_categories(categories, sizes):
     return category_pro_filter_sizes
 
 
+def get_sizes_product_with_categories(categories):
+    sizes = []
+    for product in get_products_with_categories(categories):
+        sizes.extend(product['sizes'])
+    
+    return sizes
+
+
 def check_product_colors_with_categories(categories, colors):
     category_ids = []
     category_pro_filter_colors = []
