@@ -3,7 +3,7 @@ import requests
 import nltk
 from .enum import ResponseCategoryBody, ResponseSizes, ResponseURL
 from .db_config import cursor
-from .utils import check_uppercase_in_array, compare_array_source_array_dest, get_number_in_string, normalize_text
+from .utils import check_uppercase_in_array, compare_array_source_array_dest, get_number_in_string, map_color_text, normalize_text
 
 def get_categories(categories):
     formatted_categories = ', '.join(f"'{category}'" for category in categories)
@@ -120,8 +120,15 @@ def get_sizes_product_with_categories(categories):
     sizes = []
     for product in get_products_with_categories(categories):
         sizes.extend(product['sizes'])
-    
     return sizes
+
+
+def get_colors_product_with_categories(categories):
+    colors = []
+    for product in get_products_with_categories(categories):
+        colors.extend(product['colors'])
+    colors = map_color_text(colors)
+    return colors
 
 
 def check_product_colors_with_categories(categories, colors):

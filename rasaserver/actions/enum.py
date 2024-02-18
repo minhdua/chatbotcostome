@@ -56,7 +56,7 @@ class ResponseMessage(Enum):
     
 
 class ResponseMessage(Enum):
-    NOTIFICATION = "Sản phẩm bạn tìm là"
+    NOTIFICATION = "Shop có sản phẩm bạn tìm là"
     NOT_PRODUCTS_START = "Hiện tại Shop không có sản phẩm bạn đang tìm là"
     NOT_PRODUCTS_END = "Vui lòng tìm kiếm thông tin sản phẩm khác ạ! Shop cảm ơn bạn"
     CLICK = "Nhấn vào xem sản phẩm"
@@ -75,4 +75,20 @@ class ResponseCategoryBody(Enum):
 class ResponseColors(Enum):
     COLORS = [
         'WHITE', 'BLUE' ,'GREEN' , 'YELLOW', 'ORANGE', 'PINK', 'GREY', 'RED', 'BLACK', 'BROWN', 'PURPLE'
+    ]
+
+
+class ColorsText(Enum):
+    COLORS = [
+        {'key': 'WHITE', 'text': 'màu trắng'},
+        {'key': 'BLUE', 'text': 'màu xanh'},
+        {'key': 'GREEN', 'text': 'màu xanh lá'}, 
+        {'key': 'PURPLE', 'text': 'màu xanh da trời'},
+        {'key': 'YELLOW', 'text': 'màu vàng'}, 
+        {'key': 'ORANGE', 'text': 'màu cam'}, 
+        {'key': 'PINK', 'text': 'màu hồng'},
+        {'key': 'GREY', 'text': 'màu xám'},
+        {'key': 'RED', 'text': 'màu đỏ'}, 
+        {'key': 'BLACK', 'text': 'màu đen'}, 
+        {'key': 'BROWN', 'text': 'màu nâu'}
     ]

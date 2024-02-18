@@ -18,6 +18,7 @@ intents:
   - goodbye
   - request_size
   - request_color
+  - request_price
 
 responses:
   utter_delete_all_slots:
@@ -140,9 +141,6 @@ responses:
     - text: "Tôi làm để giúp bạn tìm hiểu mọi thông tin về trang phục. 📖"
     - text: "Tôi có thể cung cấp thông tin đầy đủ và chính xác về trang phục. 🎓"
 
-  utter_ask_addition:
-    - text: "Bạn cho tôi biết thêm một số thông tin về ({clothing})"
-
 
 entities:
   - category_type
@@ -160,6 +158,7 @@ actions:
   - action_default_fallback
   - action_size
   - action_color
+  - action_category
 
 slots:
   clothing:

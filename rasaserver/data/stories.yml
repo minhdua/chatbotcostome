@@ -40,20 +40,25 @@ stories:
 - story: Find with category
   steps:
   - intent: buy_fashion
-  - action: utter_ask_addition
-  - checkpoint: checkpoint_size
-  - checkpoint: checkpoint_color
+  - action: action_category
+  - checkpoint: check_asked_question
+
+- story: Ask with sizes
+  steps:
+  - checkpoint: check_asked_question
+  - intent: request_size
   - action: action_buy_fashions
 
-- story: Ask with size
+- story: Ask with colors
   steps:
-  - action: action_size
-  - intent: request_size
-  - checkpoint: checkpoint_size
-
-- story: Ask with color
-  steps:
-  - action: action_color
+  - checkpoint: check_asked_question
   - intent: request_color
-  - checkpoint: checkpoint_color
+  - action: action_buy_fashions
+
+- story: Ask with prices
+  steps:
+  - checkpoint: check_asked_question
+  - intent: request_price
+  - action: action_buy_fashions
+
     

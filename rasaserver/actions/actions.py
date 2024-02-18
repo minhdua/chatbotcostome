@@ -7,7 +7,7 @@
 from typing import Any, Text, Dict, List
 
 from .enum import EntityNameEnum, ResponseMessage, ResponseURL
-from .db_operations import check_product_colors_with_categories, check_product_prices_with_categories, check_product_sizes_with_categories, get_category_ids, get_color_user_say, get_size_user_say, get_sizes_product_with_categories, query_dictionary_by_word
+from .db_operations import check_product_colors_with_categories, check_product_prices_with_categories, check_product_sizes_with_categories, get_category_ids, get_color_user_say, get_colors_product_with_categories, get_products_with_categories, get_size_user_say, get_sizes_product_with_categories, query_dictionary_by_word
 from .utils import add_history_api, check_products_call_api, convert_text_to_url, filter_duplicate_in_array, get_entity_value, get_number_in_string
 from rasa_sdk import Action, Tracker
 from rasa_sdk.events import SlotSet, FollowupAction
@@ -228,8 +228,44 @@ class ActionColorAsk(Action):
         if clothing != None:
             categories = filter_duplicate_in_array(category_clothing)
             
-        colors = get_sizes_product_with_categories(categories)
+        colors = get_colors_product_with_categories(categories)
         dispatcher.utter_message(text='Sảm phẩm này hiện tại có {} màu là {} bạn chọn màu nào?'.format(len(colors),', '.join(colors)))
+        return []
+
+
+class ActionCategoryAsk(Action):
+    def name(self) -> Text:
+        return "action_category"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        category_type_clothing = tracker.get_slot("category_type_clothing")
+        clothing = tracker.get_slot("clothing")
+        name_clothing = category_type_clothing
+        
+        if category_type_clothing != None and clothing != None:
+            return [FollowupAction("action_buy_fashions")]
+        
+        #Get categories with words: UPPER_BODY, LOWER_BODY, FULL_BODY
+        category_type = []
+        if category_type_clothing != None:
+            category_type = query_dictionary_by_word(category_type_clothing)
+        
+        #Get categories with words in list dictionaries defined in database
+        category_clothing = []
+        if clothing != None:
+            category_clothing = query_dictionary_by_word(clothing)
+            name_clothing = clothing
+            
+        #Merger all list categories
+        categories = category_type
+        if clothing != None:
+            categories = filter_duplicate_in_array(category_clothing)
+            
+        products = get_products_with_categories(categories)
+        dispatcher.utter_message(text='Hiện tại ({}) bên Shop còn {} sản phẩm. Cho Shop hỏi bạn chọn ({}) như thế nào ạ!'.format(name_clothing, len(products), name_clothing))
         return []
 
 

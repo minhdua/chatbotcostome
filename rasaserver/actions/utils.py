@@ -4,7 +4,7 @@ import numpy as np
 import unicodedata
 from collections import OrderedDict
 import requests
-from .enum import URL
+from .enum import URL, ColorsText
 from .enum import ResponseURL
 
 def get_slots(slots):
@@ -103,6 +103,21 @@ def check_products_call_api(category_ids, sizes_format, colors_format, price_min
 
 def check_uppercase_in_array(array_text):
   return np.array([string.isupper() for string in array_text])
+
+
+def map_color_text(colors):
+    color_texts = []
+    for color in colors:
+        value = find_value(ColorsText.COLORS.value, color)
+        color_texts.append(value)
+    return color_texts
+
+
+def find_value(list_of_dicts, value):
+    for dictionary in list_of_dicts:
+        if (dictionary['key']).strip().lower() == value.strip().lower():
+            return dictionary['text']
+    return ""
 
 
 def add_history_api(payload):

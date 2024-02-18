@@ -1,6 +1,28 @@
 version: "3.1"
 
 nlu:
+- intent: request_price
+  examples: |
+    - [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"}
+    - giá [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"}
+    - giá bán [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"} nha
+    - giá [từ 150]{"entity": "price", "role": "price_from"}
+    - giá bán [từ 150]{"entity": "price", "role": "price_from"}
+    - [từ 150]{"entity": "price", "role": "price_from"}
+    - [đến 200]{"entity": "price", "role":"price_to"}
+    - Có cái nào giá [từ 150]{"entity": "price", "role": "price_from"}
+    - Cho xem cái có giá [từ 150]{"entity": "price", "role": "price_from"}
+    - Bạn có thể xem giúp tôi sản phẩm nào có giá [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"} không?
+    - Cho xem cái nào có giá [từ 150]{"entity": "price", "role": "price_from"} tới 200 được không?
+    - Bạn cho tôi xem sản phẩm nào giá [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"} vậy?
+    - Có thể xem giúp tôi cái nào có giá [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"} không?
+    - Cho tôi xin xem sản phẩm giá [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"} được không?
+    - Bạn có thể cho tôi xem cái nào có giá [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"} không ạ?
+    - Cho xem sản phẩm nào giá [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"} vậy bạn?
+    - Bạn cho tôi xem hàng nào có giá [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"} nhé?
+    - Có thể xem giúp tôi cái nào giá [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"} không?
+    - Cho tôi xem sản phẩm nào có mức giá [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"} vậy bạn?
+    
 - intent: request_color
   examples: |
     - cho xem váy [màu xanh](color) luôn nha
@@ -15,10 +37,12 @@ nlu:
     - Váy [màu xanh](color)
     - cho tôi xem váy [màu xanh](color)
     - tôi xem váy [màu xanh](color)
-    - xem váy [màu xanh](color)
+    - xem váy [màu xanh lá](color)
     - gửi tôi xem váy [màu xanh](color)
     - [màu xanh](color)
+    - [màu xanh lá](color)
     - [màu đen](color) nha
+    - [xanh lá cây](color) nha
     - Bạn có cái nào [màu xanh](color) không?
     - Bạn có đồ gì [màu xanh](color) không?
     - Bạn có cái gì [màu xanh](color) không?
@@ -56,7 +80,12 @@ nlu:
     - cho tôi xem [áo khoác](category) [size L](size)
     - xem áo khoác [size L](size)
     - [size M](size)
+    - có [size M](size) ko?
+    - [size L](size) thì sao?
     - [kích thước M](size) nha
+    - cho xem [size L](size) đi?
+    - vậy [size L](size) thì sao?
+    - [size XL](size) có không?
     - Có cái nào có [kích thước M](size) không?
     - Có sản phẩm nào [kích cỡ M](size) không?
     - Có đồ gì [size M](size) không?
@@ -70,7 +99,6 @@ nlu:
 
 - intent: buy_fashion
   examples: |
-    
     - [quần jean](category)
     - tôi muốn mua [quần jean](category)
     - có [quần jean](category) đẹp ko
@@ -164,24 +192,6 @@ nlu:
     - Có thể cho tôi xem một cái [áo thun](category) được không?
     - Cho mình xem cái [áo thun](category) nha.
     - Bạn có thể cho tôi xem cái [áo thun](category) được không?
-    - [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"}
-    - giá [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"}
-    - giá bán [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"} nha
-    - giá [từ 150]{"entity": "price", "role": "price_from"}
-    - giá bán [từ 150]{"entity": "price", "role": "price_from"}
-    - Có cái nào giá [từ 150]{"entity": "price", "role": "price_from"}
-    - Cho xem cái giá [từ 150]{"entity": "price", "role": "price_from"}
-    - Bạn có thể xem giúp tôi sản phẩm nào có giá [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"} không?
-    - Cho xem cái nào có giá [từ 150]{"entity": "price", "role": "price_from"} tới 200 được không?
-    - Bạn cho tôi xem sản phẩm nào giá [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"} vậy?
-    - Có thể xem giúp tôi cái nào có giá [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"} không?
-    - Cho tôi xin xem sản phẩm giá [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"} được không?
-    - Bạn có thể cho tôi xem cái nào có giá [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"} không ạ?
-    - Cho xem sản phẩm nào giá [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"} vậy bạn?
-    - Bạn cho tôi xem hàng nào có giá [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"} nhé?
-    - Có thể xem giúp tôi cái nào giá [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"} không?
-    - Cho tôi xem sản phẩm nào có mức giá [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"} vậy bạn?
-    
 
 - lookup: category_type
   examples: |
@@ -313,7 +323,6 @@ nlu:
     - Áo có mũ trùm đầu
     - Áo len
     - Áo gió
-    - Ao gió
     - áo cổ lọ
     - áo phông
     - áo thun có cổ
@@ -492,6 +501,7 @@ nlu:
     - Hẹn gặp lại!
     - Tạm biệt nhé!
     - Bye
+    - ok bye nhé
     - Hẹn gặp lại lần sau
     - Chào tạm biệt
     - Bye bye
