@@ -5,11 +5,11 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "áo khoác",
-        "category_type_clothing": "",
-        "color_clothing": "",
-        "size_clothing": "",
-        "price_from": "",
-        "price_to": ""
+        "category_type_clothing": null,
+        "color_clothing": null,
+        "size_clothing": null,
+        "price_from": null,
+        "price_to": null
       },
       "user_id": "e7216345-63cb-494f-98f4-8b6bb33b1234"
     },
@@ -18,11 +18,11 @@
       "intent": "request_color",
       "slots": {
         "clothing": "áo khoác",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu xanh",
-        "size_clothing": "",
-        "price_from": "",
-        "price_to": ""
+        "size_clothing": null,
+        "price_from": null,
+        "price_to": null
       },
       "user_id": "e7216345-63cb-494f-98f4-8b6bb33b5678"
     },
@@ -31,11 +31,11 @@
       "intent": "request_size",
       "slots": {
         "clothing": "áo khoác",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu xanh",
         "size_clothing": "size M",
-        "price_from": "",
-        "price_to": ""
+        "price_from": null,
+        "price_to": null
       },
       "user_id": "e7216345-63cb-494f-98f4-8b6bb33b1122"
     },
@@ -44,11 +44,11 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "áo thun",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu xanh",
         "size_clothing": "size M",
-        "price_from": "",
-        "price_to": ""
+        "price_from": null,
+        "price_to": null
       },
       "user_id": "e7216345-63cb-494f-98f4-8b6bb33b2211"
     },
@@ -57,11 +57,11 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "quần jeans",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu xanh",
         "size_clothing": "size M",
-        "price_from": "",
-        "price_to": ""
+        "price_from": null,
+        "price_to": null
       },
       "user_id": "e7216345-63cb-494f-98f4-8b6bb33b3322"
     },
@@ -70,11 +70,11 @@
       "intent": "request_color",
       "slots": {
         "clothing": "quần jeans",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu đen",
         "size_clothing": "size M",
-        "price_from": "",
-        "price_to": ""
+        "price_from": null,
+        "price_to": null
       },
       "user_id": "e7216345-63cb-494f-98f4-8b6bb33b4433"
     },
@@ -83,11 +83,11 @@
       "intent": "request_size",
       "slots": {
         "clothing": "quần jeans",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu đen",
         "size_clothing": "size L",
-        "price_from": "",
-        "price_to": ""
+        "price_from": null,
+        "price_to": null
       },
       "user_id": "e7216345-63cb-494f-98f4-8b6bb33b5511"
     },
@@ -96,11 +96,11 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "áo polo",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu đen",
         "size_clothing": "size L",
-        "price_from": "",
-        "price_to": ""
+        "price_from": null,
+        "price_to": null
       },
       "user_id": "e7216345-63cb-494f-98f4-8b6bb33b1144"
     },
@@ -109,11 +109,11 @@
       "intent": "request_color",
       "slots": {
         "clothing": "áo polo",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu hồng",
         "size_clothing": "size L",
-        "price_from": "",
-        "price_to": ""
+        "price_from": null,
+        "price_to": null
       },
       "user_id": "e7216345-63cb-494f-98f4-8b6bb33b4455"
     },
@@ -122,11 +122,11 @@
       "intent": "request_size",
       "slots": {
         "clothing": "áo polo",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu hồng",
         "size_clothing": "size S",
-        "price_from": "",
-        "price_to": ""
+        "price_from": null,
+        "price_to": null
       },
       "user_id": "e7216345-63cb-494f-98f4-8b6bb33b3355"
     },
@@ -135,11 +135,11 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "áo len",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu hồng",
         "size_clothing": "size S",
-        "price_from": "",
-        "price_to": ""
+        "price_from": null,
+        "price_to": null
       },
       "user_id": "e7216345-63cb-494f-98f4-8b6bb33b1199"
     },
@@ -148,11 +148,11 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "áo sơ mi",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu trắng",
         "size_clothing": "size S",
-        "price_from": "",
-        "price_to": ""
+        "price_from": null,
+        "price_to": null
       },
       "user_id": "e7216345-63cb-494f-98f4-8b6bb33b1166"
     },
@@ -161,11 +161,11 @@
       "intent": "request_color",
       "slots": {
         "clothing": "áo phông",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu đen",
         "size_clothing": "size S",
-        "price_from": "",
-        "price_to": ""
+        "price_from": null,
+        "price_to": null
       },
       "user_id": "e7216345-63cb-494f-98f4-8b6bb33b1212"
     },
@@ -174,11 +174,11 @@
       "intent": "request_size",
       "slots": {
         "clothing": "áo phông",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu đen",
         "size_clothing": "size XL",
-        "price_from": "",
-        "price_to": ""
+        "price_from": null,
+        "price_to": null
       },
       "user_id": "e7216345-63cb-494f-98f4-8b6bb33b1313"
     },
@@ -187,11 +187,11 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "váy ngắn",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu đen",
         "size_clothing": "size XL",
-        "price_from": "",
-        "price_to": ""
+        "price_from": null,
+        "price_to": null
       },
       "user_id": "e7216345-63cb-494f-98f4-8b6bb33b1414"
     },
@@ -200,11 +200,11 @@
       "intent": "request_color",
       "slots": {
         "clothing": "váy ngắn",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu vàng",
         "size_clothing": "size XL",
-        "price_from": "",
-        "price_to": ""
+        "price_from": null,
+        "price_to": null
       },
       "user_id": "e7216345-63cb-494f-98f4-8b6bb33b1515"
     },
@@ -213,11 +213,11 @@
       "intent": "request_size",
       "slots": {
         "clothing": "váy ngắn",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu vàng",
         "size_clothing": "size XS",
-        "price_from": "",
-        "price_to": ""
+        "price_from": null,
+        "price_to": null
       },
       "user_id": "e7216345-63cb-494f-98f4-8b6bb33b2121"
     },
@@ -226,11 +226,11 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "áo khoác",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu vàng",
         "size_clothing": "size XS",
-        "price_from": "",
-        "price_to": ""
+        "price_from": null,
+        "price_to": null
       },
       "user_id": "e7216345-63cb-494f-98f4-8b6bb33b3131"
     },
@@ -239,11 +239,11 @@
       "intent": "request_color",
       "slots": {
         "clothing": "áo khoác",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu đỏ",
         "size_clothing": "size XS",
-        "price_from": "",
-        "price_to": ""
+        "price_from": null,
+        "price_to": null
       },
       "user_id": "e7216345-63cb-494f-98f4-8b6bb33b4242"
     },
@@ -252,11 +252,11 @@
       "intent": "request_size",
       "slots": {
         "clothing": "áo khoác",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu đỏ",
         "size_clothing": "size XL",
-        "price_from": "",
-        "price_to": ""
+        "price_from": null,
+        "price_to": null
       },
       "user_id": "e7216345-63cb-494f-98f4-8b6bb33b5353"
     },
@@ -265,11 +265,11 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "áo hoodie",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu đen",
         "size_clothing": "size XL",
-        "price_from": "",
-        "price_to": ""
+        "price_from": null,
+        "price_to": null
       },
       "user_id": "e7216345-63cb-494f-98f4-8b6bb33b6464"
     },
@@ -278,7 +278,7 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "áo hoodie",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu đen",
         "size_clothing": "size XL",
         "price_from": "từ 500000",
@@ -291,7 +291,7 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "áo khoác",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu đen",
         "size_clothing": "size XL",
         "price_from": "từ 500000",
@@ -304,7 +304,7 @@
       "intent": "request_color",
       "slots": {
         "clothing": "áo khoác",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu nâu",
         "size_clothing": "size XL",
         "price_from": "từ 500000",
@@ -317,7 +317,7 @@
       "intent": "request_size",
       "slots": {
         "clothing": "áo khoác",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu nâu",
         "size_clothing": "size L",
         "price_from": "từ 500000",
@@ -330,7 +330,7 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "áo len",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu nâu",
         "size_clothing": "size L",
         "price_from": "từ 500000",
@@ -343,7 +343,7 @@
       "intent": "request_color",
       "slots": {
         "clothing": "áo len",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu xám",
         "size_clothing": "size L",
         "price_from": "từ 500000",
@@ -356,7 +356,7 @@
       "intent": "request_size",
       "slots": {
         "clothing": "áo len",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu xám",
         "size_clothing": "size M",
         "price_from": "từ 500000",
@@ -369,7 +369,7 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "áo khoác",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu xám",
         "size_clothing": "size M",
         "price_from": "từ 500000",
@@ -382,7 +382,7 @@
       "intent": "request_color",
       "slots": {
         "clothing": "áo sơ mi",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu đỏ",
         "size_clothing": "size M",
         "price_from": "từ 500000",
@@ -395,7 +395,7 @@
       "intent": "request_size",
       "slots": {
         "clothing": "áo polo",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu đen",
         "size_clothing": "size XS",
         "price_from": "từ 500000",
@@ -408,7 +408,7 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "quần jogger",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu xanh",
         "size_clothing": "size XS",
         "price_from": "từ 500000",
@@ -421,7 +421,7 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "áo thun",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu xanh",
         "size_clothing": "size XS",
         "price_from": "từ 500000",
@@ -434,7 +434,7 @@
       "intent": "request_color",
       "slots": {
         "clothing": "váy ngắn",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu hồng phấn",
         "size_clothing": "size XS",
         "price_from": "từ 500000",
@@ -447,7 +447,7 @@
       "intent": "request_size",
       "slots": {
         "clothing": "áo hoodie",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu đen",
         "size_clothing": "size M",
         "price_from": "từ 500000",
@@ -460,7 +460,7 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "áo khoác",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu nâu",
         "size_clothing": "size M",
         "price_from": "từ 500000",
@@ -473,7 +473,7 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "áo sơ mi",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu xanh lá cây",
         "size_clothing": "size M",
         "price_from": "từ 500000",
@@ -486,7 +486,7 @@
       "intent": "request_size",
       "slots": {
         "clothing": "áo phông",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu đen",
         "size_clothing": "size L",
         "price_from": "từ 500000",
@@ -499,7 +499,7 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "áo jeans",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu xám",
         "size_clothing": "size L",
         "price_from": "từ 500000",
@@ -512,7 +512,7 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "áo hoodie",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu xám",
         "size_clothing": "size L",
         "price_from": "từ 500000",
@@ -525,7 +525,7 @@
       "intent": "request_color",
       "slots": {
         "clothing": "áo thun",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu trắng",
         "size_clothing": "size L",
         "price_from": "từ 500000",
@@ -538,7 +538,7 @@
       "intent": "request_size",
       "slots": {
         "clothing": "áo sơ mi",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu đỏ",
         "size_clothing": "size XL",
         "price_from": "từ 500000",
@@ -551,7 +551,7 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "áo len",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu nâu",
         "size_clothing": "size XL",
         "price_from": "từ 500000",
@@ -564,7 +564,7 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "váy ngắn",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu đen",
         "size_clothing": "size XL",
         "price_from": "từ 500000",
@@ -577,7 +577,7 @@
       "intent": "request_color",
       "slots": {
         "clothing": "áo thun",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu vàng",
         "size_clothing": "size XL",
         "price_from": "từ 500000",
@@ -590,7 +590,7 @@
       "intent": "request_size",
       "slots": {
         "clothing": "áo polo",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu đen",
         "size_clothing": "size S",
         "price_from": "từ 500000",
@@ -603,7 +603,7 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "áo khoác",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu đen",
         "size_clothing": "size S",
         "price_from": "từ 1000000",
@@ -616,7 +616,7 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "áo sơ mi",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu xanh dương",
         "size_clothing": "size S",
         "price_from": "từ 1000000",
@@ -629,7 +629,7 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "áo phông",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu trắng",
         "size_clothing": "size S",
         "price_from": "từ 1000000",
@@ -642,7 +642,7 @@
       "intent": "request_size",
       "slots": {
         "clothing": "quần jogger",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu đen",
         "size_clothing": "size XL",
         "price_from": "từ 1000000",
@@ -655,7 +655,7 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "áo khoác",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu hồng nhạt",
         "size_clothing": "size XL",
         "price_from": "từ 1000000",
@@ -668,7 +668,7 @@
       "intent": "request_color",
       "slots": {
         "clothing": "áo len",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu đen",
         "size_clothing": "size XL",
         "price_from": "từ 1000000",
@@ -681,7 +681,7 @@
       "intent": "request_size",
       "slots": {
         "clothing": "áo thun",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu vàng",
         "size_clothing": "size M",
         "price_from": "từ 1000000",
@@ -694,7 +694,7 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "váy ngắn",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu vàng",
         "size_clothing": "size M",
         "price_from": "từ 800000",
@@ -707,7 +707,7 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "áo polo",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu trắng",
         "size_clothing": "size M",
         "price_from": "từ 800000",
@@ -720,7 +720,7 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "áo hoodie",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu xanh lá cây",
         "size_clothing": "size M",
         "price_from": "từ 800000",
@@ -733,7 +733,7 @@
       "intent": "request_color",
       "slots": {
         "clothing": "áo khoác",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu đen",
         "size_clothing": "size M",
         "price_from": "từ 800000",
@@ -746,7 +746,7 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "áo khoác",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu đen",
         "size_clothing": "size M",
         "price_from": "từ 800000",
@@ -759,7 +759,7 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "áo khoác",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu đen",
         "size_clothing": "size M",
         "price_from": "từ 1000000",
@@ -772,7 +772,7 @@
       "intent": "search_clothing",
       "slots": {
         "clothing": "áo khoác",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu trắng",
         "size_clothing": "size M",
         "price_from": "từ 1000000",
@@ -785,7 +785,7 @@
       "intent": "buy_fashions",
       "slots": {
         "clothing": "áo khoác",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu trắng",
         "size_clothing": "size M",
         "price_from": "từ 500000",
@@ -798,7 +798,7 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "áo thun",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu đen",
         "size_clothing": "size M",
         "price_from": "từ 900000",
@@ -811,7 +811,7 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "áo thun",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu đen",
         "size_clothing": "size M",
         "price_from": "từ 200000",
@@ -824,7 +824,7 @@
       "intent": "request_color",
       "slots": {
         "clothing": "áo thun",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu đỏ",
         "size_clothing": "size M",
         "price_from": "từ 200000",
@@ -837,7 +837,7 @@
       "intent": "request_size",
       "slots": {
         "clothing": "áo thun",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu đỏ",
         "size_clothing": "size S",
         "price_from": "từ 200000",
@@ -850,7 +850,7 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "váy dài",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu đen",
         "size_clothing": "size S",
         "price_from": "từ 200000",
@@ -863,7 +863,7 @@
       "intent": "request_color",
       "slots": {
         "clothing": "áo len",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu vàng",
         "size_clothing": "size S",
         "price_from": "từ 200000",
@@ -876,7 +876,7 @@
       "intent": "request_size",
       "slots": {
         "clothing": "áo len",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu vàng",
         "size_clothing": "size XS",
         "price_from": "từ 200000",
@@ -889,7 +889,7 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "áo khoác",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu vàng",
         "size_clothing": "size XS",
         "price_from": "từ 200000",
@@ -902,7 +902,7 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "áo hoodie",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu xanh",
         "size_clothing": "size XS",
         "price_from": "từ 200000",
@@ -915,7 +915,7 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "áo hoodie",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu xanh",
         "size_clothing": "size XS",
         "price_from": "từ 300000",
@@ -928,7 +928,7 @@
       "intent": "buy_fashion",
       "slots": {
         "clothing": "áo khoác",
-        "category_type_clothing": "",
+        "category_type_clothing": null,
         "color_clothing": "màu xanh",
         "size_clothing": "size XS",
         "price_from": "từ 300000",

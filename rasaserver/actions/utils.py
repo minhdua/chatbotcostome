@@ -1,3 +1,4 @@
+import json
 import re
 import nltk
 import numpy as np
@@ -175,3 +176,22 @@ def get_entity_value(entities, value_text):
         end = entitie['end']
         entity_values.append({"entity":entitie['entity'], "value":value_text[start:end]})
     return entity_values
+
+
+def read_json_file(file_path):
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except FileNotFoundError as e:
+        print(f"Error: File not found: {e}")
+        return None
+    except json.JSONDecodeError as e:
+        print(f"Error: Invalid JSON data: {e}")
+        return None
+
+
+def find_element_nlus(data_list, value):
+    for item in data_list['data']:
+        if item['user_say'].strip().lower() == value.strip().lower():
+            return item
+    return None

@@ -1,3 +1,4 @@
+import json
 from rasa.engine.graph import GraphComponent, ExecutionContext
 from rasa.engine.storage.resource import Resource
 from rasa.engine.storage.storage import ModelStorage
@@ -9,8 +10,8 @@ from rasa.shared.nlu.training_data.training_data import TrainingData
 from rasa.shared.nlu.interpreter import NaturalLanguageInterpreter
 from rasa.core.policies.policy import PolicyPrediction
 from typing import Optional, Dict, Text, Any
-import requests
-from .enum import URL
+from actions.db_operations import insert_data
+from actions.utils import find_element_nlus, read_json_file
 
 @DefaultV1Recipe.register(
     [DefaultV1Recipe.ComponentType.POLICY_WITHOUT_END_TO_END_SUPPORT], is_trainable=True
@@ -27,15 +28,32 @@ class ConversationLoggingPolicy(GraphComponent):
         **kwargs: Any,
     ) -> PolicyPrediction:
         
-        last_message = tracker.latest_message
+        nlus = read_json_file('data/nlu.json');
+        data_obj = find_element_nlus(nlus, tracker.latest_message.text)
         
-        payload = {
-            "user_say": last_message.text,
-            "session_user": tracker.sender_id
+        user_id = ""
+        user_say = tracker.latest_message.text
+        if data_obj != None:
+            user_id = data_obj['user_id']
+            user_say = data_obj['user_say']
+        
+        slots = {
+            "clothing": tracker.slots['clothing'].value,
+            "category_type_clothing": tracker.slots['category_type_clothing'].value,
+            "color_clothing": tracker.slots['color_clothing'].value,
+            "size_clothing": tracker.slots['size_clothing'].value,
+            "price_from": tracker.slots['price_from'].value,
+            "price_to": tracker.slots['price_to'].value
         }
         
-        requests.post(f"{URL.API_ADD_HISTORY.value}", json=payload)
-
+        data = {
+            "user_id": user_id,
+            "user_say": user_say,
+            "intent": tracker.latest_message.intent_name,
+            "slots": json.dumps(slots, ensure_ascii=True)
+        }
+        insert_data(data, "history_nlus")
+        
         return PolicyPrediction.for_action_name(domain, "action_listen")
 
     def _metadata(self) -> Dict[Text, Any]:

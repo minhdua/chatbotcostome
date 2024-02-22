@@ -2,7 +2,7 @@ import re
 import requests
 import nltk
 from .enum import ResponseCategoryBody, ResponseSizes, ResponseURL
-from .db_config import cursor
+from .db_config import cursor, connection
 from .utils import check_uppercase_in_array, compare_array_source_array_dest, get_number_in_string, map_color_text, normalize_text
 
 def get_categories(categories):
@@ -171,3 +171,22 @@ def check_product_prices_with_categories(categories, price_from, price_to):
                 category_pro_filter_prices.append(category[1])
     
     return category_pro_filter_prices
+
+
+def insert_data(data, table_name):
+    # Create a cursor object
+    cur = connection.cursor()
+
+    # Construct the INSERT query with placeholders for values
+    columns = ", ".join(data.keys())
+    values = ", ".join(["%s"] * len(data))
+    query = f"INSERT INTO {table_name} ({columns}) VALUES ({values})"
+
+    # Execute the query with the data values
+    cur.execute(query, tuple(data.values()))
+
+    # Commit the changes to the database
+    connection.commit()
+
+    # Close the cursor
+    cur.close()
