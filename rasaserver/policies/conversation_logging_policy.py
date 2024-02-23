@@ -54,7 +54,7 @@ class ConversationLoggingPolicy(GraphComponent):
         }
         insert_data(data, "history_nlus")
         
-        return PolicyPrediction.for_action_name(domain, "action_listen")
+        return []
 
     def _metadata(self) -> Dict[Text, Any]:
         return {"lookup": self.lookup}

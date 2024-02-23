@@ -13,7 +13,7 @@ nlu:
     - Có cái nào giá [từ 150]{"entity": "price", "role": "price_from"}
     - Cho xem cái có giá [từ 150]{"entity": "price", "role": "price_from"}
     - Bạn có thể xem giúp tôi sản phẩm nào có giá [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"} không?
-    - Cho xem cái nào có giá [từ 150]{"entity": "price", "role": "price_from"} tới 200 được không?
+    - Cho xem cái nào có giá [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"} được không?
     - Bạn cho tôi xem sản phẩm nào giá [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"} vậy?
     - Có thể xem giúp tôi cái nào có giá [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"} không?
     - Cho tôi xin xem sản phẩm giá [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"} được không?
