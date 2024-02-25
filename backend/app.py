@@ -8,7 +8,7 @@ import requests
 import torch
 import torch.nn as nn
 from app_factory import admin, api, app
-from resources.chatbot import ChatBotResource, ChatBotResponseResource
+from resources.chatbot import ChatBotResource, ChatBotResponseResource, NluJsonResource
 from resources.dictionary import DictionaryListResource, DictionaryResource
 from chat import get_response
 from config import swagger_config, swagger_template
@@ -131,6 +131,7 @@ api.add_resource(DictionaryResource, "/dictionaries/<int:dictionary_id>")
 api.add_resource(DictionaryListResource, "/dictionaries")
 api.add_resource(ChatBotResource, "/create_nlu")
 api.add_resource(ChatBotResponseResource, "/chatbot_response")
+api.add_resource(NluJsonResource, "/get_nlus")
 
 swagger = Swagger(app, config=swagger_config, template=swagger_template)
 

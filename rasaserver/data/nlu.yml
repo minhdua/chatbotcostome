@@ -4,6 +4,7 @@ nlu:
 - intent: request_price
   examples: |
     - [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"}
+    - Giá [từ 500000]{"entity": "price", "role": "price_from"} [đến 1000000]{"entity": "price", "role":"price_to"} đồng được không ạ?
     - giá [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"}
     - giá bán [từ 150]{"entity": "price", "role": "price_from"} [đến 200]{"entity": "price", "role":"price_to"} nha
     - giá [từ 150]{"entity": "price", "role": "price_from"}
@@ -50,10 +51,19 @@ nlu:
     - cái [màu xanh](color) nha
     - Có cái nào có [màu xanh](color) không?
     - Có đồ gì [màu xanh](color) không vậy?
+    - Cho xem [màu xanh](color) đi
+    - Hãy cho tôi xem [màu đen](color)
+    - Cho tôi thấy [màu hồng](color)
+    - Tôi muốn xem [màu vàng](color)
+    - Có [màu đỏ](color) không ạ?
+    - Mình thích [màu nâu](color)
+    - Xem [màu xám](color) nhé
+    - Cho xem [màu đỏ](color) đi.
 
 - intent: request_size
   examples: |
     - muốn xem [size M](size)
+    - Có [size M](size) không ạ?
     - shop có váy [size M](size) ko
     - váy [size M](size)
     - xem váy [size M](size)
@@ -96,9 +106,69 @@ nlu:
     - Có sản phẩm nào [size M](size) không có?
     - Có món gì [kích thước M](size) không?
     - Có cái nào [kích cỡ M](size) không đấy?
+    - Có [size M](size) không á
+    - Bạn có [size L](size) không?
+    - Có [size S](size) không ạ?
+    - Có [size XL](size) không ạ?
+    - Có [size XS](size) không shop?
+    - Tôi cần [size XL](size)
+    - Có [size L](size) không shop?
 
 - intent: buy_fashion
   examples: |
+    - Tôi cần mua [áo khoác](category) phong cách vintage giá [từ 500000]{"entity": "price", "role": "price_from"} [đến 1000000]{"entity": "price", "role":"price_to"} triệu đồng.
+    - Có [áo thun](category) [màu đen](color) giá [từ 900000]{"entity": "price", "role": "price_from"} đồng không?
+    - Tôi cần mua [áo thun](category) giá [từ 200000]{"entity": "price", "role": "price_from"} đồng.
+    - Tôi muốn mua chiếc [váy dài](category) [màu đen](color).
+    - Cho tôi xem [áo len](category) [màu vàng](color).
+    - Tôi muốn mua [áo khoác](category) phong cách casual.
+    - Cho xem [áo hoodie](category) [màu xanh](color) được không?
+    - Giá [từ 300000]{"entity": "price", "role": "price_from"} [đến 500000]{"entity": "price", "role":"price_to"} đồng được không ạ?
+    - Cần một chiếc [áo khoác](category) phong cách vintage.
+    - Cần một chiếc [áo khoác](category) phong cách retro
+    - Tôi muốn mua một chiếc [áo len](category) cổ lọ
+    - Tôi muốn mua chiếc [áo khoác](category) dáng dài
+    - Cho xem chiếc [áo thun](category) phong cách retro đi
+    - Giá [từ 150]{"entity": "price", "role": "price_from"} [đến 2000000]{"entity": "price", "role":"price_to"} đồng cho [áo khoác](category) [màu đen](color) được không?
+    - Giá [từ 800000]{"entity": "price", "role": "price_from"} [đến 1500000]{"entity": "price", "role":"price_to"} đồng cho chiếc [váy ngắn](category) [màu vàng](color) được không?
+    - Cần tìm chiếc [áo polo](category) [màu trắng](color).
+    - Cho tôi xem chiếc [áo hoodie](category) [màu xanh lá cây](color) đi.
+    - Có [áo khoác](category) nào [màu đen](color) không?
+    - Tìm cho tôi chiếc [áo khoác](category) phong cách thể thao đi.
+    - Tôi muốn mua [áo khoác](category) có giá [từ 1000000](price_from) đồng.
+    - Tôi muốn tìm [áo khoác](category) bóng chày [màu trắng](color).
+    - Cho tôi một cái [áo khoác](category)
+    - Có [áo thun](category) không shop hén?
+    - Cho tôi một chiếc [quần jeans](category)
+    - Tôi muốn một chiếc [áo polo](category)
+    - Tôi cần một chiếc [áo len](category) ấm áp
+    - Mình muốn một chiếc [váy ngắn](category)
+    - Tôi đang tìm [áo khoác](category) phong cách thể thao
+    - Cho tôi xem [màu đỏ](color) của chiếc [áo sơ mi](category)
+    - Có [size XS](size) cho [áo polo](category) [màu đen](color) không?
+    - Tôi muốn một chiếc [quần jogger](category) [màu xanh](color)
+    - [Màu hồng phấn](color) của chiếc [váy ngắn](category) này thế nào?
+    - Có [size M](size) không cho [áo hoodie](category) [màu đen](color)?
+    - Tôi muốn một chiếc [áo khoác](category) [màu nâu](color)
+    - Hãy cho tôi xem mẫu [áo sơ mi](category) [màu xanh lá cây](color)
+    - Cần tìm [áo sơ mi](category) [màu trắng](color)
+    - Xem mẫu [áo phông](category) [màu đen](color) đi
+    - Cho xem [áo hoodie](category) [màu đen](color) được không?
+    - Có [size L](size) không cho chiếc [áo phông](category) [màu đen](color)?
+    - Tôi muốn một chiếc [quần jeans](category) [màu xám](color)
+    - Cho tôi xem chiếc [áo hoodie](category) phong cách thể thao đi
+    - Có [màu trắng](color) không cho chiếc [áo thun](category)?
+    - Có [size XL](size) không cho chiếc [áo sơ mi](category) [màu đỏ](color)?
+    - Tôi muốn mua chiếc [áo len](category) cổ lọ [màu nâu](color)
+    - Hãy cho tôi xem mẫu [váy ngắn](category) [màu đen](color) đi
+    - Có [màu vàng](color) cho chiếc [áo thun](category) không?
+    - Có [size S](size) không cho chiếc [áo polo](category) [màu đen](color)?
+    - Cần tìm [áo sơ mi](category) [màu xanh dương](color).
+    - Cho tôi xem mẫu [áo phông](category) [màu trắng](color) đi.
+    - Có [size XL](size) không cho chiếc [quần jogger](category) [màu đen](color)?
+    - Tôi muốn một chiếc [áo khoác](category) phong cách retro [màu hồng nhạt](color).
+    - Có [màu đen](color) không cho chiếc [áo len](category) cổ lọ?
+    - Có [size M](size) không cho chiếc [áo thun](category) [màu vàng](color)?
     - [quần jean](category)
     - tôi muốn mua [quần jean](category)
     - có [quần jean](category) đẹp ko
@@ -192,6 +262,21 @@ nlu:
     - Có thể cho tôi xem một cái [áo thun](category) được không?
     - Cho mình xem cái [áo thun](category) nha.
     - Bạn có thể cho tôi xem cái [áo thun](category) được không?
+    - Tôi muốn mua [quần jean](category) [size L](size) màu xanh
+    - Cần một chiếc [áo sơ mi](category) [size M](size) trắng
+    - Tôi đang tìm [váy dài](category) [màu đen](color) [size S](size)
+    - Cho tôi xem [áo len](category) [size S](size) [màu hồng](color)
+    - Có [áo polo](category) nào [size XL](size) [màu đen](color) không?
+    - Tôi muốn mua [áo khoác](category) [màu xanh](color) [size L](size)
+    - Tôi cần [quần jeans](category) [màu đen](color) [size L](size)
+    - Tìm [áo phông](category) [size M](size) [màu trắng](color) giá [từ 200000]{"entity": "price", "role": "price_from"} VND
+    - Có bán [áo thun](category) nam [size S](size) [màu cam](color) không?
+    - Có bán [váy dạ hội](category) [màu đỏ](color) [size XS](size) không?
+    - Tôi đang tìm [áo khoác](category) da nam [màu nâu](color) [size M](size)
+    - Tôi muốn tìm [áo polo](category) nam [size XL](size) [màu xanh lá cây](color)
+    - Tôi muốn mua [quần jean](category) nữ [màu xanh](color) [size S](size)
+    - Tìm [áo thun](category) nữ [size S](size) [màu đỏ](color) giá rẻ [từ 100000]{"entity": "price", "role": "price_from"}
+    - Tôi muốn tìm [áo thun](category) cổ tròn nam [size M](size) [màu xanh lá cây](color)
 
 - lookup: category_type
   examples: |
@@ -213,13 +298,20 @@ nlu:
 
 - lookup: color
   examples: |
-    - đỏ
-    - xanh
-    - vàng
-    - đen
-    - cam
-    - xám
-    - trắng
+    - màu đỏ
+    - màu xanh
+    - màu vàng
+    - màu đen
+    - màu cam
+    - màu xám
+    - màu trắng
+    - màu xanh lá cây
+    - màu hồng nhạt
+    - màu xanh dương
+    - màu trắng sữa
+    - màu hồng
+    - màu vàng hoe
+    - màu đỏ lè
 
 - lookup: size
   examples: |

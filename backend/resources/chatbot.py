@@ -1,7 +1,9 @@
 from flask_restful import Resource, reqparse
 import requests
+from models.history_nlu_model import HistoryNLU
+from utils import read_json_file
 from models.enum import URL
-from constants import PATH_FILE_DOMAIN, PATH_FILE_NLU, RASA_API_URL
+from constants import PATH_FILE_DOMAIN, PATH_FILE_NLU, PATH_FILE_NLU_JSON, RASA_API_URL
 from models.common.normalize_text import normalize_text
 from models.nlp.intent_model import Intent
 from models.common.response import CommonResponse
@@ -97,6 +99,27 @@ class ChatBotResource(Resource):
         write_file(domain_content, PATH_FILE_DOMAIN)
 
         return CommonResponse.created(message="File nlu.yml created.", data="File nlu.yml")
+    
+    
+class NluJsonResource(Resource):
+    parser = reqparse.RequestParser()
+
+    def get(self):
+        """
+        Get file nlu.json
+        ---
+        tags:
+          - NLU
+        responses:
+            200:
+                description: Get file nlu.json
+                content:
+                    application/json:
+                        schema: ProductSchema
+        """
+        data_nlus = read_json_file(PATH_FILE_NLU_JSON)
+
+        return CommonResponse.ok("Success.", data_nlus)
 
 
 def generate_domain_content(intents):

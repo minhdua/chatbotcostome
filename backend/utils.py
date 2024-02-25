@@ -25,3 +25,16 @@ def if_not_none(value, default):
         if value is None:
             return default
         return value
+    
+
+# Load data file json
+def read_json_file(file_path):
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except FileNotFoundError as e:
+        print(f"Error: File not found: {e}")
+        return None
+    except json.JSONDecodeError as e:
+        print(f"Error: Invalid JSON data: {e}")
+        return None
