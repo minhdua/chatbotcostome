@@ -190,3 +190,9 @@ def insert_data(data, table_name):
 
     # Close the cursor
     cur.close()
+
+
+# Get nlu json file api
+def get_nlus_api(url_link):
+    response = requests.get(url=url_link)
+    return response.json()

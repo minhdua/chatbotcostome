@@ -243,9 +243,13 @@ class ActionCategoryAsk(Action):
         
         category_type_clothing = tracker.get_slot("category_type_clothing")
         clothing = tracker.get_slot("clothing")
+        size_clothing = tracker.get_slot("size_clothing")
+        color_clothing = tracker.get_slot("color_clothing")
+        price_from = tracker.get_slot("price_from")
+        price_to = tracker.get_slot("price_to")
         name_clothing = category_type_clothing
         
-        if category_type_clothing != None and clothing != None:
+        if size_clothing != None or color_clothing != None or price_from != None or price_to != None:
             return [FollowupAction("action_buy_fashions")]
         
         #Get categories with words: UPPER_BODY, LOWER_BODY, FULL_BODY

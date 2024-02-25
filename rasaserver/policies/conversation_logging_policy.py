@@ -10,8 +10,9 @@ from rasa.shared.nlu.training_data.training_data import TrainingData
 from rasa.shared.nlu.interpreter import NaturalLanguageInterpreter
 from rasa.core.policies.policy import PolicyPrediction
 from typing import Optional, Dict, Text, Any
-from actions.db_operations import insert_data
-from actions.utils import find_element_nlus, read_json_file
+from actions.db_operations import get_nlus_api, insert_data
+from actions.utils import find_element_nlus
+from .enum import URL
 
 @DefaultV1Recipe.register(
     [DefaultV1Recipe.ComponentType.POLICY_WITHOUT_END_TO_END_SUPPORT], is_trainable=True
@@ -28,7 +29,7 @@ class ConversationLoggingPolicy(GraphComponent):
         **kwargs: Any,
     ) -> PolicyPrediction:
         
-        nlus = read_json_file('data/nlu.json');
+        nlus = get_nlus_api(URL.NLUS.value);
         data_obj = find_element_nlus(nlus, tracker.latest_message.text)
         
         user_id = ""
