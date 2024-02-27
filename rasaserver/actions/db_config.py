@@ -6,6 +6,6 @@ connection = psycopg2.connect(
     password="chatbotadmin",
     host="localhost",
     port="5432",
-    database="chatbotcostome_new"
+    database="chatbotcostome_new1"
 )
 cursor = connection.cursor()

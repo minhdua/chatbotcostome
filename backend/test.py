@@ -14,7 +14,7 @@ connection = psycopg2.connect(
     password="chatbotadmin",
     host="localhost",
     port="5432",
-    database="chatbotcostome_new"
+    database="chatbotcostome_new1"
 )
 cursor = connection.cursor()
 
@@ -73,8 +73,8 @@ correct_case = 0
 wrong_case = 0
 intelligence = 0
 
-remove_duplicate_nlus = list(set(history_nlu_db))
 if len(history_nlu_db) > 0:
+    remove_duplicate_nlus = list(set(history_nlu_db))
     for row in remove_duplicate_nlus:
         is_correct = calculate_understanding_concepts(nlus['data'], row)
         if is_correct == True:
